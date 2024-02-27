@@ -1,4 +1,5 @@
 <div>
+<<<<<<< Updated upstream
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <input type="email" name="email" placeholder="Email">
@@ -7,3 +8,7 @@
     </form>
 </div>
 
+=======
+    <!-- You must be the change you wish to see in the world. - Mahatma Gandhi -->
+</div>
+>>>>>>> Stashed changes
