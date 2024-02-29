@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\authController;
+use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +17,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
+Route::get('/', [ItemController::class, 'home'])->name('home');
+
+
+Route::get('/list-item', [ItemController::class, 'showItem']);
+
+
+Route::get('/cekuser', function () {
+    dd(session()->all());
+    return;
 });
 
-<<<<<<< Updated upstream
-use App\Http\Controllers\LoginController;
+// Login
+Route::get('/login', [authController::class, 'halLogin'])->name('halLogin');
+Route::post('/login', [authController::class, 'login'])->name('login');
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-=======
-Route::get('/list-item', [ItemController::class, 'showItem']);
->>>>>>> Stashed changes
+// Register
+Route::get('/register', [authController::class, 'halRegister'])->name('halRegister');
+Route::post('/register', [authController::class, 'Register'])->name('register');
+
+// Logout
+Route::get('/logout', [authController::class, 'logout'])->name('logout');
+
+// dashboard
+Route::get('/dashboard', [dashboardController::class, 'dashboard'])->name('dashboard');
+
+// List Item
+Route::get('/listItem', [ItemController::class, 'listItem'])->name('listItem');
+

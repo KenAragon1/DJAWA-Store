@@ -1,44 +1,6 @@
-<!doctype html>
-<html>
+@extends('components.navbar-footer')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite('resources/css/app.css')
-    <link href='https://fonts.googleapis.com/css?family=Kaushan Script' rel='stylesheet'>
-    <link rel="stylesheet" href="fontaswome/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-
-</head>
-
-
-<body class="bg-slate-100 shadow-md h-80">
-    {{-- navbar start --}}
-    <nav class="bg-sky-950 px-2 lg:px-3 py-3 sticky">
-        <div class=" flex justify-around items-center">
-            <div class="">
-                <a href="#" class="text-slate-100 text-xl" style="font-family:'Kaushan Script';">DJAWA.IRL</a>
-
-            </div>
-            <div class="w-60 relative lg:w-80">
-                <input type="search" name="" id=""
-                    class=" w-full py-1 px-4 rounded-full placeholder:italic placeholder:text-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-100"
-                    placeholder="Barang apa yang kamu cari?">
-                <div class="">
-                    <button
-                        class="absolute inset-y-0 right-[10px] rounded-full aspect-square hover:bg-sky-950 hover:text-white h-full foc">
-                        <i class='bx bx-search-alt-2'></i>
-                    </button>
-
-                </div>
-            </div>
-            <div class="">
-                <button class="text-slate-100 bg-slate-900 rounded px-4 py-2 hover:bg-slate-600">Login</button>
-            </div>
-        </div>
-    </nav>
-    {{-- Navbar End --}}
-
+@section('content')
     {{-- banner start --}}
     <div class="bg-slate-300 h-80 mb-8">
     </div>
@@ -52,7 +14,7 @@
             {{-- icon kategori start --}}
             <div class="flex justify-center items-center flex-col">
                 <div
-                    class="flex justify-center items-center rounded-full bg-sky-900 shadow-xl aspect-square w-6/12  cursor-pointer mb-2">
+                    class="flex justify-center items-center rounded-[50%] bg-sky-900 shadow-xl aspect-square w-6/12  cursor-pointer mb-2 hover:rounded-xl transition ease-linear duration-700">
                     <svg class=" fill-white w-1/2 h-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                         <path
                             d="M0 192H176V0H160C71.6 0 0 71.6 0 160v32zm0 32V352c0 88.4 71.6 160 160 160h64c88.4 0 160-71.6 160-160V224H192 0zm384-32V160C384 71.6 312.4 0 224 0H208V192H384z" />
@@ -147,109 +109,24 @@
     <div class="bg-sky-950 rounded-lg shadow-md px-4 py-5 w-11/12 flex mx-auto flex-col mb-8">
         <p class=" block text-white text-center text-4xl mb-5 " style="font-family:'Kaushan Script';">Produk</p>
         <div class=" grid grid-cols-3 lg:grid-cols-4 place-items-center gap-y-4">
-            {{-- card produk --}}
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
+
+            @for ($i = 0; $i < 8; $i++)
+                {{-- card produk --}}
+                <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
+                    <div class=" aspect-square bg-slate-400 w-full  rounded">
+                        <img src="" alt="">
+                    </div>
+                    <div class="px-2">
+                        <p class="text-lg">Contoh Produk</p>
+                        <p class="text-slate-500 text-sm">Rp 999 999 999</p>
+                    </div>
                 </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            {{-- card produk --}}
-            {{-- dummy card --}}
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
-                </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
-                </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
-                </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
-                </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
-                </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
-                </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            <div class=" bg-white cursor-pointer rounded shadow-sm-lg px-1 pt-1 pb-4 w-40 lg:w-56">
-                <div class=" aspect-square bg-slate-400 w-full  rounded">
-                    <img src="" alt="">
-                </div>
-                <div class="px-2">
-                    <p class="text-lg">Contoh Produk</p>
-                    <p class="text-slate-500 text-sm">Rp 999 999 999</p>
-                </div>
-            </div>
-            {{-- dummy card --}}
+                {{-- card produk --}}
+            @endfor
+
+
         </div>
 
     </div>
     {{-- produk end --}}
-
-    {{-- footer start --}}
-    <footer class="bg-sky-950 px-2 py-8">
-
-        <div class="grid grid-cols-3 gap-4 text-center w-11/12 mx-auto text-white">
-            <div class=" w-11/12">
-                <p class="  text-2xl mb-4" style="font-family: Kaushan Script;">paragraph</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime natus nulla est? In cupiditate
-                    eveniet ipsum quo, perspiciatis illum modi error libero molestiae tenetur! Animi!</p>
-            </div>
-            <div class=" w-11/12">
-                <p class="  text-2xl mb-4" style="font-family: Kaushan Script;">paragraph</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime natus nulla est? In cupiditate
-                    eveniet ipsum quo, perspiciatis illum modi error libero molestiae tenetur! Animi!</p>
-            </div>
-            <div class=" w-11/12">
-                <p class="  text-2xl mb-4" style="font-family: Kaushan Script;">paragraph</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime natus nulla est? In cupiditate
-                    eveniet ipsum quo, perspiciatis illum modi error libero molestiae tenetur! Animi!</p>
-            </div>
-        </div>
-    </footer>
-    {{-- footer end --}}
-</body>
-
-</html>
+@endsection
