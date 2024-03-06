@@ -3,6 +3,7 @@
 use App\Http\Controllers\authController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,3 +46,5 @@ Route::get('/dashboard', [dashboardController::class, 'dashboard'])->name('dashb
 // List Item
 Route::get('/listItem', [ItemController::class, 'listItem'])->name('listItem');
 
+// Profil
+Route::get('/user/{id_user}', [userController::class, 'profilUser']);
