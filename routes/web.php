@@ -3,6 +3,7 @@
 use App\Http\Controllers\authController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\produkController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -48,3 +49,5 @@ Route::get('/listItem', [ItemController::class, 'listItem'])->name('listItem');
 
 // Profil
 Route::get('/user/{id_user}', [userController::class, 'profilUser']);
+// Produk
+Route::get('/produk/{id_produk}', [produkController::class, 'detailProduk']);
