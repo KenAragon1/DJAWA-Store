@@ -37,16 +37,13 @@ class authController extends Controller
         $valid['password'] = bcrypt($valid['password']);
         $valid['uid'] = rand(1000, 9999);
         // dd($valid);
-        try {
-            if (User::create($valid)) {
-                return redirect('/login');
-            } else {
-                return redirect('/register');
-            }
-        } catch (\Error $error) {
-            //throw $th;
-            return 'something went wrong';
+
+        if (User::create($valid)) {
+            return redirect('/login');
+        } else {
+            return redirect('/register');
         }
+
 
     }
 

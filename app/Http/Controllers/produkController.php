@@ -6,11 +6,38 @@ use Illuminate\Http\Request;
 
 class produkController extends Controller
 {
-    //
-
-    public function detailProduk($id_produk)
+    // View
+    public function viewProduk($id_produk)
     {
+        $produk = $this->getProduk($id_produk);
         return view('detail-produk');
+    }
+
+    public function viewUpdateProduk()
+    {
 
     }
+
+
+    // API untuk Produk
+    public function getProduk($id_produk)
+    {
+        $a = 1 + 1;
+        return $a;
+    }
+
+    public function postProduk()
+    {
+    }
+
+    public function updateProduk()
+    {
+
+    }
+
+    public function deleteProduk()
+    {
+    }
+
+
 }

@@ -1,15 +1,17 @@
 @extends('components.navbar-footer')
 
 @section('content')
-    <div class="bg-white w-8/12 flex mx-auto mb-4 px-4 py-6 rounded shadow-xl gap-6">
+    <div class="bg-white w-8/12 flex mx-auto my-8 px-4 py-6 rounded shadow-xl gap-6">
         <div class="w-1/3 ">
             <div class="w-full bg-slate-300 aspect-square mb-4">
                 <img class="w-full h-auto" src="" alt="">
             </div>
             <div class="">
-                <button class="text-slate-100 mb-4 bg-sky-950 rounded w-full px-4 py-2 hover:bg-slate-500 duration-100">Edit
+                <button
+                    class="text-slate-100 mb-4 bg-pastel-blue rounded w-full px-4 py-2 hover:bg-dark-pastel-blue duration-100">Edit
                     Profil</button>
-                <button class="text-slate-100 mb-4 bg-sky-950 rounded w-full px-4 py-2 hover:bg-slate-500 duration-100">Ganti
+                <button
+                    class="text-slate-100 mb-4 bg-pastel-blue rounded w-full px-4 py-2 hover:bg-dark-pastel-blue duration-100">Ganti
                     Password</button>
             </div>
         </div>

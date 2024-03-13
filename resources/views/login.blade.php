@@ -1,23 +1,20 @@
 @extends('components.navbar-footer')
 
 @section('content')
-    <div class=" bg-slate-100 w-4/6 flex shadow-xl rounded mx-auto mb-4 overflow-hidden">
-        <div class="w-1/2">
-            Hi
-        </div>
-        <div class="w-1/2 px-4 py-10  flex flex-col bg-sky-950 overflow-hidden shadow">
-            <p class="text-slate-100 text-4xl text-center mb-2" style="font-family:'Kaushan Script';">DJAWA.IRL</p>
-            <hr class="mb-8">
-            <form class="flex flex-col w-11/12 mx-auto mb-4" method="POST" action="{{ route('login') }}">
-                @csrf
-                <input class="mb-8 rounded-lg px-4 py-4" type="text" name="username" placeholder="Username">
-                <input class="mb-8 rounded-lg px-4 py-4" type="password" name="password" placeholder="Password">
-                <button class="bg-slate-900 text-white rounded-lg py-4 hover:bg-white hover:text-black transition-all"
-                    type="submit">Login</button>
-            </form>
-            <p class=" text-white text-center">Don't have an account yet? <a href="{{ route('halRegister') }}"
-                    class=" underline">Register</a>
-                Now</p>
-        </div>
+    <div class="w-96 px-4 py-10 my-8  flex flex-col bg-white overflow-hidden shadow-xl mx-auto border">
+        <p class=" text-4xl text-center mb-2" style="font-family:'Kaushan Script';">Login</p>
+        <hr class="mb-8">
+        <form class="flex flex-col w-11/12 mx-auto mb-4" method="POST" action="{{ route('login') }}">
+            @csrf
+            <input class="mb-8 rounded px-4 py-3 outline outline-1 outline-slate-500" type="text" name="username"
+                placeholder="Username">
+            <input class="mb-8 rounded px-4 py-3 outline outline-1 outline-slate-500" type="password" name="password"
+                placeholder="Password">
+            <button class="bg-pastel-blue hover:bg-dark-pastel-blue  rounded-lg py-4  text-white transition-all"
+                type="submit">Login</button>
+        </form>
+        <p class=" text-center">Belum mempunyai akun? <a href="{{ route('halRegister') }}"
+                class="text-blue-800 underline">Register</a>
+            Sekarang</p>
     </div>
 @endsection
