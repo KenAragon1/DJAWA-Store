@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\keranjangController;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\categoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,3 +73,10 @@ Route::get('/keranjang/{id_user}', [keranjangController::class, 'keranjangView']
 
 // API Keranjang
 
+
+
+// Kategori
+
+// View Kategori
+// Kategori Laptop
+Route::get('/category/laptop', [categoryController::class, 'laptopView']);
