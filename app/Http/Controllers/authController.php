@@ -36,12 +36,13 @@ class authController extends Controller
 
         $valid['password'] = bcrypt($valid['password']);
         $valid['uid'] = rand(1000, 9999);
+        $valid['utype'] = 'pembeli';
         // dd($valid);
 
         if (User::create($valid)) {
-            return redirect('/login');
+            return redirect('/login')->with('sukses', 'Registrasi Berhasil, Silahkan Login');
         } else {
-            return redirect('/register');
+            return redirect('/register')->with('errReg', 'Registrasi Gagal');
         }
 
 
