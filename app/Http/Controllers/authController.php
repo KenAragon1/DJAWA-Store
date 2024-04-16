@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profil;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,14 +17,15 @@ class authController extends Controller
             'password' => 'required'
         ]);
 
+
         if (Auth::attempt($login)) {
             $request->session()->regenerate();
-            Log::info('User logged in successfully: ' . Auth::user()->username);
+            $user = User::where('username', $request->username)->first();
 
-            return redirect('/');
+            return response()->json($user->createToken("token")->plainTextToken);
         }
 
-        return back();
+        return response()->json(["message" => "gagal"]);
     }
     //
     public function register(Request $request)
@@ -35,17 +37,16 @@ class authController extends Controller
         ]);
 
         $valid['password'] = bcrypt($valid['password']);
-        $valid['uid'] = rand(1000, 9999);
-        $valid['utype'] = 'pembeli';
+        $valid['id_user'] = rand(1000000000, 9999999999);
         // dd($valid);
 
-        if (User::create($valid)) {
-            return redirect('/login')->with('sukses', 'Registrasi Berhasil, Silahkan Login');
-        } else {
-            return redirect('/register')->with('errReg', 'Registrasi Gagal');
-        }
+        $user = User::create($valid);
 
+        $profil = new Profil();
+        $profil->id_user = $user->id_user;
+        $profil->save();
 
+        return redirect()->route('login');
     }
 
     public function logout()

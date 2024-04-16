@@ -19,15 +19,9 @@ class User extends Authenticatable
      */
 
     protected $table = 'user';
-    protected $fillable = [
-        'username',
-        'email',
-        'password',
-        'uid',
-        'utype'
-    ];
+    protected $guarded = [];
 
-    protected $primaryKey = 'uid';
+    protected $primaryKey = 'id_user';
 
     public $timestamps = false;
 

@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: ["./resources/**/*.blade.php"],
+    content: ["./resources/**/*.blade.php", "./node_modules/flowbite/**/*.js"],
     theme: {
         extend: {
             colors: {
@@ -11,5 +11,5 @@ export default {
             },
         },
     },
-    plugins: [],
+    plugins: [require("flowbite/plugin")],
 };
