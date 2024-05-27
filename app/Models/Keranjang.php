@@ -12,8 +12,8 @@ class Keranjang extends Model
     protected $table = 'keranjang';
     protected $guarded = [''];
     protected $primaryKey = 'id_keranjang';
-    public function produk() {
+    public function produk()
+    {
         return $this->belongsTo(Produk::class, 'id_produk');
     }
-
 }

@@ -10,11 +10,11 @@ class kategoriController extends Controller
     //
     public function getKategori()
     {
-            $kategori = Kategori::all();
-            return response()->json($kategori);
+        $kategori = Kategori::all();
+        return response($kategori);
     }
 
-    
+
 
     public function viewKategori($kategori)
     {

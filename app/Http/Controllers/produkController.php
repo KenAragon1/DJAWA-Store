@@ -26,16 +26,17 @@ class produkController extends Controller
     // API untuk Produk
     public function getProduk($id_produk)
     {
-        $produk = Produk::where('id_produk', '=', $id_produk)->with('kategori')->get();
-        if ($produk->isEmpty()) {
-            return response()->json(["Message" => "Produk Tidak Ada"]);
-        }
-        return response()->json($produk);
+        // $produk = Produk::where('id_produk', '=', $id_produk)->with('kategori')->get();
+        // if ($produk->isEmpty()) {
+        //     return response()->json(["Message" => "Produk Tidak Ada"]);
+        // }
+        return response()->json('hallo');
     }
 
-    public function getAllProduk() {
-        $produk = Produk::all();
-        return response()->json(["produk" => $produk]);
+    public function getAllProduk()
+    {
+        // $produk = Produk::all();
+        return response()->json(["produk" => "xd"]);
     }
 
     public function postProduk(Request $request)
