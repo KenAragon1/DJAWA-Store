@@ -1,10 +1,9 @@
-import PrimaryButton from "@/Components/PrimaryButton";
-import { router, usePage } from "@inertiajs/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import AddressModal from "./AddressModal";
-import Address from "./Address";
-import Item from "./Item";
+// import PrimaryButton from "@/Components/PrimaryButton";
+// import { router, usePage } from "@inertiajs/react";
+// import axios from "axios";
+// import { useEffect, useState } from "react";
+// import { Address } from "./Address";
+// import Item from "./Item";
 
 const CheckoutPage = () => {
     useEffect(() => {

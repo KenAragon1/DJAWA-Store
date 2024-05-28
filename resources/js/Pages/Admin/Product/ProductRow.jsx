@@ -14,7 +14,7 @@ const ProductRow = ({
         <tr className="bg-white border-b hover:bg-gray-50 ">
             <th
                 scope="row"
-                className="flex items-center gap-4 px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                className="flex items-center gap-4 px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
             >
                 <img
                     src={"/storage/foto_produk/" + image}

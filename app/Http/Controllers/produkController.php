@@ -66,7 +66,7 @@ class produkController extends Controller
         $request['foto_produk'] = $imageName;
 
         // Send Data to Database
-        Produk::create([
+        $newProduk = Produk::create([
             'nama_produk' => $request->nama_produk,
             'id_kategori' => $request->id_kategori,
             'harga_produk' => $request->harga_produk,
@@ -75,7 +75,7 @@ class produkController extends Controller
             'foto_produk' => $imageName,
         ]);
 
-        return response()->json(['message' => 'Produk created successfully']);
+        return response()->json(['message' => 'Produk created successfully', 'data' => $newProduk]);
     }
 
     public function updateProduk(Request $request, $id_produk)
@@ -109,13 +109,15 @@ class produkController extends Controller
 
         $produk->update($request->all());
 
-        return response()->json('berhasil update produk');
+        $newProduk = Produk::findOrFail($id_produk);
+
+        return response()->json(['message' => 'berhasil update produk', 'edit' => $newProduk]);
     }
 
     public function deleteProduk($id_produk)
     {
         $produk = Produk::findOrFail($id_produk);
         $produk->delete();
-        return response()->json("berhasil");
+        return response()->json(["message" => "berhasil", "delete" => $produk]);
     }
 }

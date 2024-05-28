@@ -38,3 +38,9 @@ Route::delete('/cart/{id}', [cartController::class, 'delete']);
 Route::get('/getKategori', [kategoriController::class, 'getKategori']);
 
 Route::post('/cart', [cartController::class, 'post']);
+
+Route::post('/produk', [produkController::class, 'postProduk']);
+Route::delete('/produk/{id_produk}', [produkController::class, 'deleteProduk']);
+
+// Route::get('/keranjang/{id_user}', [keranjangController::class, 'getProdukInCart']);
+Route::post('/keranjang', [keranjangController::class, 'addToCart']);

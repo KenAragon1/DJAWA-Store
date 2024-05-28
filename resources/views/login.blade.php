@@ -7,10 +7,12 @@
         <form class="flex flex-col w-11/12 mx-auto mb-4" method="POST">
             @csrf
             <div class="w-full mb-8">
+                <label for="">email</label>
                 <input class="w-full px-4 py-3 rounded outline outline-1 outline-slate-500" type="text" name="username"
                     placeholder="Username" required>
             </div>
             <div class="relative w-full mb-8">
+                <label for="">password</label>
                 <input class="w-full px-4 py-3 rounded outline outline-1 outline-slate-500" type="password" name="password"
                     id="password-input" placeholder="Password" required>
                 <button class="absolute h-full px-2 right-2" type="button" id="show-password"><i
@@ -24,6 +26,7 @@
             Sekarang</p>
     </div>
 @endsection
+
 @section('scripts')
     @if (session()->has('register-sukses'))
         <script>

@@ -3,15 +3,17 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
-export default function GuestLayout({ user, header, children }) {
+export default function GuestLayout({ header, children }) {
+    const { user } = usePage().props.auth;
+
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
+            <nav className="bg-white border-b border-gray-100 shadow">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -26,46 +28,48 @@ export default function GuestLayout({ user, header, children }) {
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             <div className="relative ms-3">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
+                                {user && (
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <span className="inline-flex rounded-md">
+                                                <button
+                                                    type="button"
+                                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
                                                 >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
+                                                    {user.name}
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route("profile.edit")}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route("logout")}
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
+                                                    <svg
+                                                        className="ms-2 -me-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clipRule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </Dropdown.Trigger>
+
+                                        <Dropdown.Content>
+                                            <Dropdown.Link
+                                                href={route("profile.edit")}
+                                            >
+                                                Profile
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route("logout")}
+                                                method="post"
+                                                as="button"
+                                            >
+                                                Log Out
+                                            </Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                )}
                             </div>
                         </div>
 
@@ -134,15 +138,6 @@ export default function GuestLayout({ user, header, children }) {
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
-                        </div>
-
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route("profile.edit")}>
                                 Profile
@@ -167,7 +162,11 @@ export default function GuestLayout({ user, header, children }) {
                 </header>
             )}
 
-            <main className="min-h-screen">{children}</main>
+            <main className="min-h-screen">
+                <div className="p-8 mt-4 bg-white shadow w-[40rem] mx-auto">
+                    {children}
+                </div>
+            </main>
         </div>
     );
 }

@@ -26,10 +26,7 @@ Route::get('/', function () {
 Route::get('/product/{slug}', [productController::class, 'productPage']);
 
 // Cart
-Route::get('/cart-page', [cartController::class, 'show'])->name('cart');
-Route::get('/cart', [cartController::class, 'get']);
-Route::post('/cart', [cartController::class, 'post']);
-Route::delete('/cart/{id}', [cartController::class, 'delete']);
+
 
 Route::post('/calculateTotal', [cartController::class, 'calculateTotal']);
 
@@ -54,6 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/cart-page', [cartController::class, 'show'])->name('cart');
+    Route::get('/cart', [cartController::class, 'get']);
+    Route::post('/cart', [cartController::class, 'post']);
+    Route::delete('/cart/{id}', [cartController::class, 'delete']);
 });
 
 
