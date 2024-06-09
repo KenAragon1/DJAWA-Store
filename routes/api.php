@@ -1,15 +1,12 @@
 <?php
 
-use App\Http\Controllers\authController;
+use App\Http\Controllers\apiController;
 use App\Http\Controllers\cartController;
-use App\Http\Controllers\kategoriController;
-use App\Http\Controllers\keranjangController;
+use App\Http\Controllers\checkoutController;
+use App\Http\Controllers\paymentController;
 use App\Http\Controllers\productController;
-use App\Http\Controllers\produkController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\spesifikasiController;
-use App\Models\Kategori;
-use App\Models\Produk;
+use App\Http\Controllers\rajaongkirController;
+use App\Http\Controllers\spesificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,19 +25,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/product', [productController::class, 'get']);
-Route::get('/product/{id}', [productController::class, 'get2']);
-Route::post('/product', [productController::class, 'post']);
-Route::put('/product/{id}', [productController::class, 'put']);
-Route::delete('/product/{id}', [productController::class, 'delete']);
-Route::delete('/cart/{id}', [cartController::class, 'delete']);
+Route::get('/product', [apiController::class, 'getProduct']);
 
-Route::get('/getKategori', [kategoriController::class, 'getKategori']);
+
+Route::get('/midtrans', [paymentController::class, 'midtrans']);
 
 Route::post('/cart', [cartController::class, 'post']);
 
-Route::post('/produk', [produkController::class, 'postProduk']);
-Route::delete('/produk/{id_produk}', [produkController::class, 'deleteProduk']);
+Route::post('/ongkir', [rajaongkirController::class, 'ongkir']);
 
-// Route::get('/keranjang/{id_user}', [keranjangController::class, 'getProdukInCart']);
-Route::post('/keranjang', [keranjangController::class, 'addToCart']);
+route::get('/spesification/{id_category}', [spesificationController::class, 'get']);

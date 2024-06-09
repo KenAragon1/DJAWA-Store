@@ -1,13 +1,15 @@
 import PrimaryButton from "@/Components/PrimaryButton";
 import AddressModal from "./AddressModal";
 
-const Address = ({
+export default function Address({
+    user,
+    customerDetail,
+    setCustomerDetail,
     setOpenAddressModal,
     openAddressModal,
     closeAddressModal,
-    changeAddress,
-    addressData,
-}) => {
+    setRajaongkir,
+}) {
     return (
         <div className="mb-4 overflow-hidden rounded-t-lg shadow">
             <div className="h-2 bg-slate-800"></div>
@@ -17,16 +19,20 @@ const Address = ({
                         <i className="fa-solid fa-location-dot"></i> Address for
                         Delivery
                     </p>
-                    <p className="mb-2">
-                        {addressData.namaPenerima} {addressData.telepon}
-                    </p>
-                    <p className="text-sm">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Atque itaque incidunt officia, quasi accusantium
-                        modi exercitationem voluptate. Molestias, nostrum, cum,
-                        commodi quisquam dignissimos eligendi asperiores libero
-                        ipsam excepturi accusantium aperiam?
-                    </p>
+                    <p className="mb-2">{user.name}</p>
+                    <p className="mb-2">{user.email}</p>
+                    {customerDetail.address.city ? (
+                        <>
+                            <p className="text-sm">
+                                {customerDetail.address.detail},{" "}
+                                {customerDetail.address.city},{" "}
+                                {customerDetail.address.province},{" "}
+                                {customerDetail.address.postal}
+                            </p>
+                        </>
+                    ) : (
+                        <p>Belum Memilih Alamat</p>
+                    )}
                 </div>
                 <div className="">
                     <PrimaryButton onClick={() => setOpenAddressModal(true)}>
@@ -35,12 +41,11 @@ const Address = ({
                     <AddressModal
                         show={openAddressModal}
                         closeAddressModal={closeAddressModal}
-                        changeAddress={changeAddress}
+                        setCustomerDetail={setCustomerDetail}
+                        setRajaongkir={setRajaongkir}
                     />
                 </div>
             </div>
         </div>
     );
-};
-
-export default Address;
+}

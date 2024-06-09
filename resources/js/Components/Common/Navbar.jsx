@@ -1,52 +1,42 @@
 import { Head, Link, usePage } from "@inertiajs/react";
 import Dropdown from "../Dropdown";
 import PrimaryButton from "../PrimaryButton";
+import NavLink from "../NavLink";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Navbar = ({ classname = "" }) => {
+const Navbar = ({ className = "" }) => {
     const { user } = usePage().props.auth;
 
     return (
         <nav
             className={
-                "bg-white px-2 lg:px-3 py-3 sticky top-0 shadow z-[9999] " +
-                classname
+                "bg-white py-3 sticky top-0 shadow z-[9999] px-8" + className
             }
         >
-            <div className="flex items-center ">
-                <div className="flex items-center justify-start w-1/3">
+            <div className="flex items-center justify-between">
+                <div className="">
                     <Link
                         href={route("home")}
-                        className="text-xl text-pastel-yellow"
+                        className="text-xl font-bold tracking-wide"
                     >
-                        DJAWA.IRL
+                        DJAWA Store
                     </Link>
                 </div>
 
-                <div className="flex items-center justify-center w-1/3">
-                    <div className="relative w-60 lg:w-80">
-                        <input
-                            type="search"
-                            name=""
-                            id=""
-                            className="w-full px-3 py-2 rounded placeholder:italic placeholder:text-sm outline outline-1 outline-slate-500 focus:ring-2 focus:ring-inset focus:ring-indigo-100"
-                            placeholder="Barang apa yang kamu cari?"
-                        />
-                        <div className="">
-                            <button className="absolute inset-y-0 right-[2px] rounded  text-slate-500 aspect-square hover:bg-black  h-[98%] transition-all duration-200">
-                                <i className="bx bx-search-alt-2"></i>
-                            </button>
-                        </div>
-                    </div>
+                <div className="flex gap-8">
+                    <NavLink>Home</NavLink>
+                    <NavLink>Category</NavLink>
+                    <NavLink>About</NavLink>
                 </div>
-                <div className="flex items-center justify-end w-1/3 gap-2">
+                <div className="flex gap-8">
                     {user ? (
                         <div className="flex content-center">
                             {user.user_type != "Admin" && (
                                 <Link
                                     href={route("cart")}
-                                    className="px-3 py-2 text-sm"
+                                    className="px-3 py-2 text-sm transition rounded hover:underline"
                                 >
-                                    <i cass="bx bx-cart"></i> Cart
+                                    <i className="fa-solid fa-cart-shopping"></i>{" "}
                                 </Link>
                             )}
 
@@ -74,16 +64,23 @@ const Navbar = ({ classname = "" }) => {
                                     </span>
                                 </Dropdown.Trigger>
                                 <Dropdown.Content>
-                                    {user.user_type === "Admin" && (
+                                    {user.user_type === "Admin" ? (
                                         <Dropdown.Link
                                             href={route("dashboard")}
                                         >
                                             Dashboard
                                         </Dropdown.Link>
+                                    ) : (
+                                        <Dropdown.Link
+                                            href={route("payment-page")}
+                                        >
+                                            Payment
+                                        </Dropdown.Link>
                                     )}
                                     <Dropdown.Link href={route("profile.edit")}>
                                         Profile
                                     </Dropdown.Link>
+
                                     <Dropdown.Link
                                         href={route("logout")}
                                         method="post"
@@ -96,19 +93,9 @@ const Navbar = ({ classname = "" }) => {
                         </div>
                     ) : (
                         <>
-                            <Link
-                                href={route("login")}
-                                className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                            >
-                                Log in
-                            </Link>
+                            <NavLink href={route("login")}>Log in</NavLink>
 
-                            <Link
-                                href={route("register")}
-                                className="font-semibold text-gray-600 ms-4 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                            >
-                                Register
-                            </Link>
+                            <NavLink href={route("register")}>Register</NavLink>
                         </>
                     )}
                 </div>

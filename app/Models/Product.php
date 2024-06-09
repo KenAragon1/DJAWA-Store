@@ -12,7 +12,11 @@ class Product extends Model
     protected $table = 'product';
     protected $guarded = ['deleted_at'];
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_product';
+
+    protected $casts = [
+        "spesification" => "json"
+    ];
 
     public function cart()
     {

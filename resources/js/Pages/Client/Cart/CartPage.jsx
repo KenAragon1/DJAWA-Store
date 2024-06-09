@@ -7,8 +7,10 @@ import CartEmpty from "./CartEmpty";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, router } from "@inertiajs/react";
 
-const Index = () => {
-    const [cartItems, setCartItems] = useState([]);
+const Index = ({ cartData }) => {
+    const [cartItems, setCartItems] = useState(cartData);
+
+    console.log(cartItems);
 
     const [loading, setLoading] = useState(false);
 
@@ -16,15 +18,18 @@ const Index = () => {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const [summary, setSummary] = useState({
-        products: [],
+    // This data will be stored in session to pass to the checkout
+    const [checkoutData, setCheckoutData] = useState({
+        products: [
+            {
+                id: null,
+                amount: null,
+            },
+        ],
         totalPrice: 0,
     });
 
-    // get user cart items when users come to cart page
-    useEffect(() => {
-        fetchCartItems();
-    }, []);
+    console.log(checkoutData);
 
     // set selected items
     useEffect(() => {
@@ -44,8 +49,9 @@ const Index = () => {
             axios
                 .post("/calculateTotal", { data: selectedItems })
                 .then((response) => {
-                    setSummary(response.data);
+                    setCheckoutData(response.data);
                     setLoadingSummary(false);
+                    console.log(response.data);
                 });
         }
 
@@ -56,29 +62,14 @@ const Index = () => {
         return () => clearTimeout(timer);
     }, [selectedItems]);
 
-    function fetchCartItems() {
-        setLoading(true);
-        axios.get("/cart").then((response) => {
-            const { cartItems } = response.data;
-            cartItems.forEach((item) => {
-                item.selected = false;
-            });
-            setLoading(false);
-            setCartItems(cartItems);
-        });
-    }
-
     function deleteCartItem(id) {
-        axios
-            .delete("/cart/" + id)
-            .then((response) => console.log(response))
-            .then(() => fetchCartItems());
+        router.delete("/cart/" + id);
     }
 
     function toggleselect(id) {
         setCartItems((prevCartItems) => {
             return prevCartItems.map((item) => {
-                if (item.id === id) {
+                if (item.id_cart === id) {
                     const currentSelect = item.selected;
                     return { ...item, selected: !currentSelect };
                 }
@@ -90,7 +81,7 @@ const Index = () => {
     function handleAmountChange(id, e) {
         setCartItems((prevCartItems) => {
             return prevCartItems.map((item) => {
-                if (item.id === id) {
+                if (item.id_cart === id) {
                     return { ...item, quantity: e.target.value };
                 }
                 return item;
@@ -101,7 +92,7 @@ const Index = () => {
     function incrementAmount(id) {
         setCartItems((prevCartItems) => {
             return prevCartItems.map((item) => {
-                if (item.id === id) {
+                if (item.id_cart === id) {
                     return { ...item, quantity: item.quantity + 1 };
                 }
                 return item;
@@ -112,7 +103,7 @@ const Index = () => {
     function decrementAmount(id) {
         setCartItems((prevCartItems) => {
             return prevCartItems.map((item) => {
-                if (item.id === id && item.quantity > 1) {
+                if (item.id_cart === id && item.quantity > 1) {
                     return { ...item, quantity: item.quantity - 1 };
                 }
                 return item;
@@ -120,9 +111,15 @@ const Index = () => {
         });
     }
     function checkout() {
-        if (summary.products.length < 1) return;
+        if (!checkoutData.products[0].id_product === null) {
+            return window.alert("Silahkan Pilih Barang Yang Ingin di Checkout");
+        }
 
-        router.post("/checkout", { checkoutData: summary });
+        router.post("/checkout", {
+            products: checkoutData.products.map((data) => {
+                return { id_product: data.id_product, quantity: data.quantity };
+            }),
+        });
     }
 
     return (
@@ -137,10 +134,9 @@ const Index = () => {
                         {loading && <CartItemLoading />}
 
                         {!loading &&
-                            cartItems.length > 0 &&
                             cartItems.map((item) => (
                                 <CartItem
-                                    key={item.id}
+                                    key={item.id_cart}
                                     item={item}
                                     deleteCartItem={deleteCartItem}
                                     toggleSelect={toggleselect}
@@ -154,7 +150,7 @@ const Index = () => {
                     </div>
 
                     <div className="">
-                        <div className="p-8 relative  bg-white border rounded border-slate-300 w-[400px]">
+                        <div className="p-8 relative  bg-white shadow  border-slate-300 w-[400px]">
                             <p className="text-xl font-semibold">Summary</p>
                             <div className="mb-4">
                                 {loadingSummary && (
@@ -183,28 +179,36 @@ const Index = () => {
                                         </span>
                                     </div>
                                 )}
-                                <table className="w-full">
+                                <table className="w-full table-fixed">
                                     <tbody>
-                                        {summary.products.map((product) => {
-                                            return (
-                                                <tr key={crypto.randomUUID()}>
-                                                    <td>{product.name}</td>
-                                                    <td className="text-center">
-                                                        {product.quantity}x
-                                                    </td>
-                                                    <td className="text-end">
-                                                        Rp {product.total}
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
+                                        {checkoutData.products.map(
+                                            (product) => {
+                                                return (
+                                                    <tr
+                                                        key={crypto.randomUUID()}
+                                                    >
+                                                        <td className="overflow-hidden  whitespace-nowrap text-ellipsis">
+                                                            {product.name}
+                                                        </td>
+                                                        <td className="text-center w-fit">
+                                                            {product.quantity}x
+                                                        </td>
+                                                        <td className=" text-end whitespace-nowrap w-fit">
+                                                            Rp {product.total}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            }
+                                        )}
                                     </tbody>
                                 </table>
 
                                 <hr className="my-2" />
                                 <p className="text-xl font-semibold">
                                     Total : Rp{" "}
-                                    {summary.totalPrice.toLocaleString("id-ID")}
+                                    {checkoutData.totalPrice.toLocaleString(
+                                        "id-ID"
+                                    )}
                                 </p>
                             </div>
                             <PrimaryButton onClick={checkout}>

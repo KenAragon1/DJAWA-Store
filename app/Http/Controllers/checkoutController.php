@@ -2,53 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use LDAP\Result;
 
 class checkoutController extends Controller
 {
     //
-    public function show()
+    public function checkoutPage()
     {
-        return Inertia::render('Client/Checkout/CheckoutPage');
+        $user = User::findOrFail(auth()->id());
+        $productsData = $this->get();
+
+        return Inertia::render('Client/Checkout/CheckoutPage', [
+            'productsData' => $productsData,
+            'user' => $user
+        ]);
     }
 
-    public function createSession(Request $request)
-    {
 
-        session(["checkoutData" =>  $request->checkoutData]);
+    public function post(Request $request)
+    {
+        Session::put(["checkoutData" =>  $request->products]);
+
         return redirect()->route('checkout-page');
     }
 
-    public function getSession()
+    public function get()
     {
         $checkoutData = session('checkoutData');
 
-        return response([...$checkoutData, "address" => ""], 200);
-    }
 
-    public function getProvinsi()
-    {
-        $response = Http::withHeaders([
-            'key' => env("RAJAONGKIR_KEY")
-        ])->get('https://api.rajaongkir.com/starter/province');
-
-        return response($response);
-    }
-
-    public function getKota($id_provinsi)
-    {
-        if (!$id_provinsi) {
-            return response(["error" => "please select province"], 400);
+        if (!$checkoutData) {
+            return redirect()->back();
         }
 
-        $response = Http::withHeaders([
-            'key' => env("RAJAONGKIR_KEY")
-        ])->withQueryParameters([
-            'province' => $id_provinsi
-        ])->get('https://api.rajaongkir.com/starter/city');
+        $ids = [];
 
-        return response($response);
+        foreach ($checkoutData as $data) {
+            $ids[] = $data['id_product'];
+        }
+
+        $products = Product::whereIn('id_product', $ids)->select('id_product', 'name', 'price', 'weight', 'image')->get()->toArray();
+
+        $productData = [];
+
+        // calculating each price total item
+        foreach ($checkoutData as $checkout) {
+            foreach ($products as $product) {
+                if ($checkout['id_product'] === $product['id_product']) {
+                    $total = $product["price"] * $checkout["quantity"];
+                    $productData[] = [...$product, "quantity" => $checkout["quantity"], "total" => $total];
+                }
+            }
+        }
+
+        $totalPrice = 0;
+        $weight = 0;
+
+        foreach ($productData as $product) {
+            $totalPrice = $totalPrice + $product['total'];
+            $weight = $weight + $product['weight'];
+        }
+
+        return ["total_price" => $totalPrice, "total_weight" => $weight, "products" => $productData];
     }
 }

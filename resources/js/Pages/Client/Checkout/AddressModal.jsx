@@ -4,14 +4,23 @@ import TextInput from "@/Components/TextInput";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
-    const [addressData, SetAddressData] = useState({
-        namaPenerima: "",
-        telepon: "",
-        provinsi: "",
-        kota: "",
-        kodepos: "",
+const AddressModal = ({
+    show,
+    closeAddressModal,
+    setCustomerDetail,
+    setRajaongkir,
+}) => {
+    const [address, setAddress] = useState({
+        province: "",
+        city: "",
         detail: "",
+        postal: "",
+    });
+
+    const [detail, setDetail] = useState({
+        name: "",
+        phone: "",
+        address: address,
     });
 
     const [provinsiData, setProvinsiData] = useState([
@@ -28,17 +37,26 @@ const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
             postal_code: "",
         },
     ]);
+    const [destination, setDestination] = useState(0);
 
     function submitAddressData(e) {
         e.preventDefault();
-        console.log(addressData);
-        changeAddress(addressData);
+        console.log(detail);
+        setCustomerDetail({
+            ...detail,
+            address: address,
+        });
+
+        setRajaongkir((prev) => ({
+            ...prev,
+            destination: destination,
+        }));
         closeAddressModal();
     }
 
     function getProvinsi() {
         axios
-            .get("/checkout/getProvinsi")
+            .get("/rajaongkir/getProvinsi")
             .then((response) =>
                 setProvinsiData(response.data.rajaongkir.results)
             )
@@ -46,32 +64,51 @@ const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
     }
 
     function getKota(idProvinsi) {
-        axios.get("/checkout/getKota/" + idProvinsi).then((response) => {
+        axios.get("/rajaongkir/getKota/" + idProvinsi).then((response) => {
             const newKotaData = response.data.rajaongkir.results;
             console.log(newKotaData);
             setKotaData(newKotaData);
         });
     }
 
-    function handleProvinsiChange(e) {
-        handleChange(e);
-        const idProvinsi = e.target.value;
-        getKota(idProvinsi);
-    }
-
-    function handleChange(e) {
+    function handleDetailChange(e) {
         const key = e.target.id;
         const value = e.target.value;
-
-        SetAddressData((prevAddressData) => ({
-            ...prevAddressData,
+        setDetail((prevDetail) => ({
+            ...prevDetail,
             [key]: value,
+        }));
+    }
+
+    function handleAddressChange(e) {
+        const key = e.target.id;
+        const value = e.target.value;
+        setAddress((prevAddress) => ({
+            ...prevAddress,
+            [key]: value,
+        }));
+    }
+
+    function handleAddressSelectChange(e) {
+        const key = e.target.id;
+        const id = e.target.value;
+        const name = e.target.selectedOptions[0].getAttribute("data-name");
+        setAddress((prevAddress) => ({
+            ...prevAddress,
+            [key]: name,
         }));
     }
 
     useEffect(() => {
         getProvinsi();
     }, []);
+
+    useEffect(() => {
+        setDetail((prevDetail) => ({
+            ...prevDetail,
+            address: address,
+        }));
+    }, [address]);
 
     return (
         <Modal show={show}>
@@ -84,7 +121,7 @@ const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
                         <button
                             onClick={closeAddressModal}
                             type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            className="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
                         >
                             <svg
                                 className="w-3 h-3"
@@ -105,41 +142,27 @@ const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
                         </button>
                     </div>
 
-                    <div className="mb-4">
-                        <label htmlFor="">Nama Penerima</label>
-                        <TextInput
-                            className={"w-full"}
-                            id="namaPenerima"
-                            value={addressData.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="">No Telepon</label>
-                        <TextInput
-                            className={"w-full"}
-                            id="telepon"
-                            type="number"
-                            value={addressData.telepon}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="">
                             <label htmlFor="">Provinsi</label>
 
                             <select
                                 name=""
-                                id="provinsi"
-                                onChange={handleProvinsiChange}
+                                id="province"
                                 className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 required
+                                onChange={(e) => {
+                                    getKota(e.target.value);
+                                    handleAddressSelectChange(e);
+                                }}
                             >
                                 <option value="">-- Provinsi --</option>
                                 {provinsiData.map((provinsi) => (
-                                    <option value={provinsi.province_id}>
+                                    <option
+                                        value={provinsi.province_id}
+                                        key={provinsi.province_id}
+                                        data-name={provinsi.province}
+                                    >
                                         {provinsi.province}
                                     </option>
                                 ))}
@@ -150,16 +173,23 @@ const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
                             <label htmlFor="">Kota / Kabupaten</label>
                             <select
                                 name=""
-                                id="kota"
-                                onChange={handleChange}
+                                id="city"
                                 className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 required
+                                onChange={(e) => {
+                                    handleAddressSelectChange(e);
+                                    setDestination(e.target.value);
+                                }}
                             >
                                 <option value="">
                                     Silahkan Pilih Provinsi terlebih Dahulu
                                 </option>
                                 {kotaData.map((kota) => (
-                                    <option value={kota.city_id}>
+                                    <option
+                                        value={kota.city_id}
+                                        key={kota.city_id}
+                                        data-name={kota.city_name}
+                                    >
                                         {kota.city_name}
                                     </option>
                                 ))}
@@ -170,10 +200,9 @@ const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
                         <label htmlFor="">Kode Pos</label>
                         <TextInput
                             className={"w-full"}
-                            id="kodepos"
+                            id="postal"
                             type="number"
-                            value={addressData.kodepos}
-                            onChange={handleChange}
+                            onChange={handleAddressChange}
                             required
                         />
                     </div>
@@ -185,8 +214,7 @@ const AddressModal = ({ show, closeAddressModal, changeAddress }) => {
                         <textarea
                             name=""
                             id="detail"
-                            value={addressData.name}
-                            onChange={handleChange}
+                            onChange={handleAddressChange}
                             className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                             required
                         ></textarea>

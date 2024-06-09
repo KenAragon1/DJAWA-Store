@@ -33,18 +33,6 @@ const ProductForm = ({
         updateData(key, value);
     }
 
-    function handleSpesifikasi(e) {
-        const key = e.target.id;
-        const value = e.target.value;
-        const newSpesification = spesification;
-
-        newSpesification[key] = value;
-        setSpesification(newSpesification);
-
-        const spesificationJSON = JSON.stringify(newSpesification);
-        updateData("spesification", spesificationJSON);
-    }
-
     function handlePreviewImg(e) {
         setPreviewImg(URL.createObjectURL(e.target.files[0]));
     }
@@ -112,8 +100,7 @@ const ProductForm = ({
                     </div>
 
                     <div className="mb-4">
-                        <InputLabel>Spesifikasi Produk</InputLabel>
-                        <p>weight</p>
+                        <p>Berat</p>
                         <TextInput
                             id="weight"
                             type="number"
@@ -121,7 +108,9 @@ const ProductForm = ({
                             value={spesification.weight}
                             onChange={handleSpesifikasi}
                         />
-                        <p>brand</p>
+                    </div>
+                    <div className="mb-4">
+                        <p>Brand</p>
                         <TextInput
                             id="brand"
                             className="w-full"
@@ -150,7 +139,7 @@ const ProductForm = ({
                             src={previewImg}
                             width="100"
                             height="75"
-                            alt="lmfao"
+                            alt="preview image"
                         />
                         <TextInput
                             type="file"

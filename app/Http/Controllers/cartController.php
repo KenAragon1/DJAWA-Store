@@ -10,25 +10,27 @@ use Inertia\Inertia;
 class cartController extends Controller
 {
     //
-    public function show()
+    public function cartPage()
     {
-        return Inertia::render('Client/Cart/CartPage');
+        $cartData = $this->get();
+        return Inertia::render('Client/Cart/CartPage', [
+            'cartData' => $cartData
+        ]);
     }
 
     public function get()
     {
-        $id_user = auth()->id();
-        $cartItems = Cart::where('id_user', '=', $id_user)->with('product')->get();
+        $cartItems = Cart::where('id_user', '=', auth()->id())->with('product')->get();
 
-        return response(["cartItems" => $cartItems], 200);
+        return $cartItems;
     }
 
     public function post(Request $request)
     {
         $id_user = auth()->id();
         $id_product = $request->id_product;
-        $cart = Cart::where('id_user', '=',  $id_user)->where('id_product', '=', $id_product)->first();
 
+        $cart = Cart::where('id_user', '=',  $id_user)->where('id_product', '=', $id_product)->first();
 
         if ($cart) {
             $updateCartQuantity = $cart->quantity + $request->amount;
@@ -44,9 +46,8 @@ class cartController extends Controller
             'id_product' => $id_product,
             'quantity' => $request->amount
         ]);
-        $cart = Cart::where('id_user', '=',  $id_user)->where('id_product', '=', $id_product)->first();
 
-        return response(["message" => "Berhasil Menambah Produk ke Keranjang", "product" => $cart], 200);
+        return response(["message" => "Berhasil Menambah Produk ke Keranjang"], 200);
     }
 
     public function delete($id)
@@ -65,7 +66,7 @@ class cartController extends Controller
 
         $cart->delete();
 
-        return response(["message" => "Berhasil Menghapus Produk"]);
+        return redirect()->back();
     }
 
     public function calculateTotal(Request $request)
@@ -91,6 +92,7 @@ class cartController extends Controller
 
             // set summary data info
             array_push($productSummary, [
+                "id_product" => $product->id_product,
                 "imageSlug" => $product->image,
                 "name" => $product->name,
                 "price" => $product->price,

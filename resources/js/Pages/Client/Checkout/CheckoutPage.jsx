@@ -1,119 +1,105 @@
-// import PrimaryButton from "@/Components/PrimaryButton";
-// import { router, usePage } from "@inertiajs/react";
-// import axios from "axios";
-// import { useEffect, useState } from "react";
-// import { Address } from "./Address";
-// import Item from "./Item";
+import PrimaryButton from "@/Components/PrimaryButton";
+import { router, usePage } from "@inertiajs/react";
+import axios, { Axios } from "axios";
+import { useEffect, useState } from "react";
+import Address from "./Address";
+import Shipping from "./Shipping";
+import Item from "./Item";
 
-const CheckoutPage = () => {
-    useEffect(() => {
-        axios
-            .get("/checkout")
-            .then((response) => {
-                const productData = response.data;
-                console.log(productData);
-                if (productData) return setCheckoutData(response.data);
-                router.get("/");
-            })
-            .catch((e) => console.log(e));
-    }, []);
+const CheckoutPage = ({ productsData, user }) => {
+    const [customerDetail, setCustomerDetail] = useState({
+        name: "",
+        phone: "",
+        address: {
+            province: "",
+            city: "",
+            detail: "",
+            postal: "",
+        },
+    });
 
-    const [checkoutData, setCheckoutData] = useState({
-        products: [],
-        totalPrice: 0,
-        address: {},
+    const [rajaongkir, setRajaongkir] = useState({
+        destination: 0,
+        products: productsData.products,
+    });
+
+    const [shippingDetails, setShippingDetails] = useState();
+
+    const [shipping, setShipping] = useState({
+        shipping_fee: 0,
     });
 
     const [openAddressModal, setOpenAddressModal] = useState(false);
 
-    function changeAddress(addressData) {
-        setCheckoutData((prevCheckoutData) => ({
-            ...prevCheckoutData,
-            address: addressData,
-        }));
-    }
+    const [shippingOption, setShippingOption] = useState([]);
 
     function closeAddressModal() {
         setOpenAddressModal(false);
+    }
+
+    useEffect(() => {}, [rajaongkir]);
+
+    useEffect(() => {
+        ongkir();
+    }, [customerDetail]);
+
+    function ongkir() {
+        if (customerDetail.address.city) {
+            axios.post("api/ongkir", rajaongkir).then(({ data }) => {
+                const service = data.rajaongkir.results[0].costs;
+                console.log(service);
+                setShippingOption(() => {});
+            });
+        }
+    }
+
+    function midtrans() {
+        if (!customerDetail.address.city) {
+            console.log("lengkapi alamat");
+            return;
+        }
+        const addressString = `${customerDetail.address.detail}, ${customerDetail.address.city}, ${customerDetail.address.province}, ${customerDetail.address.postal}`;
+
+        router.post(
+            route("payment-create", {
+                total: productsData.total_price,
+                products: productsData.products,
+                customer_details: {
+                    address: addressString,
+                },
+            })
+        );
     }
 
     return (
         <div className="min-h-screen bg-gray-100">
             <div className="p-8">
                 <p className="mb-4 text-2xl font-bold ">Checkout</p>
+
                 <div className="grid lg:grid-cols-[60%,auto] gap-x-4">
                     <div className="mb-4 md:mb-0">
                         <Address
+                            user={user}
                             openAddressModal={openAddressModal}
                             setOpenAddressModal={setOpenAddressModal}
                             closeAddressModal={closeAddressModal}
-                            changeAddress={changeAddress}
-                            addressData={checkoutData.address}
+                            customerDetail={customerDetail}
+                            setCustomerDetail={setCustomerDetail}
+                            setRajaongkir={setRajaongkir}
                         />
                         <div className="overflow-hidden bg-white rounded-t-lg shadow">
                             <div className="h-2 bg-pastel-blue"></div>
-                            {checkoutData.products.map((product) => (
-                                <Item product={product} />
+                            {productsData.products.map((product) => (
+                                <Item product={product} key={product.id} />
                             ))}
-
-                            <div className="">
-                                <div className="px-4 py-2">
-                                    <div className="mb-4">
-                                        <label
-                                            className="text-lg font-semibold"
-                                            htmlFor="delivery"
-                                        >
-                                            <i className="fa-solid fa-truck"></i>
-                                            Delivery
-                                        </label>
-                                        <select
-                                            name=""
-                                            id="delivery"
-                                            className="w-full rounded"
-                                        >
-                                            <option value="">
-                                                Ninja Express
-                                            </option>
-                                            <option value="">
-                                                Shopee Delivery
-                                            </option>
-                                            <option value="">FedEx</option>
-                                            <option value="">
-                                                J&T Express
-                                            </option>
-                                            <option value="">Si Cepat</option>
-                                            <option value="">Anteraja</option>
-                                        </select>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label
-                                            htmlFor="payment"
-                                            className="text-lg font-semibold"
-                                        >
-                                            <i className="fa-regular fa-credit-card"></i>{" "}
-                                            Payment
-                                        </label>
-                                        <select
-                                            name=""
-                                            id="payment"
-                                            className="w-full rounded"
-                                        >
-                                            <option value="">
-                                                Transfer Bank
-                                            </option>
-                                            <option value="">Dana</option>
-                                            <option value="">Gopay</option>
-                                            <option value="">Indomaret</option>
-                                            <option value="">Alfamart</option>
-                                            <option value="">Debit</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                            {/* 
+                            <Shipping
+                                rajaongkir={rajaongkir}
+                                shippingOption={shippingOption}
+                            /> */}
                         </div>
                     </div>
 
-                    {/* summary */}
                     <div className="overflow-hidden bg-white rounded-t-lg shadow h-fit">
                         <div className="h-2 bg-slate-800"></div>
                         <div className="px-4 pt-2 pb-6">
@@ -127,31 +113,31 @@ const CheckoutPage = () => {
                                         <td className="w-3/5">Item Price</td>
                                         <td className="text-end">
                                             Rp{" "}
-                                            {checkoutData.totalPrice.toLocaleString(
+                                            {productsData.total_price.toLocaleString(
                                                 "id-ID"
                                             )}
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {/* <tr>
                                         <td>Delivery Fee</td>
                                         <td className="text-end">
-                                            Rp xxx.xxx.xxx
+                                            Rp {shipping.shipping_fee}
                                         </td>
-                                    </tr>
-                                    <tr>
+                                    </tr> */}
+                                    {/* <tr>
                                         <td className="py-2 text-lg font-semibold border-y-2">
                                             Total Price
                                         </td>
                                         <td className="text-lg font-semibold text-end border-y-2">
-                                            Rp xxx.xxx.xxx
+                                            Rp
                                         </td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </table>
                             <PrimaryButton
                                 className="w-full px-4 py-2 duration-100 rounded text-slate-100 bg-pastel-blue hover:bg-dark-pastel-blue"
                                 onClick={() => {
-                                    console.log(checkoutData);
+                                    midtrans();
                                 }}
                             >
                                 Bayar

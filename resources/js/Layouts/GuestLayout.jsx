@@ -115,43 +115,6 @@ export default function GuestLayout({ header, children }) {
                         </div>
                     </div>
                 </div>
-
-                <div
-                    className={
-                        (showingNavigationDropdown ? "block" : "hidden") +
-                        " sm:hidden"
-                    }
-                >
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route("admin.product")}
-                            active={route().current("admin.product")}
-                        >
-                            Product
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route("profile.edit")}>
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route("logout")}
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
             </nav>
 
             {header && (
@@ -162,11 +125,7 @@ export default function GuestLayout({ header, children }) {
                 </header>
             )}
 
-            <main className="min-h-screen">
-                <div className="p-8 mt-4 bg-white shadow w-[40rem] mx-auto">
-                    {children}
-                </div>
-            </main>
+            <main className="min-h-screen">{children}</main>
         </div>
     );
 }

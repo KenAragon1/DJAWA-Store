@@ -10,7 +10,7 @@ const Index = ({ product }) => {
 
     // Post Cart
     const [cartData, setCartData] = useState({
-        id_product: product.id,
+        id_product: product.id_product,
         amount: 1,
     });
 
@@ -22,10 +22,10 @@ const Index = ({ product }) => {
 
         axios.post("/cart", cartData).then((response) => {
             if (response.status === 200) {
-                setAlert((prevAlert) => ({
-                    ...prevAlert,
+                setAlert({
                     show: true,
-                }));
+                    message: response.data.message,
+                });
                 console.log(response);
             }
         });
@@ -59,15 +59,7 @@ const Index = ({ product }) => {
     // Handle Component visibility
     const [alert, setAlert] = useState({
         show: false,
-        data: {
-            message: "",
-            product: {
-                name: product.name,
-                price: product.price,
-                amount: 0,
-                total: 0,
-            },
-        },
+        message: "",
     });
 
     function closeAlert() {
@@ -77,53 +69,62 @@ const Index = ({ product }) => {
         }));
     }
 
-    return (
-        <div className="min-h-screen bg-neutral-50">
-            <Navbar classname="mb-4" />
+    function redirectToCart() {
+        router.get("/cart");
+    }
 
-            <div className="grid sm:grid-cols-[300px,1fr] lg:w-3/5 p-[clamp(1rem,5cqi,3rem)] gap-4 mx-auto bg-white rounded shadow-xl">
-                <img
-                    src={"/storage/foto_produk/" + product.image}
-                    alt=""
-                    loading="lazy"
-                    className="aspect-square"
-                />
-                <div className="grid gap-4 h-fit">
-                    <p className="text-2xl font-semibold ">{product.name}</p>
-                    <p className="text-3xl font-bold">
-                        Rp {product.price.toLocaleString("id-ID")} ,-
-                    </p>
-                    <div className="px-2 overflow-hidden border border-black rounded-full w-fit">
-                        <button
-                            className="w-8 font-semibold "
-                            onClick={decrementAmount}
-                        >
-                            -
+    function checkout() {}
+
+    return (
+        <div className="min-h-screen bg-gray-50">
+            <Navbar classname="mb-4" />
+            <div className="flex mx-32 mt-4">
+                <div className="grid sm:grid-cols-[500px,1fr] w-full p-[clamp(1rem,5cqi,3rem)] gap-4 bg-white shadow">
+                    <img
+                        src={product.image}
+                        alt=""
+                        loading="lazy"
+                        className="aspect-[1.5/1]"
+                    />
+                    <div className="grid gap-4 h-fit">
+                        <p className="text-2xl font-semibold ">
+                            {product.name}
+                        </p>
+                        <p className="text-3xl font-bold">
+                            Rp {product.price.toLocaleString("id-ID")} ,-
+                        </p>
+                        <div className="px-2 overflow-hidden border border-black w-fit">
+                            <button
+                                className="w-8 font-semibold "
+                                onClick={decrementAmount}
+                            >
+                                -
+                            </button>
+                            <input
+                                type="text"
+                                value={cartData.amount}
+                                onChange={handleAmountChange}
+                                className="w-20 text-center border-none focus:ring-0"
+                                min={1}
+                            />
+                            <button
+                                className="w-8 font-semibold "
+                                onClick={incrementAmount}
+                            >
+                                +
+                            </button>
+                        </div>
+                        <button className="px-4 py-2 font-semibold text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Checkout Now
                         </button>
-                        <input
-                            type="text"
-                            value={cartData.amount}
-                            onChange={handleAmountChange}
-                            className="w-20 text-center border-none focus:ring-0"
-                            min={1}
-                        />
-                        <button
-                            className="w-8 font-semibold "
-                            onClick={incrementAmount}
-                        >
-                            +
-                        </button>
-                    </div>
-                    <button className="px-4 py-2 font-semibold text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        Checkout Now
-                    </button>
-                    <div>
-                        <button
-                            className="w-full px-4 py-2 font-semibold transition-all duration-75 border border-gray-800 rounded-lg hover:bg-gray-800 hover:text-white"
-                            onClick={postCartData}
-                        >
-                            Add To Cart
-                        </button>
+                        <div>
+                            <button
+                                className="w-full px-4 py-2 font-semibold transition-all duration-75 border border-gray-800 hover:bg-gray-800 hover:text-white"
+                                onClick={postCartData}
+                            >
+                                Add To Cart
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -131,7 +132,7 @@ const Index = ({ product }) => {
             <Modal show={alert.show}>
                 <div className="p-6">
                     <div className="flex mb-4 text-xl font-semibold">
-                        <p>Berhasil Menambah Produk ke Keranjang</p>
+                        <p>{alert.message}</p>
                         <button
                             onClick={closeAlert}
                             type="button"
@@ -156,26 +157,24 @@ const Index = ({ product }) => {
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-4 p-4 mb-4 bg-white border rounded min-w-fit border-slate-300">
+                    <div className="flex items-center gap-4 p-4 mb-4 bg-white min-w-fit border-slate-300">
                         <img
-                            src={"/storage/foto_produk/" + product.image}
+                            src={product.image}
                             alt=""
-                            width={100}
-                            className="aspect-square"
+                            width={200}
+                            className="aspect-[1.5/1]"
                         />
                         <div className="w-full">
-                            <p className="font-semibold">
-                                {alert.data.product.name}
+                            <p className="text-xl font-semibold">
+                                {product.name}
                             </p>
-                            <p>Rp {alert.data.product.price} </p>
-                        </div>
-                        <div className="flex gap-4">
-                            <p>{alert.data.product.amount}</p>
-                            <p>{alert.data.product.total}</p>
+                            <p>Rp {product.price} </p>
                         </div>
                     </div>
 
-                    <PrimaryButton>Cek Keranjang</PrimaryButton>
+                    <PrimaryButton onClick={redirectToCart}>
+                        Cek Keranjang
+                    </PrimaryButton>
                 </div>
             </Modal>
         </div>

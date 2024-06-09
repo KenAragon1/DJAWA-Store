@@ -5,7 +5,8 @@ import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationFor
 import { Head } from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout";
 
-export default function Edit({ auth, mustVerifyEmail, status }) {
+export default function Edit({ auth, mustVerifyEmail, status, user }) {
+    console.log(user);
     return (
         <GuestLayout
             user={auth.user}
@@ -24,6 +25,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
                             className="max-w-xl"
+                            user={user}
                         />
                     </div>
 

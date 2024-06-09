@@ -13,7 +13,7 @@ class Cart extends Model
 
     protected $guarded = [];
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_cart';
 
     public $timestamps = false;
 

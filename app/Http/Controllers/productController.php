@@ -4,38 +4,66 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
 class productController extends Controller
 {
-    //
-    public function productPage($slug)
+    public function __construct()
     {
-        $product = Product::where('slug', '=', $slug)->first();
+    }
 
+    // Admin Pages
+    public function adminProductListPage()
+    {
+        $products = $this->get('paginate', 10);
+
+        return Inertia::render('Admin/Product/ProductList', [
+            'products' => $products
+        ]);
+    }
+
+    public function adminAddProductPage()
+    {
+        return Inertia::render('Admin/Product/AddPage');
+    }
+
+    public function adminEditProductPage($id_product)
+    {
+        $product = $this->get('id_product', $id_product);
+
+        return Inertia::render('Admin/Product/EditPage', [
+            'product' => $product
+        ]);
+    }
+
+    // Client Pages
+    public function productDetailPage($slug)
+    {
+        $product = $this->get('slug', $slug);
         return Inertia::render('Client/Product/Index', [
             'product' => $product
         ]);
     }
 
 
-    public function get()
+    // Product Method
+    public function get($get_by, $value = null)
     {
-        $product = Product::all();
-        return response()->json($product, 201);
+        switch ($get_by) {
+            case 'all':
+                return Product::all();
+            case 'paginate':
+                return Product::paginate($value);
+            case 'id_product':
+                return Product::findOrFail($value);
+            case 'slug':
+                return Product::where('slug', $value)->first();
+            default:
+                return;
+        }
     }
-
-    public function get2($id)
-    {
-        $product = Product::findOrFail($id);
-        return response()->json($product, 201);
-    }
-
-
 
     public function post(Request $request)
     {
@@ -44,31 +72,33 @@ class productController extends Controller
                 'name' => 'required|string',
                 'price' => 'required|integer',
                 'stock' => 'required|integer',
-                'category' => 'required',
-                'spesification' => 'required',
+                'id_category' => 'required',
+                'brand' => 'required',
+                'weight' => 'required',
                 'description' => 'required',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]
         );
 
         $name = $request->input('name');
-        $image = $request->image;
-        $imageName = Str::slug(($name) . '.' . $image->getClientOriginalExtension());
-        $image->storeAs('public/foto_produk', $imageName);
+        $image = $request->file('image');
+        $imageName = Str::slug(($name), '-') . '.' . $image->getClientOriginalExtension();
+        $image->storeAs('public/images/product/', $imageName);
 
         Product::create([
             'name' => $request->name,
             'price' => $request->price,
             'stock' => $request->stock,
-            'category' => $request->category,
+            'id_category' => $request->id_category,
             'description' => $request->description,
-            'spesification' => $request->spesification,
-            'image' => $imageName,
-            'slug' => Str::slug($request->name, '-')
+            'brand' => $request->brand,
+            'weight' => $request->weight,
+            'image' => '/storage/images/product/' . $imageName,
+            'slug' =>    Str::slug($request->name, '-')
         ]);
 
 
-        return to_route('admin.product');
+        return redirect()->route('admin.product');
     }
 
     public function put($id, Request $request)
@@ -82,8 +112,8 @@ class productController extends Controller
             $image->storeAs('public/foto_produk', $newImageName);
         } else {
             if ($request->name == $product->name) {
-                $newImageName = 'foto_produk/' . $request->image;
-                $oldImageName = 'foto_produk/' . $product->image;
+                $newImageName =  $request->image;
+                $oldImageName =   $product->image;
                 Storage::copy($oldImageName, $newImageName);
                 Storage::delete($oldImageName);
             } else {
@@ -106,10 +136,10 @@ class productController extends Controller
         return to_route('admin.product');
     }
 
-    public function delete($id)
+    public function delete($id_product)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id_product);
         $product->delete();
-        return response()->json(["message" => "berhasil menghapus produk"], 200);
+        return redirect()->back();
     }
 }

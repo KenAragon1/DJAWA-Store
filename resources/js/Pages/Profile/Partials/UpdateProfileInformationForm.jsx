@@ -10,13 +10,13 @@ export default function UpdateProfileInformation({
     mustVerifyEmail,
     status,
     className = "",
+    user,
 }) {
-    const user = usePage().props.auth.user;
-
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
             email: user.email,
+            image: user.image,
         });
 
     const submit = (e) => {
@@ -25,7 +25,7 @@ export default function UpdateProfileInformation({
         patch(route("profile.update"));
     };
 
-    const [previewImg, setPreviewImg] = useState("");
+    const [previewImg, setPreviewImg] = useState(user.user_profile.image);
 
     function handlePreviewImg(e) {
         setPreviewImg(URL.createObjectURL(e.target.files[0]));
@@ -47,16 +47,6 @@ export default function UpdateProfileInformation({
                 <div className="grid grid-cols-[200px,1fr] gap-4 ">
                     <div className="relative w-full aspect-square bg-slate-100">
                         <img src={previewImg} className="w-full" />
-                        <input
-                            className="absolute top-0 w-full h-full opacity-0"
-                            type="file"
-                            name=""
-                            id=""
-                            onChange={(e) => {
-                                setData("image", e.target.files[0]);
-                                handlePreviewImg(e);
-                            }}
-                        />
                     </div>
                     <div className="">
                         <div>
@@ -99,6 +89,19 @@ export default function UpdateProfileInformation({
                                 className="mt-2"
                                 message={errors.email}
                             />
+                        </div>
+
+                        <div className="mt-4">
+                            <input
+                                className=""
+                                type="file"
+                                name=""
+                                id=""
+                                onChange={(e) => {
+                                    setData("image", e.target.files[0]);
+                                    handlePreviewImg(e);
+                                }}
+                            />{" "}
                         </div>
 
                         {mustVerifyEmail && user.email_verified_at === null && (
