@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -80,9 +80,8 @@ class productController extends Controller
             ]
         );
 
-        $name = $request->input('name');
         $image = $request->file('image');
-        $imageName = Str::slug(($name), '-') . '.' . $image->getClientOriginalExtension();
+        $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
         $image->storeAs('public/images/product/', $imageName);
 
         Product::create([
@@ -105,22 +104,15 @@ class productController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            Storage::delete('foto_produk/' . $product->image);
-            $image = $request->file('image');
-            $newImageName = Str::slug(($request->name) . '.' . $image->getClientOriginalExtension());
-            $image->storeAs('public/foto_produk', $newImageName);
-        } else {
-            if ($request->name == $product->name) {
-                $newImageName =  $request->image;
-                $oldImageName =   $product->image;
-                Storage::copy($oldImageName, $newImageName);
-                Storage::delete($oldImageName);
-            } else {
-                $newImageName = $product->image;
-            }
-        }
 
+        if ($request->hasFile('image')) {
+            $newImage = $request->file('image');
+            $imageName = uniqid() . '.' . $newImage->getClientOriginalExtension();
+            $newImage->storeAs('public/images/product/', $imageName);
+            $imageRoute = '/storage/images/product/' . $imageName;
+        } else {
+            $imageRoute = $product->image;
+        }
 
         $product->update([
             'name' => $request->name,
@@ -129,7 +121,7 @@ class productController extends Controller
             'category' => $request->category,
             'description' => $request->description,
             'spesification' => $request->spesification,
-            'image' => $newImageName,
+            'image' =>  $imageRoute,
             'slug' => Str::slug($request->name, '-')
         ]);
 

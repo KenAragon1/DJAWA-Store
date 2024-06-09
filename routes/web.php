@@ -101,7 +101,7 @@ Route::middleware(['auth', 'IsAdmin'])->prefix('dashboard')->group(function () {
 // Product
 Route::middleware(['auth', 'IsAdmin'])->group(function () {
     Route::post('/product', [productController::class, 'post']);
-    Route::put('/product/{id}', [productController::class, 'put']);
+    Route::patch('/product/{id}', [productController::class, 'put']);
     Route::delete('/product/{id_product}', [productController::class, 'delete']);
 });
 

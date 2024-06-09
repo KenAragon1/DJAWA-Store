@@ -1,9 +1,12 @@
-import Navbar from "@/Components/Common/Navbar";
 import { Head, Link, usePage } from "@inertiajs/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import getCategory from "@/Services/category";
-
+import NavLink from "@/Components/NavLink";
+import Header from "@/Components/Common/Header";
+import MainCategory from "@/Components/Common/MainCategory";
+import MainLayout from "@/Layouts/MainLayout";
+``;
 const HomePage = () => {
     useEffect(() => {
         getCategory().then(({ data }) => console.log(data));
@@ -26,56 +29,94 @@ const HomePage = () => {
 
     function fetchBanner() {}
     return (
-        <div className="min-h-screen pb-10 bg-gray-100">
-            <Head title="Djawa Store" />
-            <Navbar />
-
-            {/* Hero Section */}
-            <div className="p-8 mb-4 h-[95dvh] bg-[url('/storage/images/hero/heroimage.jpg')] bg-no-repeat bg-cover bg-left-bottom text-white">
-                <div className="mt-8 break-words ">
-                    <p className="text-[4rem] font-bold tracking-widest leading-none mb-4">
-                        DJAWA STORE
-                    </p>
-                    <p className="text-3xl tracking-wide max-w-[600px] mb-4 break-words">
-                        Toko Komputer Teraman, Terjamin, & Terpercaya
-                    </p>
-                    <p className="max-w-[600px]  break-words">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quo ab voluptatibus vitae iusto, ut saepe voluptates
-                        soluta voluptatem necessitatibus ullam.
-                    </p>
+        <MainLayout>
+            <div class="my-6">
+                <div class="flex gap-4">
+                    <a
+                        class="relative flex-1 block group rounded-lg overflow-hidden border border-gray-300"
+                        href="/product"
+                    >
+                        <img
+                            alt=""
+                            src="https://images.unsplash.com/photo-1618898909019-010e4e234c55?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=774&amp;q=80"
+                            class="object-cover w-full aspect-video group-hover:scale-105 transition-transform"
+                        />
+                        <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
+                            <h3 class="text-3xl font-bold text-white">
+                                Casual Sneakers
+                            </h3>
+                            <p class="max-w-lg py-3 text-white">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. Doloremque dolorum officia
+                                autem libero!
+                            </p>
+                            <button class="btn btn-secondary text-lg capitalize">
+                                Shop Now
+                            </button>
+                        </div>
+                    </a>
+                    <a
+                        class="relative flex-1 block group rounded-lg overflow-hidden border border-gray-300"
+                        href="/product"
+                    >
+                        <img
+                            alt=""
+                            src="https://images.unsplash.com/photo-1624623278313-a930126a11c3?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=774&amp;q=80"
+                            class="object-cover w-full aspect-video group-hover:scale-105 transition-transform"
+                        />
+                        <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
+                            <h3 class="text-3xl font-bold text-white">
+                                Winter Jumpers
+                            </h3>
+                            <p class="max-w-lg py-3 text-white">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. Doloremque dolorum officia
+                                autem libero!
+                            </p>
+                            <button class="btn btn-secondary text-lg capitalize">
+                                Shop Now
+                            </button>
+                        </div>
+                    </a>
                 </div>
             </div>
-
-            <div className="flex gap-2 mx-8">
-                {products.map(({ id, image, name, price, slug }) => {
-                    return (
-                        <div
-                            className="relative w-56 overflow-hidden bg-white border rounded shadow"
-                            key={id}
-                        >
-                            <img
-                                src={image}
-                                alt=""
-                                className="aspect-[1.5/1]"
-                            />
-                            <div className="p-4 space-y-1">
-                                <p className="font-semibold leading-none tracking-tight ">
-                                    {name}
-                                </p>
-                                <p className="text-sm text-gray-400 ">
-                                    Rp {price.toLocaleString("id-ID")}
-                                </p>
-                            </div>
-                            <Link
-                                href={"product/" + slug}
-                                className="absolute top-0 left-0 w-full h-full"
-                            ></Link>
-                        </div>
-                    );
-                })}
+            {/* Recomended Product */}
+            <div>
+                <p className="text-xl font-semibold text-secondary">
+                    Recomended Products
+                </p>
+                <div className="overflow-x-auto">
+                    <div className="inline-flex gap-4 py-2 overflow-x-auto">
+                        {products.map(({ id, image, name, price, slug }) => {
+                            return (
+                                <div
+                                    className="relative flex-grow-0 flex-shrink-0 w-56 overflow-hidden bg-white border border-gray-300 rounded-sm group"
+                                    key={id}
+                                >
+                                    <img
+                                        src={image}
+                                        alt=""
+                                        className="aspect-[1.5/1] group-hover:scale-105 transition-transform"
+                                    />
+                                    <div className="p-4 space-y-1">
+                                        <p className="font-semibold leading-none tracking-tight line-clamp-2">
+                                            {name}
+                                        </p>
+                                        <p className="text-sm text-gray-400 ">
+                                            Rp {price.toLocaleString("id-ID")}
+                                        </p>
+                                    </div>
+                                    <Link
+                                        href={"product/" + slug}
+                                        className="absolute top-0 left-0 w-full h-full"
+                                    ></Link>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
-        </div>
+        </MainLayout>
     );
 };
 

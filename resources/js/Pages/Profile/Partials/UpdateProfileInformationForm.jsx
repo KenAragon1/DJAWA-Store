@@ -16,7 +16,7 @@ export default function UpdateProfileInformation({
         useForm({
             name: user.name,
             email: user.email,
-            image: user.image,
+            image: "hi",
         });
 
     const submit = (e) => {
@@ -25,7 +25,7 @@ export default function UpdateProfileInformation({
         patch(route("profile.update"));
     };
 
-    const [previewImg, setPreviewImg] = useState(user.user_profile.image);
+    const [previewImg, setPreviewImg] = useState("hallo");
 
     function handlePreviewImg(e) {
         setPreviewImg(URL.createObjectURL(e.target.files[0]));

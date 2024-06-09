@@ -10,13 +10,13 @@ const ProductEdit = ({ auth, product }) => {
     const [productForm, setProductForm] = useState(product);
 
     console.log(productForm);
-    console.log(product);
     const [previewImg, setPreviewImg] = useState(product.image);
 
     function onSubmit(e) {
         e.preventDefault();
-        router.post("/product/" + productForm.id_product, {
-            _method: "put",
+        console.log(productForm);
+        router.post("/product/" + product.id_product, {
+            _method: "patch",
             ...productForm,
         });
     }
@@ -44,7 +44,6 @@ const ProductEdit = ({ auth, product }) => {
     useEffect(() => {
         getCategory().then(({ data }) => {
             setCategoryOptions(data);
-            console.log(data);
         });
     }, []);
 
@@ -170,7 +169,10 @@ const ProductEdit = ({ auth, product }) => {
                                 <TextInput
                                     type="file"
                                     onChange={(e) => {
-                                        setData("image", e.target.files[0]);
+                                        setProductForm((prev) => ({
+                                            ...prev,
+                                            image: e.target.files[0],
+                                        }));
                                         handlePreviewImg(e);
                                     }}
                                     className="w-full"
