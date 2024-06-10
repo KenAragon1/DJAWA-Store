@@ -4,23 +4,17 @@ import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout";
+import MainLayout from "@/Layouts/MainLayout";
 
 export default function Edit({ auth, mustVerifyEmail, status, user }) {
     console.log(user);
     return (
-        <GuestLayout
-            user={auth.user}
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Profile
-                </h2>
-            }
-        >
+        <MainLayout>
             <Head title="Profile" />
 
-            <div className="py-12">
+            <div className="">
                 <div className="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
-                    <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
+                    <div className="p-4 bg-white border border-gray-300 sm:p-8 sm:rounded-lg">
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
@@ -32,12 +26,8 @@ export default function Edit({ auth, mustVerifyEmail, status, user }) {
                     <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
                         <UpdatePasswordForm className="max-w-xl" />
                     </div>
-
-                    <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
-                        <DeleteUserForm className="max-w-xl" />
-                    </div>
                 </div>
             </div>
-        </GuestLayout>
+        </MainLayout>
     );
 }

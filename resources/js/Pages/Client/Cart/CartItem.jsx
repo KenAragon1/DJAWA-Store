@@ -55,7 +55,7 @@ const CartItem = ({
                         <button
                             onClick={() => deleteCartItem(item.id_cart)}
                             type="button"
-                            className="btn btn-secondary btn-sm "
+                            className="btn btn-error btn-outline btn-sm "
                         >
                             <svg
                                 className="w-3 h-3"

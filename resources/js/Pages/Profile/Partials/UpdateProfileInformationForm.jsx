@@ -2,7 +2,7 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { useState } from "react";
 
@@ -16,16 +16,21 @@ export default function UpdateProfileInformation({
         useForm({
             name: user.name,
             email: user.email,
-            image: "hi",
         });
+
+    console.log(user.user_profile.image);
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"));
+        // patch(route("profile.update"));
+        router.post(route("profile.update"), {
+            _method: "patch",
+            ...data,
+        });
     };
 
-    const [previewImg, setPreviewImg] = useState("hallo");
+    const [previewImg, setPreviewImg] = useState(user.image);
 
     function handlePreviewImg(e) {
         setPreviewImg(URL.createObjectURL(e.target.files[0]));
@@ -46,7 +51,10 @@ export default function UpdateProfileInformation({
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div className="grid grid-cols-[200px,1fr] gap-4 ">
                     <div className="relative w-full aspect-square bg-slate-100">
-                        <img src={previewImg} className="w-full" />
+                        <img
+                            src={previewImg}
+                            className="w-full aspect-square"
+                        />
                     </div>
                     <div className="">
                         <div>

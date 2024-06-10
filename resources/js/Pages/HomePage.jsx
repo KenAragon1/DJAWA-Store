@@ -38,12 +38,12 @@ const HomePage = () => {
                     >
                         <img
                             alt=""
-                            src="https://images.unsplash.com/photo-1618898909019-010e4e234c55?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=774&amp;q=80"
+                            src="https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ada/homepage/geforce-ada-40-series-nv-sfg-295x166@2x.jpg"
                             class="object-cover w-full aspect-video group-hover:scale-105 transition-transform"
                         />
                         <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
                             <h3 class="text-3xl font-bold text-white">
-                                Casual Sneakers
+                                Nvidia RTX 4090
                             </h3>
                             <p class="max-w-lg py-3 text-white">
                                 Lorem ipsum dolor sit amet, consectetur
@@ -61,12 +61,12 @@ const HomePage = () => {
                     >
                         <img
                             alt=""
-                            src="https://images.unsplash.com/photo-1624623278313-a930126a11c3?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=774&amp;q=80"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT010INswnFc5ISqsyfyOY_SZP9RsM69pMULQ&s"
                             class="object-cover w-full aspect-video group-hover:scale-105 transition-transform"
                         />
                         <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
                             <h3 class="text-3xl font-bold text-white">
-                                Winter Jumpers
+                                AMD Ryzen
                             </h3>
                             <p class="max-w-lg py-3 text-white">
                                 Lorem ipsum dolor sit amet, consectetur

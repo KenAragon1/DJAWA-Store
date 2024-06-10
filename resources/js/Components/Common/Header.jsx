@@ -5,6 +5,7 @@ import NavLink from "../NavLink";
 import { TiShoppingCart } from "react-icons/ti";
 import { MdOutlineDashboard, MdOutlineLogout } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
+import { RiTruckLine } from "react-icons/ri";
 
 const Header = ({ className = "" }) => {
     const { user } = usePage().props.auth;
@@ -54,7 +55,7 @@ const Header = ({ className = "" }) => {
                                         <div className="w-10 rounded-full">
                                             <img
                                                 alt="Tailwind CSS Navbar component"
-                                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                                                src={user.image}
                                             />
                                         </div>
                                     </div>
@@ -66,9 +67,12 @@ const Header = ({ className = "" }) => {
                                             Hallo, {user.name}
                                         </li>
                                         <li>
-                                            <a className="gap-1 ">
+                                            <Link
+                                                href={route("profile.edit")}
+                                                className="gap-1 "
+                                            >
                                                 <FaRegUser /> Profile
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         {user.user_type === "Admin" ? (
@@ -87,8 +91,9 @@ const Header = ({ className = "" }) => {
                                                     href={route(
                                                         "order-list-page"
                                                     )}
-                                                    className="justify-between"
+                                                    className="gap-1"
                                                 >
+                                                    <RiTruckLine />
                                                     Order
                                                 </Link>
                                             </li>
