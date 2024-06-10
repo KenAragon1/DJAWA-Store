@@ -7,7 +7,6 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import MainLayout from "@/Layouts/MainLayout";
 
 export default function Edit({ auth, mustVerifyEmail, status, user }) {
-    console.log(user);
     return (
         <MainLayout>
             <Head title="Profile" />

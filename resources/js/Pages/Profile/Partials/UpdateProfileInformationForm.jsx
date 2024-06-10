@@ -18,8 +18,6 @@ export default function UpdateProfileInformation({
             email: user.email,
         });
 
-    console.log(user.user_profile.image);
-
     const submit = (e) => {
         e.preventDefault();
 
