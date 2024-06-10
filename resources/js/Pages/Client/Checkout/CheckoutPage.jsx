@@ -61,7 +61,7 @@ const CheckoutPage = ({ productsData, user }) => {
         const addressString = `${customerDetail.address.detail}, ${customerDetail.address.city}, ${customerDetail.address.province}, ${customerDetail.address.postal}`;
 
         router.post(
-            route("payment-create", {
+            route("order-create", {
                 total: productsData.total_price,
                 products: productsData.products,
                 customer_details: {
@@ -72,9 +72,11 @@ const CheckoutPage = ({ productsData, user }) => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <div className="p-8">
-                <p className="mb-4 text-2xl font-bold ">Checkout</p>
+        <div className="p-8 layout">
+            <div className="">
+                <p className="mb-4 text-2xl font-bold text-secondary ">
+                    Checkout
+                </p>
 
                 <div className="grid lg:grid-cols-[60%,auto] gap-x-4">
                     <div className="mb-4 md:mb-0">
@@ -87,8 +89,7 @@ const CheckoutPage = ({ productsData, user }) => {
                             setCustomerDetail={setCustomerDetail}
                             setRajaongkir={setRajaongkir}
                         />
-                        <div className="overflow-hidden bg-white rounded-t-lg shadow">
-                            <div className="h-2 bg-pastel-blue"></div>
+                        <div className="overflow-hidden bg-white border border-gray-300 rounded-lg rounded-t-lg">
                             {productsData.products.map((product) => (
                                 <Item product={product} key={product.id} />
                             ))}
@@ -100,10 +101,9 @@ const CheckoutPage = ({ productsData, user }) => {
                         </div>
                     </div>
 
-                    <div className="overflow-hidden bg-white rounded-t-lg shadow h-fit">
-                        <div className="h-2 bg-slate-800"></div>
+                    <div className="overflow-hidden bg-white border border-gray-300 rounded-lg h-fit">
                         <div className="px-4 pt-2 pb-6">
-                            <p className="mb-2 text-lg font-bold">
+                            <p className="mb-2 text-lg font-bold text-secondary">
                                 <i className="fa-regular fa-rectangle-list"></i>{" "}
                                 Summary
                             </p>
@@ -134,14 +134,14 @@ const CheckoutPage = ({ productsData, user }) => {
                                     </tr> */}
                                 </tbody>
                             </table>
-                            <PrimaryButton
-                                className="w-full px-4 py-2 duration-100 rounded text-slate-100 bg-pastel-blue hover:bg-dark-pastel-blue"
+                            <button
+                                className="w-full btn btn-secondary "
                                 onClick={() => {
                                     midtrans();
                                 }}
                             >
                                 Bayar
-                            </PrimaryButton>
+                            </button>
                         </div>
                     </div>
                 </div>

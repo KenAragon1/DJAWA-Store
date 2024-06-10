@@ -64,14 +64,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Cart
-    Route::get('/cart', [cartController::class, 'cartPage'])->name('cart');
+    Route::get('/cart', [cartController::class, 'cartPage'])->name('cart-page');
     Route::post('/cart', [cartController::class, 'post']);
     Route::delete('/cart/{id}', [cartController::class, 'delete']);
 
     // Payment
     Route::get('/payment', [paymentController::class, 'paymentListPage'])->name('payment-page');
     Route::get('/payment/{id}', [paymentController::class, 'paymentPage'])->name('payment-main');
-    Route::post('/payment', [paymentController::class, 'create'])->name('payment-create');
 
 
     // Checkout 
@@ -81,6 +80,7 @@ Route::middleware('auth')->group(function () {
     // Order
     Route::get('/order', [orderController::class, 'orderListPage'])->name('order-list-page');
     Route::get('/order/{id_order}', [orderController::class, 'orderPage'])->name('order-page');
+    Route::post('/order', [orderController::class, 'create'])->name('order-create');
     Route::patch('/order/{id_order}', [orderController::class, 'update']);
 });
 

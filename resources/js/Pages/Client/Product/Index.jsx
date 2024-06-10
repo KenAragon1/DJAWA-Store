@@ -1,6 +1,7 @@
 import Navbar from "@/Components/Common/Navbar";
 import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
+import MainLayout from "@/Layouts/MainLayout";
 import { router, usePage } from "@inertiajs/react";
 import axios from "axios";
 import { useState } from "react";
@@ -76,26 +77,23 @@ const Index = ({ product }) => {
     function checkout() {}
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <Navbar classname="mb-4" />
-            <div className="flex mx-32 mt-4">
-                <div className="grid sm:grid-cols-[500px,1fr] w-full p-[clamp(1rem,5cqi,3rem)] gap-4 bg-white shadow">
+        <MainLayout>
+            <div className="flex mt-4">
+                <div className="grid sm:grid-cols-[500px,1fr] p-[clamp(1rem,5cqi,3rem)] gap-4 bg-white border border-gray-300 rounded-lg mb-4 w-full">
                     <img
                         src={product.image}
                         alt=""
                         loading="lazy"
-                        className="aspect-[1.5/1]"
+                        className="aspect-[1.5/1] border border-gray-300 rounded-lg"
                     />
                     <div className="grid gap-4 h-fit">
-                        <p className="text-2xl font-semibold ">
-                            {product.name}
-                        </p>
-                        <p className="text-3xl font-bold">
+                        <p className="text-xl font-semibold ">{product.name}</p>
+                        <p className="text-xl font-bold">
                             Rp {product.price.toLocaleString("id-ID")} ,-
                         </p>
-                        <div className="px-2 overflow-hidden border border-black w-fit">
+                        <div className="join join-horizontal">
                             <button
-                                className="w-8 font-semibold "
+                                className="btn btn-secondary join-item btn-sm"
                                 onClick={decrementAmount}
                             >
                                 -
@@ -104,28 +102,47 @@ const Index = ({ product }) => {
                                 type="text"
                                 value={cartData.amount}
                                 onChange={handleAmountChange}
-                                className="w-20 text-center border-none focus:ring-0"
+                                className="input w-[5rem] input-bordered  text-center join-item input-sm"
                                 min={1}
                             />
                             <button
-                                className="w-8 font-semibold "
+                                className="btn btn-secondary join-item btn-sm"
                                 onClick={incrementAmount}
                             >
                                 +
                             </button>
                         </div>
-                        <button className="px-4 py-2 font-semibold text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Checkout Now
-                        </button>
-                        <div>
+                        <div className="flex gap-2">
+                            <button className="btn btn-secondary">
+                                Buy Now
+                            </button>
                             <button
-                                className="w-full px-4 py-2 font-semibold transition-all duration-75 border border-gray-800 hover:bg-gray-800 hover:text-white"
+                                className="btn btn-secondary btn-outline"
                                 onClick={postCartData}
                             >
                                 Add To Cart
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className=" p-[clamp(1rem,5cqi,3rem)] gap-4 bg-white border border-gray-300 rounded-lg">
+                <h2 class="mb-8 text-lg">Specifications</h2>
+                <div class="flow-root">
+                    <dl class="-my-3 divide-y divide-gray-100">
+                        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Brand</dt>
+                            <dd class="text-gray-700 sm:col-span-2">
+                                {product.brand}
+                            </dd>
+                        </div>
+                        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Weight</dt>
+                            <dd class="text-gray-700 sm:col-span-2">
+                                {product.weight} Gram
+                            </dd>
+                        </div>
+                    </dl>
                 </div>
             </div>
 
@@ -177,7 +194,7 @@ const Index = ({ product }) => {
                     </PrimaryButton>
                 </div>
             </Modal>
-        </div>
+        </MainLayout>
     );
 };
 

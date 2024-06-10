@@ -38,20 +38,22 @@ class orderController extends Controller
     {
     }
 
-    public function create($id_payment, $products)
+    public function create(Request $request)
     {
+        $paymentController = new paymentController();
+        $id_payment = $paymentController->create($request->total, $request->customer_details);
 
         $order = Order::create([
             'id_user' => auth()->id(),
             'id_payment' => $id_payment,
-            'status' => 'Waiting For Payment'
+            'status' => 'payment_pending'
         ]);
 
         $id_order = $order->id_order;
 
-        $this->createDetails($id_order, $products);
+        $this->createDetails($id_order, $request->products);
 
-        return $id_order;
+        return redirect()->route('order-page', ['id_order' => $id_order]);
     }
 
     public function update($id_order, Request $request)
@@ -63,7 +65,7 @@ class orderController extends Controller
         ]);
 
         $paymentController = new paymentController();
-        $paymentController->update($order->id_payment);
+        $paymentController->update($order->id_payment, $request->total_transaction, $request->payment_method);
 
         return redirect()->back();
     }

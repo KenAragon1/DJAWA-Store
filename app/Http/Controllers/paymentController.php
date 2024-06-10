@@ -39,15 +39,11 @@ class paymentController extends Controller
         return Payment::findOrFail($id_payment);
     }
 
-    public function create(Request $request)
+    public function create($total, $customer_details)
     {
-        $request->validate([
-            'total' => 'required|integer'
-        ]);
-
         $user = User::findOrFail(auth()->id());
 
-        $token = $this->midtrans($request->total);
+        $token = $this->midtrans($total);
 
         $payment = Payment::create([
             'id_user' => auth()->id(),
@@ -55,24 +51,21 @@ class paymentController extends Controller
             'customer_details' => [
                 'customer_name' => $user->name,
                 'customer_email' => $user->email,
-                'customer_address' => $request->customer_details['address'],
+                'customer_address' => $customer_details['address'],
             ],
-            'total' =>  $request->total
+            'total' =>  $total
         ]);
 
-        $orderController = new orderController();
-
-        $orderID = $orderController->create($payment->id_payment, $request->products);
-
-        return redirect()->route('order-page', ['id_order' => $orderID]);
+        return $payment->id_payment;
     }
 
-    public function update($id_payment)
+    public function update($id_payment, $total_transaction, $payment_method)
     {
         $paymentData = Payment::where('id_payment', $id_payment)->first();
 
         $paymentData->update([
-            'token' => ''
+            'total_transaction' => $total_transaction,
+            'payment_method' => $payment_method
         ]);
     }
 

@@ -7,7 +7,7 @@ const MainLayout = ({ children }) => {
         <div className="min-h-screen">
             <Header />
             <MainCategory />
-            <main className="layout">{...children}</main>
+            <main className="min-h-screen mt-4 layout">{children}</main>
             <footer class="bg-white border-t border-t-gray-300 mt-20">
                 <div class="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-12">
                     <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">

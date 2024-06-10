@@ -1,8 +1,9 @@
 const CartEmpty = () => {
     return (
-        <div className="p-4 mb-4 bg-white border rounded min-w-fit border-slate-300">
-            <p className="text-xl font-semibold">Keranjang Anda Kosong !</p>
-            <p>Yuk, isi dengan barang - barang impianmu</p>
+        <div className="p-4">
+            <p className="text-xl font-semibold text-center">
+                Your Cart Is Empty !
+            </p>
         </div>
     );
 };

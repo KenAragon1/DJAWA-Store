@@ -7,10 +7,10 @@ const CartItem = ({
     decrementAmount,
 }) => {
     return (
-        <div className="flex items-center gap-4 p-4 mb-4 bg-white shadow min-w-fit border-slate-300">
+        <div className="flex items-center gap-4 p-4">
             <input
                 type="checkbox"
-                className="hover:cursor-pointer"
+                className="checkbox checkbox-secondary checkbox-sm"
                 name=""
                 id=""
                 checked={item.selected}
@@ -29,9 +29,9 @@ const CartItem = ({
                         <p>Rp {item.product.price.toLocaleString("id-ID")} </p>
                     </div>
                     <div className="flex justify-end gap-4">
-                        <div className="px-2 overflow-hidden border border-black w-fit">
+                        <div className="join join-vertical lg:join-horizontal">
                             <button
-                                className="w-8 font-semibold"
+                                className="btn btn-secondary btn-sm join-item"
                                 onClick={() => decrementAmount(item.id_cart)}
                             >
                                 -
@@ -42,11 +42,11 @@ const CartItem = ({
                                 onChange={(e) =>
                                     handleAmountChange(item.id_cart, e)
                                 }
-                                className="w-10 text-xs text-center border-none focus:ring-0"
+                                className="input input-sm input-bordered w-[3rem] join-item text-center"
                                 min={1}
                             />
                             <button
-                                className="w-8 font-semibold "
+                                className="btn btn-secondary btn-sm join-item"
                                 onClick={() => incrementAmount(item.id_cart)}
                             >
                                 +
@@ -55,7 +55,7 @@ const CartItem = ({
                         <button
                             onClick={() => deleteCartItem(item.id_cart)}
                             type="button"
-                            className="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 "
+                            className="btn btn-secondary btn-sm "
                         >
                             <svg
                                 className="w-3 h-3"

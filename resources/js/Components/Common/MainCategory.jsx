@@ -29,7 +29,7 @@ const MainCategory = () => {
         <div className="bg-white border-b border-b-gray-300">
             <div className="layout">
                 <div className="flex items-center gap-6 text-sm h-[2.8rem]">
-                    <Link>All Category</Link>
+                    <Link className="flex">All Category</Link>
 
                     {CATEGORY_LINKS.map((category) => (
                         <Link>{category.label}</Link>

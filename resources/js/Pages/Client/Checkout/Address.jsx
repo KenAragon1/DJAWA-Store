@@ -11,11 +11,10 @@ export default function Address({
     setRajaongkir,
 }) {
     return (
-        <div className="mb-4 overflow-hidden rounded-t-lg shadow">
-            <div className="h-2 bg-slate-800"></div>
-            <div className=" bg-white grid grid-cols-[75%,auto] px-4 pt-2 pb-6 gap-x-2">
+        <div className="mb-4 overflow-hidden border border-gray-300 rounded-lg">
+            <div className="px-4 pt-2 pb-6 bg-white ">
                 <div className="">
-                    <p className="mb-2 text-lg font-bold">
+                    <p className="mb-2 text-lg font-bold text-secondary">
                         <i className="fa-solid fa-location-dot"></i> Address for
                         Delivery
                     </p>
@@ -33,11 +32,14 @@ export default function Address({
                     ) : (
                         <p>Belum Memilih Alamat</p>
                     )}
+                    <button
+                        className="w-full mt-4 btn btn-secondary"
+                        onClick={() => setOpenAddressModal(true)}
+                    >
+                        Edit
+                    </button>
                 </div>
                 <div className="">
-                    <PrimaryButton onClick={() => setOpenAddressModal(true)}>
-                        Edit
-                    </PrimaryButton>
                     <AddressModal
                         show={openAddressModal}
                         closeAddressModal={closeAddressModal}
