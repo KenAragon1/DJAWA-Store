@@ -72,7 +72,7 @@ const CheckoutPage = ({ productsData, user }) => {
     }
 
     return (
-        <div className="p-8 layout">
+        <div className="min-h-screen p-8 layout">
             <div className="">
                 <p className="mb-4 text-2xl font-bold text-secondary ">
                     Checkout

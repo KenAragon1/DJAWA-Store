@@ -7,7 +7,7 @@ export default function OrderPage({ orderData }) {
 
     const orderStatus = {
         payment_pending: "Waiting For Payment",
-        proccessing: "A Seller Will Prepare Your Order",
+        proccessing: "The Seller is Preparing Your Order",
     };
 
     function createScript() {
@@ -147,16 +147,20 @@ export default function OrderPage({ orderData }) {
                                                     <h2 className="text-lg font-bold text-gray-900">
                                                         {product.name}
                                                     </h2>
-                                                    <p className="mt-1 text-xs text-gray-700">
-                                                        {product.quantity}
+                                                    <p className="mt-1 text-sm text-gray-700">
+                                                        {product.quantity}x
                                                     </p>
                                                 </div>
                                                 <div className="flex justify-between mt-4 ">
                                                     <div className="border-gray-100 ">
                                                         <p className="text-lg text-end whitespace-nowrap">
                                                             Rp{" "}
-                                                            {product.quantity *
-                                                                product.price}
+                                                            {(
+                                                                product.quantity *
+                                                                product.price
+                                                            ).toLocaleString(
+                                                                "id-ID"
+                                                            )}
                                                         </p>
                                                         <p className="text-xs text-gray-500 text-end">
                                                             Rp{" "}

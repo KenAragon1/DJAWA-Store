@@ -70,8 +70,20 @@ const Index = ({ cartData }) => {
         return () => clearTimeout(timer);
     }, [selectedItems]);
 
-    function deleteCartItem(id) {
-        router.delete("/cart/" + id);
+    function deleteCartItem(e, id) {
+        e.preventDefault();
+        if (confirm("Yakin ingin menghapus produk ini?")) {
+            router.delete("/cart/" + id, {
+                onSuccess: (result) => {
+                    const newCartItems = cartItems.filter(
+                        (item) => item.id_cart !== id
+                    );
+                    setCartItems(newCartItems);
+                },
+            });
+        }
+
+        return;
     }
 
     function toggleselect(id) {
@@ -135,7 +147,7 @@ const Index = ({ cartData }) => {
         <MainLayout>
             <div className="">
                 <p className="mb-4 text-2xl font-semibold text-secondary">
-                    Cart
+                    My Cart
                 </p>
 
                 <div className="flex gap-4 ">

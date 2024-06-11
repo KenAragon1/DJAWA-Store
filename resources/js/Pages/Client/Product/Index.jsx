@@ -74,7 +74,16 @@ const Index = ({ product }) => {
         router.get("/cart");
     }
 
-    function checkout() {}
+    function checkout() {
+        router.post("/checkout", {
+            products: [
+                {
+                    id_product: product.id_product,
+                    quantity: cartData.amount,
+                },
+            ],
+        });
+    }
 
     return (
         <MainLayout>
@@ -113,7 +122,10 @@ const Index = ({ product }) => {
                             </button>
                         </div>
                         <div className="flex gap-2">
-                            <button className="btn btn-secondary">
+                            <button
+                                className="btn btn-secondary"
+                                onClick={checkout}
+                            >
                                 Buy Now
                             </button>
                             <button

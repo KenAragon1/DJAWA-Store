@@ -4,10 +4,15 @@ import MainLayout from "@/Layouts/MainLayout";
 import { router } from "@inertiajs/react";
 
 export default function OrderList({ orderList }) {
-    console.log(orderList);
+    const orderStatus = {
+        payment_pending: "Waiting For Payment",
+        proccessing: "The Seller is Preparing Your Order",
+    };
     return (
         <MainLayout>
-            <p className="mb-4 text-xl font-semibold text-secondary">Order</p>
+            <p className="mb-4 text-xl font-semibold text-secondary">
+                My Order
+            </p>
 
             <div className="overflow-hidden bg-white border border-gray-300 rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
@@ -31,7 +36,9 @@ export default function OrderList({ orderList }) {
                                 >
                                     ORDER-{list.id_order}
                                 </th>
-                                <td class="px-6 py-4">{list.status}</td>
+                                <td class="px-6 py-4">
+                                    {orderStatus[list.status]}
+                                </td>
                                 <td class="px-6 py-4">
                                     <button
                                         className="btn btn-secondary btn-sm"

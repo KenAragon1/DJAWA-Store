@@ -66,7 +66,8 @@ class cartController extends Controller
 
         $cart->delete();
 
-        return redirect()->route('cart-page');
+        return redirect()->back();
+        // return response("berhasil", 200);
     }
 
     public function calculateTotal(Request $request)

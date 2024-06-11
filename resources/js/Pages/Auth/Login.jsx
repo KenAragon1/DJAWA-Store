@@ -29,14 +29,16 @@ export default function Login({ status, canResetPassword }) {
     return (
         <GuestLayout>
             <Head title="Log in" />
-            <div className="p-8 mx-auto mt-8 bg-white shadow w-[30rem] tracking-wide">
+            <div className="p-8 mx-auto mt-8 bg-white border border-gray-300 rounded-lg w-[30rem] tracking-wide">
                 {status && (
                     <div className="mb-4 text-sm font-medium text-green-600">
                         {status}
                     </div>
                 )}
 
-                <p className="mb-4 text-2xl font-semibold">Login</p>
+                <p className="mb-4 text-2xl font-semibold text-secondary">
+                    Login
+                </p>
 
                 <form onSubmit={submit}>
                     <div>
@@ -92,19 +94,22 @@ export default function Login({ status, canResetPassword }) {
                         </label>
                     </div>
 
-                    <div className="flex items-center justify-end mt-4">
+                    <div className="flex items-center justify-end gap-4 mt-4">
                         {canResetPassword && (
                             <Link
-                                href={route("password.request")}
+                                href={route("register")}
                                 className="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
-                                Forgot your password?
+                                Don't have an account?
                             </Link>
                         )}
 
-                        <PrimaryButton className="ms-4" disabled={processing}>
+                        <button
+                            className="btn btn-secondary btn-sm"
+                            disabled={processing}
+                        >
                             Log in
-                        </PrimaryButton>
+                        </button>
                     </div>
                 </form>
             </div>

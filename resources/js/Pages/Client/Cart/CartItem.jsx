@@ -53,7 +53,7 @@ const CartItem = ({
                             </button>
                         </div>
                         <button
-                            onClick={() => deleteCartItem(item.id_cart)}
+                            onClick={(e) => deleteCartItem(e, item.id_cart)}
                             type="button"
                             className="btn btn-error btn-outline btn-sm "
                         >

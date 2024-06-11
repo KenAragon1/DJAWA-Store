@@ -39,13 +39,16 @@ const Header = ({ className = "" }) => {
                     <div className="navbar-end">
                         {user ? (
                             <div className="flex items-center gap-2">
-                                <Link
-                                    className="flex items-center gap-1 text-sm btn btn-sm btn-ghost"
-                                    href={route("cart-page")}
-                                >
-                                    <TiShoppingCart fontSize={16} />
-                                    Cart
-                                </Link>
+                                {user.user_type !== "Admin" && (
+                                    <Link
+                                        className="flex items-center gap-1 text-sm btn btn-sm btn-ghost"
+                                        href={route("cart-page")}
+                                    >
+                                        <TiShoppingCart fontSize={16} />
+                                        Cart
+                                    </Link>
+                                )}
+
                                 <div className="dropdown dropdown-end">
                                     <div
                                         tabIndex={0}

@@ -29,7 +29,7 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Register" />
-            <div className="bg-[40rem] bg-white shadow mt-8 w-[40rem] p-8 mx-auto">
+            <div className="bg-[40rem] bg-white border border-gray-300 rounded-lg mt-8 w-[40rem] p-8 mx-auto">
                 <p className="mb-4 text-2xl font-bold ">Register</p>
                 <form onSubmit={submit}>
                     <div>
@@ -113,7 +113,7 @@ export default function Register() {
                         />
                     </div>
 
-                    <div className="flex items-center justify-end mt-4">
+                    <div className="flex items-center justify-end gap-4 mt-4">
                         <Link
                             href={route("login")}
                             className="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -121,9 +121,12 @@ export default function Register() {
                             Already registered?
                         </Link>
 
-                        <PrimaryButton className="ms-4" disabled={processing}>
+                        <button
+                            className="btn btn-secondary btn-sm"
+                            disabled={processing}
+                        >
                             Register
-                        </PrimaryButton>
+                        </button>
                     </div>
                 </form>
             </div>

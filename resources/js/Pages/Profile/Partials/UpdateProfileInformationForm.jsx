@@ -12,21 +12,28 @@ export default function UpdateProfileInformation({
     className = "",
     user,
 }) {
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm({
-            name: user.name,
-            email: user.email,
-        });
+    const { data, setData, patch, errors, processing } = useForm({
+        name: user.name,
+        email: user.email,
+    });
 
     const submit = (e) => {
         e.preventDefault();
 
         // patch(route("profile.update"));
-        router.post(route("profile.update"), {
-            _method: "patch",
-            ...data,
-        });
+        router.post(
+            route("profile.update"),
+            {
+                _method: "patch",
+                ...data,
+            },
+            {
+                onSuccess: () => setRecentlySuccessful(true),
+            }
+        );
     };
+
+    const [recentlySuccessful, setRecentlySuccessful] = useState(false);
 
     const [previewImg, setPreviewImg] = useState(user.image);
 
