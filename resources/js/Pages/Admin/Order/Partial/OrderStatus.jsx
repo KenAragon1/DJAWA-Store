@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function OrderStatus({ id_order, id_status, status_option }) {
     const [orderStatusForm, setOrderStatusForm] = useState({
-        id_status: status_option[0].id_status,
+        id_status: status_option[0]?.id_status,
     });
 
     function submitForm(e) {
@@ -28,34 +28,38 @@ export default function OrderStatus({ id_order, id_status, status_option }) {
         }));
     }
 
+    console.log(id_status);
+
     return (
         <div className="mb-4 main-container">
             <p className="text-lg font-semibold">Order Status :</p>
             <div>
                 <div className="">{convertOrderStatus(id_status)}</div>
                 <div>
-                    <div className="mb-2">
-                        <form onSubmit={submitForm}>
-                            <label htmlFor="" className="label">
-                                Set Order Status To :
-                            </label>
-                            <select
-                                name="id_status"
-                                id=""
-                                className="w-full select select-bordered"
-                                onChange={handleChange}
-                            >
-                                {status_option.map((option) => (
-                                    <option value={option.id_status}>
-                                        {option.status}
-                                    </option>
-                                ))}
-                            </select>
-                            <button className="w-full btn btn-secondary">
-                                Update
-                            </button>
-                        </form>
-                    </div>
+                    {id_status !== 4 && (
+                        <div className="mb-2">
+                            <form onSubmit={submitForm}>
+                                <label htmlFor="" className="label">
+                                    Set Order Status To :
+                                </label>
+                                <select
+                                    name="id_status"
+                                    id=""
+                                    className="w-full select select-bordered"
+                                    onChange={handleChange}
+                                >
+                                    {status_option.map((option) => (
+                                        <option value={option.id_status}>
+                                            {option.status}
+                                        </option>
+                                    ))}
+                                </select>
+                                <button className="w-full btn btn-secondary">
+                                    Update
+                                </button>
+                            </form>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
