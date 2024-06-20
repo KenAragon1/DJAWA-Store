@@ -1,5 +1,5 @@
 import Dropdown from "@/Components/Dropdown";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 const ProductRow = ({
     id_product,
@@ -11,43 +11,44 @@ const ProductRow = ({
     deleteProduct,
 }) => {
     return (
-        <tr className="bg-white border-b hover:bg-gray-50 ">
-            <th
-                scope="row"
-                className="flex items-center gap-4 px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            >
-                <img src={image} className="aspect-[4/3]" width={100} alt="" />
-                {name}
-            </th>
-            <td className="px-6 py-4">{category}</td>
-            <td className="px-6 py-4">{price}</td>
-            <td className="px-6 py-4">{stock}</td>
-            <td className="px-6 py-4 text-right">
-                <Dropdown>
-                    <Dropdown.Trigger>
-                        <button className="text-xl font-bold">...</button>
-                    </Dropdown.Trigger>
-                    <Dropdown.Content>
-                        <Dropdown.Item
-                            onClick={() =>
-                                router.get(
-                                    route("admin.edit-product-page", {
-                                        id_product: id_product,
-                                    })
-                                )
-                            }
-                        >
-                            Edit
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                            onClick={() => deleteProduct(id_product)}
-                        >
-                            Delete
-                        </Dropdown.Item>
-                        <Dropdown.Item>View</Dropdown.Item>
-                    </Dropdown.Content>
-                </Dropdown>
+        <tr className="hover">
+            <td>
+                <div className="flex items-center gap-3">
+                    <div className="avatar">
+                        <div className="w-12">
+                            <img
+                                src={image}
+                                alt="Avatar Tailwind CSS Component"
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <div className="font-bold">{name}</div>
+                        <div className="text-sm opacity-50">United States</div>
+                    </div>
+                </div>
             </td>
+            <td>Rp {price.toLocaleString("id-ID")}</td>
+            <td>{stock.quantity}</td>
+            <th>
+                <details className="dropdown dropdown-end">
+                    <summary className="m-1 btn btn-ghost btn-sm">...</summary>
+                    <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                        <li>
+                            <Link
+                                href={route("product.edit", {
+                                    id_product: id_product,
+                                })}
+                            >
+                                Edit
+                            </Link>
+                        </li>
+                        <li>
+                            <Link>Delete</Link>
+                        </li>
+                    </ul>
+                </details>
+            </th>
         </tr>
     );
 };

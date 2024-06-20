@@ -8,6 +8,10 @@ use Inertia\Inertia;
 
 class categoryController extends Controller
 {
+    public function index()
+    {
+    }
+
     public function show()
     {
         return Inertia::render();
@@ -17,5 +21,17 @@ class categoryController extends Controller
     {
         $categoryData = Category::all();
         return response($categoryData);
+    }
+
+    public function adminIndex()
+    {
+        $categories = Category::all();
+        return Inertia::render('Admin/Category/Index', [
+            'categories' => $categories
+        ]);
+    }
+
+    public function store()
+    {
     }
 }

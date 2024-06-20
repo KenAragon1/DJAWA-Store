@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 body {
-    @apply bg-sky-50;
+    @apply bg-gray-50;
 }
 
 .layout {
     @apply max-w-[78rem] mx-auto;
+}
+
+.main-container {
+    @apply p-8 bg-white border border-gray-300 rounded-lg;
 }

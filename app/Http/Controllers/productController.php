@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
@@ -14,80 +16,51 @@ class productController extends Controller
     {
     }
 
-    // Admin Pages
-    public function adminProductListPage()
+    public function adminIndex()
     {
-        $products = $this->get('paginate', 10);
+        $products = Product::with(['stock', 'category'])->paginate(10);
 
-        return Inertia::render('Admin/Product/ProductList', [
+        return Inertia::render('Admin/Product/Index', [
             'products' => $products
         ]);
     }
 
-    public function adminAddProductPage()
+    public function create()
     {
-        return Inertia::render('Admin/Product/AddPage');
+        return Inertia::render('Admin/Product/Create');
     }
 
-    public function adminEditProductPage($id_product)
+    public function edit($id_product)
     {
-        $product = $this->get('id_product', $id_product);
 
-        return Inertia::render('Admin/Product/EditPage', [
+        $product = Product::with('stock')->findOrFail($id_product);
+
+        return Inertia::render('Admin/Product/Edit', [
             'product' => $product
         ]);
     }
 
     // Client Pages
-    public function productDetailPage($slug)
+    public function show($slug)
     {
-        $product = $this->get('slug', $slug);
+        $product = Product::where('slug', $slug)->first();
+
+        if (!$product) abort(404);
+
         return Inertia::render('Client/Product/Index', [
             'product' => $product
         ]);
     }
 
-
-    // Product Method
-    public function get($get_by, $value = null)
+    public function store(ProductRequest $request)
     {
-        switch ($get_by) {
-            case 'all':
-                return Product::all();
-            case 'paginate':
-                return Product::paginate($value);
-            case 'id_product':
-                return Product::findOrFail($value);
-            case 'slug':
-                return Product::where('slug', $value)->first();
-            default:
-                return;
-        }
-    }
-
-    public function post(Request $request)
-    {
-        $request->validate(
-            [
-                'name' => 'required|string',
-                'price' => 'required|integer',
-                'stock' => 'required|integer',
-                'id_category' => 'required',
-                'brand' => 'required',
-                'weight' => 'required',
-                'description' => 'required',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            ]
-        );
-
         $image = $request->file('image');
         $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
         $image->storeAs('public/images/product/', $imageName);
 
-        Product::create([
+        $product = Product::create([
             'name' => $request->name,
             'price' => $request->price,
-            'stock' => $request->stock,
             'id_category' => $request->id_category,
             'description' => $request->description,
             'brand' => $request->brand,
@@ -96,13 +69,17 @@ class productController extends Controller
             'slug' =>    Str::slug($request->name, '-')
         ]);
 
+        ProductStock::create([
+            'id_product' => $product->id_product,
+            'quantity' => $request->stock,
+        ]);
 
         return redirect()->route('admin.product');
     }
 
-    public function put($id, Request $request)
+    public function update($id_product, Request $request)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id_product);
 
 
         if ($request->hasFile('image')) {

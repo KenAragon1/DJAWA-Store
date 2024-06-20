@@ -1,9 +1,8 @@
-import PrimaryButton from "@/Components/PrimaryButton";
-import GuestLayout from "@/Layouts/GuestLayout";
 import MainLayout from "@/Layouts/MainLayout";
 import { router } from "@inertiajs/react";
+import { convertOrderStatus } from "@/Pages/Admin/Order/Index";
 
-export default function OrderList({ orderList }) {
+export default function Index({ orders }) {
     const orderStatus = {
         payment_pending: "Waiting For Payment",
         proccessing: "The Seller is Preparing Your Order",
@@ -24,27 +23,36 @@ export default function OrderList({ orderList }) {
                             <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Total
+                            </th>
                             <th scope="col" class="px-6 py-3"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {orderList.map((list) => (
+                        {orders.map((order) => (
                             <tr class="bg-white border-b ">
                                 <th
                                     scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
                                 >
-                                    ORDER-{list.id_order}
+                                    ORDER-{order.id_order}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {orderStatus[list.status]}
+                                    {convertOrderStatus(order.id_status)}
+                                </td>
+                                <td class="px-6 py-4">
+                                    Rp{" "}
+                                    {order.payment.total.toLocaleString(
+                                        "id-ID"
+                                    )}
                                 </td>
                                 <td class="px-6 py-4">
                                     <button
                                         className="btn btn-secondary btn-sm"
                                         onClick={(e) =>
                                             router.get(
-                                                "/order/" + list.id_order
+                                                "/order/" + order.id_order
                                             )
                                         }
                                     >

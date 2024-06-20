@@ -1,5 +1,5 @@
 import PrimaryButton from "@/Components/PrimaryButton";
-import { router, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import axios, { Axios } from "axios";
 import { useEffect, useState } from "react";
 import Address from "./Address";
@@ -73,6 +73,8 @@ const CheckoutPage = ({ productsData, user }) => {
 
     return (
         <div className="min-h-screen p-8 layout">
+            <Head title="Checkout" />
+
             <div className="">
                 <p className="mb-4 text-2xl font-bold text-secondary ">
                     Checkout

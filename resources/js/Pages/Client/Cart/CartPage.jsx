@@ -145,6 +145,8 @@ const Index = ({ cartData }) => {
 
     return (
         <MainLayout>
+            <Head title="Cart" />
+
             <div className="">
                 <p className="mb-4 text-2xl font-semibold text-secondary">
                     My Cart

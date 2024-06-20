@@ -1,34 +1,19 @@
-import Navbar from "@/Components/Common/Navbar";
-import Modal from "@/Components/Modal";
-import PrimaryButton from "@/Components/PrimaryButton";
 import MainLayout from "@/Layouts/MainLayout";
-import { router, usePage } from "@inertiajs/react";
-import axios from "axios";
+import { Head, Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 const Index = ({ product }) => {
-    const { user } = usePage().props.auth;
-
-    // Post Cart
     const [cartData, setCartData] = useState({
         id_product: product.id_product,
         amount: 1,
     });
 
-    function postCartData(e) {
-        if (!user) {
-            router.get("/login");
-            return;
-        }
+    console.log(cartData);
 
-        axios.post("/cart", cartData).then((response) => {
-            if (response.status === 200) {
-                setAlert({
-                    show: true,
-                    message: response.data.message,
-                });
-                console.log(response);
-            }
+    function postCartData(e) {
+        router.post("/cart", cartData, {
+            onSuccess: ({ props }) =>
+                document.getElementById("my_modal_1").showModal(),
         });
     }
 
@@ -57,23 +42,6 @@ const Index = ({ product }) => {
         }));
     }
 
-    // Handle Component visibility
-    const [alert, setAlert] = useState({
-        show: false,
-        message: "",
-    });
-
-    function closeAlert() {
-        setAlert((prevAlert) => ({
-            ...prevAlert,
-            show: false,
-        }));
-    }
-
-    function redirectToCart() {
-        router.get("/cart");
-    }
-
     function checkout() {
         router.post("/checkout", {
             products: [
@@ -87,6 +55,8 @@ const Index = ({ product }) => {
 
     return (
         <MainLayout>
+            <Head title={"DJAWA STORE: " + product.name} />
+
             <div className="flex mt-4">
                 <div className="grid sm:grid-cols-[500px,1fr] p-[clamp(1rem,5cqi,3rem)] gap-4 bg-white border border-gray-300 rounded-lg mb-4 w-full">
                     <img
@@ -158,35 +128,10 @@ const Index = ({ product }) => {
                 </div>
             </div>
 
-            <Modal show={alert.show}>
-                <div className="p-6">
-                    <div className="flex mb-4 text-xl font-semibold">
-                        <p>{alert.message}</p>
-                        <button
-                            onClick={closeAlert}
-                            type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        >
-                            <svg
-                                className="w-3 h-3"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 14 14"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                                />
-                            </svg>
-                            <span className="sr-only">Close modal</span>
-                        </button>
-                    </div>
-
-                    <div className="flex items-center gap-4 p-4 mb-4 bg-white min-w-fit border-slate-300">
+            <dialog id="my_modal_1" className=" modal">
+                <div className="max-w-3xl modal-box">
+                    <h3 className="text-lg font-bold">Hello!</h3>
+                    <div className="flex items-center gap-4 p-4 mb-4 bg-white border border-gray-300 rounded-lg min-w-fit">
                         <img
                             src={product.image}
                             alt=""
@@ -200,12 +145,19 @@ const Index = ({ product }) => {
                             <p>Rp {product.price} </p>
                         </div>
                     </div>
-
-                    <PrimaryButton onClick={redirectToCart}>
-                        Cek Keranjang
-                    </PrimaryButton>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            <button className="btn">Close</button>
+                        </form>
+                        <Link
+                            className="btn btn-secondary"
+                            href={route("cart-page")}
+                        >
+                            Check Cart Page
+                        </Link>
+                    </div>
                 </div>
-            </Modal>
+            </dialog>
         </MainLayout>
     );
 };

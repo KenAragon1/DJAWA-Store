@@ -59,12 +59,11 @@ class paymentController extends Controller
         return $payment->id_payment;
     }
 
-    public function update($id_payment, $total_transaction, $payment_method)
+    public function update($id_payment,  $payment_method)
     {
         $paymentData = Payment::where('id_payment', $id_payment)->first();
 
         $paymentData->update([
-            'total_transaction' => $total_transaction,
             'payment_method' => $payment_method
         ]);
     }

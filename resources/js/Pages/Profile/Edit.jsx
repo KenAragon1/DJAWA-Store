@@ -1,12 +1,9 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
-import GuestLayout from "@/Layouts/GuestLayout";
 import MainLayout from "@/Layouts/MainLayout";
 
-export default function Edit({ auth, mustVerifyEmail, status, user }) {
+export default function Edit({ mustVerifyEmail, status, user }) {
     return (
         <MainLayout>
             <Head title="Profile" />

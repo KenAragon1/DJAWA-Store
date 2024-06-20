@@ -10,8 +10,9 @@ class rajaongkirController extends Controller
     //
     public function getProvinsi()
     {
+        $key = env("RAJAONGKIR_KEY");
         $response = Http::withHeaders([
-            'key' => env("RAJAONGKIR_KEY")
+            'key' => $key
         ])->get('https://api.rajaongkir.com/starter/province');
 
         return response($response);

@@ -57,17 +57,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
-    public function updateImage(Request $request)
-    {
-        $request->validate([
-            "image" => 'required'
-        ]);
-
-        $user = Product::findOrFail(1);
-
-        return response($user);
-    }
-
     /**
      * Delete the user's account.
      */

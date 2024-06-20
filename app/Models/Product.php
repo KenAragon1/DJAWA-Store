@@ -22,4 +22,14 @@ class Product extends Model
     {
         return $this->hasOne(Product::class, 'id_product');
     }
+
+    public function stock()
+    {
+        return $this->hasOne(ProductStock::class, 'id_product');
+    }
+
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id_category');
+    }
 }

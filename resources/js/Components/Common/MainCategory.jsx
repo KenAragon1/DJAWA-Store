@@ -1,6 +1,7 @@
 import { Link } from "@inertiajs/react";
-import React from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useState, useEffect } from "react";
+import getCategory from "@/Services/category";
 
 export const CATEGORY_LINKS = [
     {
@@ -26,6 +27,12 @@ export const CATEGORY_LINKS = [
 ];
 
 const MainCategory = () => {
+    useEffect(() => {
+        getCategory().then(({ data }) => setCategories(data));
+    }, []);
+
+    const [categories, setCategories] = useState([]);
+
     return (
         <div className="bg-white border-b border-b-gray-300">
             <div className="layout">
@@ -35,9 +42,12 @@ const MainCategory = () => {
                         All Category
                     </Link>
 
-                    {CATEGORY_LINKS.map((category) => (
-                        <Link className="btn btn-sm btn-ghost">
-                            {category.label}
+                    {categories.map((category) => (
+                        <Link
+                            className="btn btn-sm btn-ghost"
+                            href={"/category/" + category.id}
+                        >
+                            {category.name}
                         </Link>
                     ))}
                 </div>

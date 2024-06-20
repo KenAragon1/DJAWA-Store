@@ -1,77 +1,63 @@
-import { useForm } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import getCategory from "@/Services/category";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
-import InputError from "@/Components/InputError";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import axios from "axios";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 
-const ProductAdd = ({ auth }) => {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
-        price: "",
-        stock: "",
-        id_category: "",
-        brand: "",
-        weight: "",
-        spesification: "",
-        description: "",
-        image: "",
+export default function Edit({ product }) {
+    const [productForm, setProductForm] = useState({
+        name: product.name,
+        price: product.price,
+        stock: product.stock.quantity,
+        weight: product.weight,
+        brand: product.brand,
+        description: product.description,
+        image: product.image,
     });
 
-    const [categoryOptions, setCategoryOptions] = useState([]);
+    console.log(productForm);
+    const [previewImg, setPreviewImg] = useState(product.image);
 
     function onSubmit(e) {
         e.preventDefault();
-        console.log(data);
-        post("/product");
+        console.log(productForm);
+        router.post("/product/" + product.id_product, {
+            _method: "patch",
+            ...productForm,
+        });
     }
+
+    const [categoryOptions, setCategoryOptions] = useState([]);
 
     function handleInputChange(e) {
         const key = e.target.id;
         const value = e.target.value;
 
-        setData((prevData) => ({
-            ...prevData,
+        setProductForm((prev) => ({
+            ...prev,
             [key]: value,
         }));
     }
 
     function handleCategorySelect(e) {
         handleInputChange(e);
-        const id_category = e.target.value;
-
-        axios
-            .get("/api/spesification/" + id_category)
-            .then((response) => console.log(response));
     }
 
     function handlePreviewImg(e) {
         setPreviewImg(URL.createObjectURL(e.target.files[0]));
     }
 
-    const [previewImg, setPreviewImg] = useState();
-
     useEffect(() => {
         getCategory().then(({ data }) => {
             setCategoryOptions(data);
-            console.log(data);
         });
     }, []);
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <>
-                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                        Create New Product
-                    </h2>
-                </>
-            }
-        >
+        <DashboardLayout>
             <div className="p-8 mx-8 mt-4 bg-white shadow">
                 <div className="">
                     <form onSubmit={onSubmit} className="mb-4">
@@ -80,25 +66,18 @@ const ProductAdd = ({ auth }) => {
                                 Category
                             </InputLabel>
                             <select
-                                name=""
                                 id="id_category"
                                 className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 onChange={handleCategorySelect}
-                                value={data.id_category}
+                                value={productForm.id_category}
                             >
                                 <option value="">Pick Category</option>
                                 {categoryOptions.map((option) => (
-                                    <option
-                                        value={option.id_category}
-                                        key={option.id_category}
-                                    >
+                                    <option value={option.id} key={option.id}>
                                         {option.name}
                                     </option>
                                 ))}
                             </select>
-                            {errors.id_category && (
-                                <InputError message={errors.id_category} />
-                            )}
                         </div>
                         <div className="mb-4">
                             <InputLabel className="font-semibold">
@@ -106,13 +85,10 @@ const ProductAdd = ({ auth }) => {
                             </InputLabel>
                             <TextInput
                                 id="name"
-                                value={data.name}
+                                value={productForm.name}
                                 onChange={handleInputChange}
                                 className="w-full"
                             />
-                            {errors.name && (
-                                <InputError message={errors.name} />
-                            )}
                         </div>
 
                         <div className="mb-4">
@@ -122,13 +98,10 @@ const ProductAdd = ({ auth }) => {
                             <TextInput
                                 type="number"
                                 id="price"
-                                value={data.price}
+                                value={productForm.price}
                                 onChange={handleInputChange}
                                 className="w-full"
                             />
-                            {errors.price && (
-                                <InputError message={errors.price} />
-                            )}
                         </div>
 
                         <div className="mb-4">
@@ -138,13 +111,10 @@ const ProductAdd = ({ auth }) => {
                             <TextInput
                                 type="number"
                                 id="stock"
-                                value={data.stock}
+                                value={productForm.stock}
                                 onChange={handleInputChange}
                                 className="w-full"
                             />
-                            {errors.price && (
-                                <InputError message={errors.price} />
-                            )}
                         </div>
 
                         <div className="mb-4">
@@ -155,7 +125,7 @@ const ProductAdd = ({ auth }) => {
                                 id="weight"
                                 type="number"
                                 className="w-full"
-                                value={data.weight}
+                                value={productForm.weight}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -167,7 +137,7 @@ const ProductAdd = ({ auth }) => {
                             <TextInput
                                 id="brand"
                                 className="w-full"
-                                value={data.brand}
+                                value={productForm.brand}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -182,12 +152,9 @@ const ProductAdd = ({ auth }) => {
                                 id="description"
                                 cols="30"
                                 rows="10"
-                                value={data.description}
+                                value={productForm.description}
                                 onChange={handleInputChange}
                             ></textarea>
-                            {errors.description && (
-                                <InputError message={errors.description} />
-                            )}
                         </div>
 
                         <div className="mb-4">
@@ -202,33 +169,21 @@ const ProductAdd = ({ auth }) => {
                                 <TextInput
                                     type="file"
                                     onChange={(e) => {
-                                        setData("image", e.target.files[0]);
+                                        setProductForm((prev) => ({
+                                            ...prev,
+                                            image: e.target.files[0],
+                                        }));
                                         handlePreviewImg(e);
                                     }}
                                     className="w-full"
                                 />
                             </div>
-                            {errors.image && (
-                                <InputError message={errors.image} />
-                            )}
                         </div>
 
-                        <PrimaryButton type="submit" disabled={processing}>
-                            Submit
-                        </PrimaryButton>
+                        <PrimaryButton type="submit">Submit</PrimaryButton>
                     </form>
-                    <PrimaryButton
-                        onClick={() => {
-                            closeProductAddForm();
-                            resetForm();
-                        }}
-                    >
-                        Close
-                    </PrimaryButton>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </DashboardLayout>
     );
-};
-
-export default ProductAdd;
+}

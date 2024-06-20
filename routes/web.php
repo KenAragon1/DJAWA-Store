@@ -8,6 +8,9 @@ use App\Http\Controllers\paymentController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\rajaongkirController;
+use App\Models\Category;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,22 +26,26 @@ use Inertia\Inertia;
 |
 */
 
-// Home
+// Pages
+
+// Home Page
 Route::get('/', function () {
-    return Inertia::render('HomePage');
+    $products = Product::all();
+    return Inertia::render('HomePage', [
+        "products" => $products
+    ]);
 })->name('home');
 
 
+Route::get('/category-page', [categoryController::class, 'show'])->name('category-page');
 
 // Category
-Route::get('/category-page', [categoryController::class, 'show'])->name('category-page');
 Route::get('/category', [categoryController::class, 'get']);
 
 // product
-Route::get('/product/{slug}', [productController::class, 'productDetailPage']);
+Route::get('/product/{slug}', [productController::class, 'show']);
 
 
-// Cart
 Route::post('/calculateTotal', [cartController::class, 'calculateTotal']);
 
 
@@ -59,9 +66,11 @@ Route::get('/dashboard', function () {
 // Client
 Route::middleware('auth')->group(function () {
     // Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('profile')->controller(ProfileController::class)->group(function () {
+        Route::get('/', 'edit')->name('profile.edit');
+        Route::patch('/', 'update')->name('profile.update');
+        Route::delete('/', 'destroy')->name('profile.destroy');
+    });
 
     // Cart
     Route::get('/cart', [cartController::class, 'cartPage'])->name('cart-page');
@@ -69,8 +78,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{id}', [cartController::class, 'delete']);
 
     // Payment
-    Route::get('/payment', [paymentController::class, 'paymentListPage'])->name('payment-page');
-    Route::get('/payment/{id}', [paymentController::class, 'paymentPage'])->name('payment-main');
+    Route::get('/payment', [paymentController::class, 'paymentListPage'])->name('payment-list-page');
+    Route::get('/payment/{id}', [paymentController::class, 'paymentPage'])->name('payment-page');
 
 
     // Checkout 
@@ -78,31 +87,43 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [checkoutController::class, 'post']);
 
     // Order
-    Route::get('/order', [orderController::class, 'orderListPage'])->name('order-list-page');
-    Route::get('/order/{id_order}', [orderController::class, 'orderPage'])->name('order-page');
+    Route::get('/order', [orderController::class, 'index'])->name('order-list-page');
+    Route::get('/order/{id_order}', [orderController::class, 'show'])->name('order-page');
     Route::post('/order', [orderController::class, 'create'])->name('order-create');
-    Route::patch('/order/{id_order}', [orderController::class, 'update']);
+    Route::patch('/order/{id_order}', [orderController::class, 'update'])->name('order-update');
 });
 
 
-// Admin
+// Admin Only
 Route::middleware(['auth', 'IsAdmin'])->prefix('dashboard')->group(function () {
+    // Pages
 
     // Product
-    Route::prefix('product')->group(function () {
-        Route::get(('/'), [productController::class, 'adminProductListPage'])->name('admin.product');
-        Route::get(('/add-page'), [productController::class, 'adminAddProductPage'])->name('admin.add-product-page');
-        Route::get(('/edit-page/{id_product}'), [productController::class, 'adminEditProductPage'])->name('admin.edit-product-page');
+    Route::prefix('product')->controller(productController::class)->group(function () {
+        Route::get(('/'), 'adminIndex')->name('admin.product.index');
+        Route::get(('/create'), 'create')->name('product.create');
+        Route::get(('/edit/{id_product}'), 'edit')->name('product.edit');
     });
+
+    // Order
+    Route::prefix('order')->controller(orderController::class)->group(function () {
+        Route::get(('/'), 'adminIndex')->name('admin.order');
+        Route::get(('/{id_order}'), 'adminShow')->name('admin.order.show');
+    });
+
+    // Category
+    Route::get('/category', [categoryController::class, 'adminIndex'])->name('admin.category.index');
+
+    // Home
 });
 
 // CRUD 
 
 // Product
-Route::middleware(['auth', 'IsAdmin'])->group(function () {
-    Route::post('/product', [productController::class, 'post']);
-    Route::patch('/product/{id}', [productController::class, 'put']);
-    Route::delete('/product/{id_product}', [productController::class, 'delete']);
+Route::prefix('product')->controller(productController::class)->middleware(['auth', 'IsAdmin'])->group(function () {
+    Route::post('/', 'store')->name('product.store');
+    Route::patch('/{id_product}', 'update')->name('product.update');
+    Route::delete('/{id_product}', 'delete')->name('product.delete');
 });
 
 

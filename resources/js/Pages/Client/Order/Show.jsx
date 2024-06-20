@@ -1,9 +1,12 @@
-import GuestLayout from "@/Layouts/GuestLayout";
-import { router, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import { useEffect } from "react";
+import { convertOrderStatus } from "@/Pages/Admin/Order/Index";
+import MainLayout from "@/Layouts/MainLayout";
 
-export default function OrderPage({ orderData }) {
+export default function Show({ order }) {
     const { MIDTRANS_CLIENT_KEY } = usePage().props;
+
+    console.log(order);
 
     const orderStatus = {
         payment_pending: "Waiting For Payment",
@@ -25,14 +28,13 @@ export default function OrderPage({ orderData }) {
     }
 
     function midtrans() {
-        const { token } = orderData.payment;
+        const { token } = order.payment;
         if (!token) return;
 
         window.snap.embed(token, {
             embedId: "snap-container",
             onSuccess: function (result) {
-                router.patch("/order/" + orderData.id_order, {
-                    status: "proccessing",
+                router.patch("/order/" + order.id_order, {
                     payment_method: result.payment_type,
                     total_transaction: result.gross_amount,
                 });
@@ -44,12 +46,15 @@ export default function OrderPage({ orderData }) {
         createScript();
     }, []);
     return (
-        <GuestLayout>
+        <MainLayout>
+            <Head title="Order" />
             <div className="flex flex-wrap justify-center gap-4 mx-8 mt-4">
                 <div className="p-8 bg-white border border-gray-300 rounded-lg w-[800px] h-fit">
-                    <p className="mb-4 text-xl font-semibold text-secondary">
-                        ORDER : {orderStatus[orderData.status]}
-                    </p>
+                    <p className="text-xl font-bold text-secondary">My Order</p>
+
+                    <div className="flex mb-4 text-xl font-semibold text-secondary">
+                        Status : {convertOrderStatus(order.id_status)}
+                    </div>
                     <div className="">
                         <div className="">
                             <p className="mb-2 font-semibold">
@@ -62,8 +67,7 @@ export default function OrderPage({ orderData }) {
                                         <td className="px-4 py-2">:</td>
                                         <td className="px-4 py-2">
                                             {
-                                                orderData.payment
-                                                    .customer_details
+                                                order.payment.customer_details
                                                     .customer_name
                                             }
                                         </td>
@@ -73,8 +77,7 @@ export default function OrderPage({ orderData }) {
                                         <td className="px-4 py-2">:</td>
                                         <td className="px-4 py-2">
                                             {
-                                                orderData.payment
-                                                    .customer_details
+                                                order.payment.customer_details
                                                     .customer_email
                                             }
                                         </td>
@@ -84,8 +87,7 @@ export default function OrderPage({ orderData }) {
                                         <td className="px-4 py-2">:</td>
                                         <td className="px-4 py-2">
                                             {
-                                                orderData.payment
-                                                    .customer_details
+                                                order.payment.customer_details
                                                     .customer_address
                                             }
                                         </td>
@@ -93,7 +95,7 @@ export default function OrderPage({ orderData }) {
                                 </tbody>
                             </table>
                         </div>
-                        {orderData.status !== "payment_pending" && (
+                        {order.id_status !== 1 && (
                             <div className="">
                                 <p className="mb-2 font-semibold">
                                     Payment Details :
@@ -107,7 +109,7 @@ export default function OrderPage({ orderData }) {
                                             <td className="px-4 py-2">:</td>
                                             <td className="px-4 py-2">
                                                 Rp{" "}
-                                                {orderData.payment.total_transaction.toLocaleString(
+                                                {order.payment.total.toLocaleString(
                                                     "id-ID"
                                                 )}
                                             </td>
@@ -118,10 +120,7 @@ export default function OrderPage({ orderData }) {
                                             </td>
                                             <td className="px-4 py-2">:</td>
                                             <td className="px-4 py-2">
-                                                {
-                                                    orderData.payment
-                                                        .payment_method
-                                                }
+                                                {order.payment.payment_method}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -134,7 +133,7 @@ export default function OrderPage({ orderData }) {
                                 Products Ordered :
                             </p>{" "}
                             <div>
-                                {orderData.order_item.map((product) => (
+                                {order.order_item.map((product) => (
                                     <div className="">
                                         <div className="flex justify-between gap-4 p-6 bg-white rounded-lg ">
                                             <img
@@ -182,6 +181,6 @@ export default function OrderPage({ orderData }) {
                 </div>
                 <div id="snap-container"></div>
             </div>
-        </GuestLayout>
+        </MainLayout>
     );
 }

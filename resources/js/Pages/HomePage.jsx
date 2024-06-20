@@ -7,29 +7,11 @@ import Header from "@/Components/Common/Header";
 import MainCategory from "@/Components/Common/MainCategory";
 import MainLayout from "@/Layouts/MainLayout";
 ``;
-const HomePage = () => {
-    useEffect(() => {
-        getCategory().then(({ data }) => console.log(data));
-        fetchData();
-    }, []);
-
-    const [products, setProducts] = useState([]);
-
-    const [categoryData, setCategoryData] = useState([]);
-
-    async function fetchData() {
-        try {
-            const response = await fetch("/api/product");
-            const jsonData = await response.json();
-            setProducts(jsonData);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    function fetchBanner() {}
+const HomePage = ({ products }) => {
     return (
         <MainLayout>
+            <Head title="Home" />
+
             <div class="my-6">
                 <div class="flex gap-4">
                     <a

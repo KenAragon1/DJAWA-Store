@@ -15,9 +15,15 @@ class Category extends Model
 
     protected $primaryKey = 'id_category';
 
+
     public $timestamps = false;
 
     protected $casts = [
         'spesification' => 'array'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'id_category');
+    }
 }

@@ -38,7 +38,7 @@ class cartController extends Controller
                 'quantity' =>  $updateCartQuantity
             ]);
 
-            return response(["message" => "Berhasil Menambah Jumlah Produk"], 200);
+            return redirect()->back()->with(["message" => "Berhasil Menambah Produk ke Keranjang"]);
         }
 
         Cart::create([
@@ -47,7 +47,7 @@ class cartController extends Controller
             'quantity' => $request->amount
         ]);
 
-        return response(["message" => "Berhasil Menambah Produk ke Keranjang"], 200);
+        return redirect()->back()->with(["message" => "Berhasil Menambah Produk ke Keranjang"]);
     }
 
     public function delete($id)
@@ -67,17 +67,11 @@ class cartController extends Controller
         $cart->delete();
 
         return redirect()->back();
-        // return response("berhasil", 200);
     }
 
     public function calculateTotal(Request $request)
     {
-        // Receiving an array that contains object / key value 
-        // item object contain {
-        // id_cart
-        // id_product
-        // amount
-        //}
+
         $items = $request->data;
         $total = 0;
         $productSummary = array();
