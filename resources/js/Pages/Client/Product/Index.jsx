@@ -109,22 +109,31 @@ const Index = ({ product }) => {
                 </div>
             </div>
             <div className=" p-[clamp(1rem,5cqi,3rem)] gap-4 bg-white border border-gray-300 rounded-lg">
-                <h2 class="mb-8 text-lg">Specifications</h2>
-                <div class="flow-root">
-                    <dl class="-my-3 divide-y divide-gray-100">
-                        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                            <dt class="font-medium text-gray-900">Brand</dt>
-                            <dd class="text-gray-700 sm:col-span-2">
-                                {product.brand}
-                            </dd>
-                        </div>
-                        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                            <dt class="font-medium text-gray-900">Weight</dt>
-                            <dd class="text-gray-700 sm:col-span-2">
-                                {product.weight} Gram
-                            </dd>
-                        </div>
-                    </dl>
+                <div className="">
+                    <h2 class="mb-8 text-lg">Specifications</h2>
+                    <div class="flow-root">
+                        <dl class="-my-3 divide-y divide-gray-100">
+                            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                <dt class="font-medium text-gray-900">Brand</dt>
+                                <dd class="text-gray-700 sm:col-span-2">
+                                    {product.brand}
+                                </dd>
+                            </div>
+                            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                <dt class="font-medium text-gray-900">
+                                    Weight
+                                </dt>
+                                <dd class="text-gray-700 sm:col-span-2">
+                                    {product.weight} Gram
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+                <hr className="my-4" />
+                <div className="">
+                    <h2 class="mb-8 text-lg">Description</h2>
+                    <div className="whitespace-pre">{product.description}</div>
                 </div>
             </div>
 
