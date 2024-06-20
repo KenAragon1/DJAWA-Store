@@ -20,10 +20,20 @@ export function convertOrderStatus(id_status) {
                     Order Is Being Proccesed
                 </div>
             );
-        case "on_delivery":
-            return;
-        case "delivered":
-            return;
+        case 3:
+            return (
+                <div className="flex items-center gap-2">
+                    <FaTruckFast />
+                    Order Is On Delivery
+                </div>
+            );
+        case 4:
+            return (
+                <div className="flex items-center gap-2">
+                    <FaTruckFast />
+                    Order Delivered
+                </div>
+            );
         default:
             break;
     }

@@ -8,10 +8,6 @@ import { router, useForm } from "@inertiajs/react";
 export default function Show({ order, status_option }) {
     const { payment } = order;
 
-    const { orderStatusForm, setOrderStatusForm, patch } = useForm({
-        id_status: status_option[0].status,
-    });
-
     return (
         <DashboardLayout>
             <p>Order Detail</p>
@@ -30,19 +26,7 @@ export default function Show({ order, status_option }) {
                     </div>
                 </div>
                 <div>
-                    <OrderStatus
-                        status={order.id_status}
-                        status_option={status_option}
-                        orderStatusForm={orderStatusForm}
-                        setOrderStatusForm={setOrderStatusForm}
-                        submitForm={() =>
-                            patch(
-                                route("order-update", {
-                                    id_order: order.id_order,
-                                })
-                            )
-                        }
-                    />
+                    <OrderStatus {...order} status_option={status_option} />
                     <OrderCustomer
                         customer_details={payment.customer_details}
                     />

@@ -74,7 +74,7 @@ class productController extends Controller
             'quantity' => $request->stock,
         ]);
 
-        return redirect()->route('admin.product');
+        return redirect()->route('admin.product.index');
     }
 
     public function update($id_product, Request $request)
@@ -102,7 +102,13 @@ class productController extends Controller
             'slug' => Str::slug($request->name, '-')
         ]);
 
-        return to_route('admin.product');
+        ProductStock::where('id_product', $id_product)->update(
+            [
+                'quantity' => $request->stock
+            ]
+        );
+
+        return redirect()->route('admin.product.index');
     }
 
     public function delete($id_product)
