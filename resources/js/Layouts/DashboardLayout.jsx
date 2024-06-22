@@ -10,10 +10,9 @@ import { FaHome } from "react-icons/fa";
 
 export default function DashboardLayout({ children }) {
     const { user } = usePage().props.auth;
-    console.log(user);
     return (
         <div className="min-h-screen pb-4">
-            <div className="mb-4 border-b navbar bg-secondary border-b-gray-300">
+            <div className="border-b navbar bg-secondary border-b-gray-300">
                 <div className="flex-1">
                     <label
                         htmlFor="my-drawer"
@@ -40,7 +39,7 @@ export default function DashboardLayout({ children }) {
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                        className="z-50 p-2 mt-3 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                     >
                         <li className="btn btn-ghost">Hallo, {user.name}</li>
                         <li>
@@ -64,6 +63,7 @@ export default function DashboardLayout({ children }) {
                                 href={route("logout")}
                                 method="post"
                                 className="gap-1"
+                                as="button"
                             >
                                 <MdOutlineLogout />
                                 Logout
@@ -72,22 +72,25 @@ export default function DashboardLayout({ children }) {
                     </ul>
                 </div>
             </div>
-            <div className="z-50 drawer">
+            <div className=" drawer lg:drawer-open">
                 <input
                     id="my-drawer"
                     type="checkbox"
                     className="drawer-toggle"
                 />
-                <div className="drawer-content">{/* Page content here */}</div>
-                <div className="drawer-side">
+                <div className="drawer-content">
+                    {/* Page content here */}
+
+                    <main className="mx-4 mt-4">{children}</main>
+                </div>
+                <div className=" drawer-side">
                     <label
                         htmlFor="my-drawer"
                         aria-label="close sidebar"
                         className="drawer-overlay"
                     ></label>
-                    <ul className="min-h-full p-4 menu w-80 bg-base-200 text-base-content">
+                    <ul className="w-56 min-h-full p-4 menu bg-base-200 text-base-content">
                         {/* Sidebar content here */}
-                        <li className="mb-4 text-xl font-bold">Dashboard</li>
                         <li>
                             <Link>
                                 <BsGraphUp />
@@ -121,8 +124,6 @@ export default function DashboardLayout({ children }) {
                     </ul>
                 </div>
             </div>
-
-            <main className="layout">{children}</main>
         </div>
     );
 }

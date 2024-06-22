@@ -15,15 +15,13 @@ const ProductTable = ({ items, deleteProduct }) => {
                 </thead>
                 <tbody>
                     {items.length > 0 ? (
-                        items.map((product) => {
-                            return (
-                                <ProductRow
-                                    {...product}
-                                    deleteProduct={deleteProduct}
-                                    key={product.id}
-                                />
-                            );
-                        })
+                        items.map((product) => (
+                            <ProductRow
+                                {...product}
+                                deleteProduct={deleteProduct}
+                                key={product.id}
+                            />
+                        ))
                     ) : (
                         <tr>
                             <td colSpan={5}>

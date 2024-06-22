@@ -13,6 +13,10 @@ class Order extends Model
     protected $guarded = [];
     protected $primaryKey = 'id_order';
 
+    protected $casts = [
+        "delivery_detail" => "json"
+    ];
+
     public $timestamps = false;
 
     public function payment()

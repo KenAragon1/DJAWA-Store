@@ -160,7 +160,7 @@ export default function Create({ auth }) {
 
                     <div className="mb-4">
                         <InputLabel className="font-semibold">
-                            Deskripsi Produk
+                            Description
                         </InputLabel>
                         <textarea
                             className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"

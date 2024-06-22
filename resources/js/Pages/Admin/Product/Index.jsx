@@ -14,6 +14,7 @@ export default function AdminProduct({ products }) {
     const data = products;
 
     const { data: items, links } = data;
+    console.log(items);
 
     return (
         <DashboardLayout DashboardLayout>

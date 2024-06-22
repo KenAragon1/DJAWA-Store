@@ -39,21 +39,33 @@ export default function OrderStatus({ id_order, id_status, status_option }) {
                     {id_status !== 4 && (
                         <div className="mb-2">
                             <form onSubmit={submitForm}>
-                                <label htmlFor="" className="label">
-                                    Set Order Status To :
-                                </label>
-                                <select
-                                    name="id_status"
-                                    id=""
-                                    className="w-full select select-bordered"
-                                    onChange={handleChange}
-                                >
-                                    {status_option.map((option) => (
-                                        <option value={option.id_status}>
-                                            {option.status}
-                                        </option>
-                                    ))}
-                                </select>
+                                <div className="mb-2">
+                                    <label htmlFor="" className="label">
+                                        Set Order Status To :
+                                    </label>
+                                    <select
+                                        name="id_status"
+                                        id=""
+                                        className="w-full select select-bordered"
+                                        onChange={handleChange}
+                                    >
+                                        {status_option.map((option) => (
+                                            <option value={option.id_status}>
+                                                {option.status}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="mb-2">
+                                    <label htmlFor="" className="label">
+                                        Receipt No :
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full input input-bordered"
+                                    />
+                                </div>
+
                                 <button className="w-full btn btn-secondary">
                                     Update
                                 </button>

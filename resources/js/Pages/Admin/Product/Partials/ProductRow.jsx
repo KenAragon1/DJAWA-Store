@@ -24,7 +24,9 @@ const ProductRow = ({
                     </div>
                     <div>
                         <div className="font-bold">{name}</div>
-                        <div className="text-sm opacity-50">United States</div>
+                        <div className="text-sm opacity-50">
+                            {category.name}
+                        </div>
                     </div>
                 </div>
             </td>
@@ -44,7 +46,9 @@ const ProductRow = ({
                             </Link>
                         </li>
                         <li>
-                            <Link>Delete</Link>
+                            <button onClick={() => deleteProduct(id_product)}>
+                                Delete
+                            </button>
                         </li>
                     </ul>
                 </details>

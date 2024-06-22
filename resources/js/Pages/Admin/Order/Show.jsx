@@ -10,10 +10,12 @@ export default function Show({ order, status_option }) {
 
     return (
         <DashboardLayout>
-            <p>Order Detail</p>
-            <div className="grid grid-cols-[48rem,1fr] gap-2">
+            <p className="mb-4 text-xl font-semibold text-secondary">
+                Order Detail
+            </p>
+            <div>
                 <div>
-                    <div className="p-8 bg-white border border-gray-300 rounded-lg">
+                    <div className="p-8 mb-4 bg-white border border-gray-300 rounded-lg">
                         <p>Items Ordered</p>
                         <div>
                             {order.order_item.map((item) => (
@@ -24,8 +26,6 @@ export default function Show({ order, status_option }) {
                             ))}
                         </div>
                     </div>
-                </div>
-                <div>
                     <OrderStatus {...order} status_option={status_option} />
                     <OrderCustomer
                         customer_details={payment.customer_details}

@@ -133,7 +133,9 @@ const Index = ({ product }) => {
                 <hr className="my-4" />
                 <div className="">
                     <h2 class="mb-8 text-lg">Description</h2>
-                    <div className="whitespace-pre">{product.description}</div>
+                    <div className="whitespace-pre-line">
+                        {product.description}
+                    </div>
                 </div>
             </div>
 

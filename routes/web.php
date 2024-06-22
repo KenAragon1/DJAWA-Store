@@ -126,5 +126,14 @@ Route::prefix('product')->controller(productController::class)->middleware(['aut
     Route::delete('/{id_product}', 'delete')->name('product.delete');
 });
 
+// Category
+Route::prefix('category')->controller(categoryController::class)->middleware(['auth', 'IsAdmin'])->group(function () {
+    Route::post('/', 'store')->name('category.store');
+    Route::patch('/{id_category}', 'update')->name('category.update');
+    Route::delete('/{id_category}', 'delete')->name('category.delete');
+});
+
+
+
 
 require __DIR__ . '/auth.php';

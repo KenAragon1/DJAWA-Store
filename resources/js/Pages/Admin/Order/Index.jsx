@@ -12,7 +12,6 @@ export function convertOrderStatus(id_status) {
                     Waiting For Payment
                 </div>
             );
-
         case 2:
             return (
                 <div className="flex items-center gap-2">
