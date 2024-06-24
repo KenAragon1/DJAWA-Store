@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\apiController;
 use App\Http\Controllers\cartController;
+use App\Http\Controllers\categoryController;
 use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\paymentController;
 use App\Http\Controllers\productController;
@@ -26,6 +27,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/product', [apiController::class, 'getProduct']);
+
+Route::get('/category', [apiController::class, 'getCategory'])->name('category-api');
 
 
 Route::get('/midtrans', [paymentController::class, 'midtrans']);

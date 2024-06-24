@@ -26,11 +26,11 @@ const Header = ({ className = "" }) => {
                     <div className="hidden navbar-center lg:flex">
                         <div className="join w-[24rem]">
                             <input
-                                class="input w-full input-sm input-bordered join-item"
+                                className="w-full input input-sm input-bordered join-item"
                                 placeholder="Search"
                             />
-                            <div class="indicator">
-                                <button class="btn btn-sm btn-secondary join-item">
+                            <div className="indicator">
+                                <button className="btn btn-sm btn-secondary join-item">
                                     Search
                                 </button>
                             </div>

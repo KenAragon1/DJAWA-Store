@@ -37,7 +37,10 @@ const MainCategory = () => {
         <div className="bg-white border-b border-b-gray-300">
             <div className="layout">
                 <div className="flex items-center gap-6 text-sm h-[2.8rem]">
-                    <Link className="flex items-center gap-2 btn btn-sm btn-ghost">
+                    <Link
+                        className="flex items-center gap-2 btn btn-sm btn-ghost"
+                        href={route("category-index")}
+                    >
                         <RxHamburgerMenu />
                         All Category
                     </Link>
@@ -45,7 +48,9 @@ const MainCategory = () => {
                     {categories.map((category) => (
                         <Link
                             className="btn btn-sm btn-ghost"
-                            href={"/category/" + category.id}
+                            href={route("category-show", {
+                                id_category: category.id_category,
+                            })}
                         >
                             {category.name}
                         </Link>

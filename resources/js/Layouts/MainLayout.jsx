@@ -8,7 +8,9 @@ const MainLayout = ({ children }) => {
         <div className="min-h-screen">
             <Header />
             <MainCategory />
-            <main className="min-h-screen mt-4 layout">{children}</main>
+            <main className="relative min-h-screen mt-4 layout">
+                {children}
+            </main>
             <Footer />
         </div>
     );

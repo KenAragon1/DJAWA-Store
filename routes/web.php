@@ -8,8 +8,7 @@ use App\Http\Controllers\paymentController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\rajaongkirController;
-use App\Models\Category;
-use App\Models\Order;
+use App\Http\Controllers\userAddressController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,27 +35,21 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-
-Route::get('/category-page', [categoryController::class, 'show'])->name('category-page');
-
 // Category
-Route::get('/category', [categoryController::class, 'get']);
+Route::get('/category', [categoryController::class, 'index'])->name('category-index');
+Route::get('/category/{id_category}', [categoryController::class, 'show'])->name('category-show');
+
 
 // product
-Route::get('/product/{slug}', [productController::class, 'show']);
+Route::get('/product/{slug}', [productController::class, 'show'])->name('product.show');
 
 
 Route::post('/calculateTotal', [cartController::class, 'calculateTotal']);
 
 
-
 // Rajaongkir
 Route::get('/rajaongkir/getProvinsi', [rajaongkirController::class, 'getProvinsi']);
 Route::get('/rajaongkir/getKota/{id_provinsi}', [rajaongkirController::class, 'getKota']);
-
-Route::post('/midtrans', [checkoutController::class, 'midtrans']);
-
-
 
 
 Route::get('/dashboard', function () {
@@ -113,8 +106,6 @@ Route::middleware(['auth', 'IsAdmin'])->prefix('dashboard')->group(function () {
 
     // Category
     Route::get('/category', [categoryController::class, 'adminIndex'])->name('admin.category.index');
-
-    // Home
 });
 
 // CRUD 
@@ -132,6 +123,10 @@ Route::prefix('category')->controller(categoryController::class)->middleware(['a
     Route::patch('/{id_category}', 'update')->name('category.update');
     Route::delete('/{id_category}', 'delete')->name('category.delete');
 });
+
+// User Address 
+Route::post('/address', [userAddressController::class, 'store'])->name('user.address.store');
+Route::delete('/address/{id_address}', [userAddressController::class, 'delete'])->name('user.address.delete');
 
 
 

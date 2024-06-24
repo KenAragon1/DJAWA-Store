@@ -1,64 +1,25 @@
-import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, router, usePage } from "@inertiajs/react";
 import axios, { Axios } from "axios";
 import { useEffect, useState } from "react";
 import Address from "./Address";
-import Shipping from "./Shipping";
 import Item from "./Item";
 
-const CheckoutPage = ({ productsData, user }) => {
+const Index = ({ productsData, user, addresses }) => {
     const [customerDetail, setCustomerDetail] = useState({
         name: "",
         phone: "",
-        address: {
-            province: "",
-            city: "",
-            detail: "",
-            postal: "",
-        },
+        address: null,
     });
 
-    const [rajaongkir, setRajaongkir] = useState({
-        destination: 0,
-        products: productsData.products,
-    });
-
-    const [shippingDetails, setShippingDetails] = useState();
-
-    const [shipping, setShipping] = useState({
-        shipping_fee: 0,
-    });
-
-    const [openAddressModal, setOpenAddressModal] = useState(false);
-
-    const [shippingOption, setShippingOption] = useState([]);
-
-    function closeAddressModal() {
-        setOpenAddressModal(false);
-    }
-
-    useEffect(() => {}, [rajaongkir]);
-
-    useEffect(() => {
-        ongkir();
-    }, [customerDetail]);
-
-    function ongkir() {
-        if (customerDetail.address.city) {
-            axios.post("api/ongkir", rajaongkir).then(({ data }) => {
-                const service = data.rajaongkir.results[0].costs;
-                console.log(service);
-                setShippingOption(() => {});
-            });
-        }
-    }
+    const addressString = customerDetail.address
+        ? `${customerDetail.address?.detail}, ${customerDetail.address?.city}, ${customerDetail.address?.province}, ${customerDetail.address?.zip}`
+        : null;
 
     function midtrans() {
         if (!customerDetail.address.city) {
             console.log("lengkapi alamat");
             return;
         }
-        const addressString = `${customerDetail.address.detail}, ${customerDetail.address.city}, ${customerDetail.address.province}, ${customerDetail.address.postal}`;
 
         router.post(
             route("order-create", {
@@ -83,23 +44,16 @@ const CheckoutPage = ({ productsData, user }) => {
                 <div className="grid lg:grid-cols-[60%,auto] gap-x-4">
                     <div className="mb-4 md:mb-0">
                         <Address
+                            addresses={addresses}
                             user={user}
-                            openAddressModal={openAddressModal}
-                            setOpenAddressModal={setOpenAddressModal}
-                            closeAddressModal={closeAddressModal}
                             customerDetail={customerDetail}
                             setCustomerDetail={setCustomerDetail}
-                            setRajaongkir={setRajaongkir}
+                            addressString={addressString}
                         />
                         <div className="overflow-hidden bg-white border border-gray-300 rounded-lg rounded-t-lg">
                             {productsData.products.map((product) => (
                                 <Item product={product} key={product.id} />
                             ))}
-                            {/* 
-                            <Shipping
-                                rajaongkir={rajaongkir}
-                                shippingOption={shippingOption}
-                            /> */}
                         </div>
                     </div>
 
@@ -120,20 +74,6 @@ const CheckoutPage = ({ productsData, user }) => {
                                             )}
                                         </td>
                                     </tr>
-                                    {/* <tr>
-                                        <td>Delivery Fee</td>
-                                        <td className="text-end">
-                                            Rp {shipping.shipping_fee}
-                                        </td>
-                                    </tr> */}
-                                    {/* <tr>
-                                        <td className="py-2 text-lg font-semibold border-y-2">
-                                            Total Price
-                                        </td>
-                                        <td className="text-lg font-semibold text-end border-y-2">
-                                            Rp
-                                        </td>
-                                    </tr> */}
                                 </tbody>
                             </table>
                             <button
@@ -152,4 +92,4 @@ const CheckoutPage = ({ productsData, user }) => {
     );
 };
 
-export default CheckoutPage;
+export default Index;

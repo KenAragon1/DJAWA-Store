@@ -67,6 +67,10 @@ const HomePage = ({ products }) => {
                 <p className="text-xl font-semibold text-secondary">
                     Recomended Products
                 </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Suscipit, illum!
+                </p>
                 <div className="overflow-x-auto">
                     <div className="inline-flex gap-4 py-2 overflow-x-auto">
                         {products.map(({ id, image, name, price, slug }) => {

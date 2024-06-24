@@ -3,25 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class categoryController extends Controller
 {
-    public function index()
+    public function index(Category $category)
     {
+        return Inertia::render('Category/Index', [
+            'categories' => $category->all()
+        ]);
     }
 
-    public function show()
+    public function show(Product $product, Category $category, $id_category)
     {
-        return Inertia::render();
-    }
 
-    public function get()
-    {
-        $categoryData = Category::all();
-        return response($categoryData);
+        return Inertia::render('Category/Show', [
+            'products' => $product->where('id_category', $id_category)->get(),
+            'category' => $category->findOrFail($id_category)
+        ]);
     }
 
     public function adminIndex()

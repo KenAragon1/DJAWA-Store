@@ -1,15 +1,18 @@
 import PrimaryButton from "@/Components/PrimaryButton";
 import AddressModal from "./AddressModal";
+import { useState } from "react";
 
 export default function Address({
     user,
-    customerDetail,
+    addresses,
     setCustomerDetail,
-    setOpenAddressModal,
-    openAddressModal,
-    closeAddressModal,
-    setRajaongkir,
+    addressString,
 }) {
+    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+    function closeModal() {
+        setIsAddressModalOpen(false);
+    }
+
     return (
         <div className="mb-4 overflow-hidden border border-gray-300 rounded-lg">
             <div className="px-4 pt-2 pb-6 bg-white ">
@@ -20,31 +23,26 @@ export default function Address({
                     </p>
                     <p className="mb-2">{user.name}</p>
                     <p className="mb-2">{user.email}</p>
-                    {customerDetail.address.city ? (
-                        <>
-                            <p className="text-sm">
-                                {customerDetail.address.detail},{" "}
-                                {customerDetail.address.city},{" "}
-                                {customerDetail.address.province},{" "}
-                                {customerDetail.address.postal}
-                            </p>
-                        </>
+
+                    {addressString ? (
+                        addressString
                     ) : (
                         <p>Belum Memilih Alamat</p>
                     )}
+
                     <button
-                        className="w-full mt-4 btn btn-secondary"
-                        onClick={() => setOpenAddressModal(true)}
+                        onClick={() => setIsAddressModalOpen(true)}
+                        className="w-full mt-2 btn btn-secondary"
                     >
                         Edit
                     </button>
                 </div>
                 <div className="">
                     <AddressModal
-                        show={openAddressModal}
-                        closeAddressModal={closeAddressModal}
+                        addresses={addresses}
                         setCustomerDetail={setCustomerDetail}
-                        setRajaongkir={setRajaongkir}
+                        isOpen={isAddressModalOpen}
+                        closeModal={closeModal}
                     />
                 </div>
             </div>

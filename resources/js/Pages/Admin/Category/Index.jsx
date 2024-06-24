@@ -11,9 +11,9 @@ export default function Index({ categories }) {
 
     const [idToDelete, setIdToDelete] = useState(null);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
-    function confirmDeleteCategory($id_category) {
+    function confirmDeleteCategory(id_category) {
         setIsConfirmDeleteOpen(true);
-        setIdToDelete($id_category);
+        setIdToDelete(id_category);
     }
     function deleteCategory() {
         router.delete(route("category.delete", { id_category: idToDelete }), {

@@ -2,8 +2,10 @@ import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
 import MainLayout from "@/Layouts/MainLayout";
+import Address from "./Partials/Address";
 
-export default function Edit({ mustVerifyEmail, status, user }) {
+export default function Edit({ mustVerifyEmail, status, user, addresses }) {
+    console.log(addresses);
     return (
         <MainLayout>
             <Head title="Profile" />
@@ -19,6 +21,9 @@ export default function Edit({ mustVerifyEmail, status, user }) {
                         />
                     </div>
 
+                    <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
+                        <Address addresses={addresses} />
+                    </div>
                     <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
                         <UpdatePasswordForm className="max-w-xl" />
                     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -19,9 +20,10 @@ class checkoutController extends Controller
         $user = User::findOrFail(auth()->id());
         $productsData = $this->get();
 
-        return Inertia::render('Client/Checkout/CheckoutPage', [
+        return Inertia::render('Client/Checkout/Index', [
             'productsData' => $productsData,
-            'user' => $user
+            'user' => $user,
+            'addresses' => UserAddress::where('id_user', auth()->id())->get()
         ]);
     }
 
