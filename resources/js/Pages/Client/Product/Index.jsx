@@ -19,14 +19,17 @@ const Index = ({ product }) => {
 
     // Handle Data Change
     function handleAmountChange(e) {
+        const quantity = Number(e.target.value);
+        if (!quantity) return;
         setCartData((prevCartData) => ({
             ...prevCartData,
-            amount: e.target.value,
+            amount: quantity,
         }));
     }
 
     function incrementAmount() {
         const currentAmount = cartData.amount;
+        if (currentAmount === product.stock.quantity) return;
         setCartData((prevCartData) => ({
             ...prevCartData,
             amount: currentAmount + 1,
@@ -43,6 +46,12 @@ const Index = ({ product }) => {
     }
 
     function checkout() {
+        if (cartData.amount > product.stock.quantity) {
+            return setCartData((prevCartData) => ({
+                ...prevCartData,
+                amount: product.stock.quantity,
+            }));
+        }
         router.post("/checkout", {
             products: [
                 {
@@ -70,41 +79,59 @@ const Index = ({ product }) => {
                         <p className="text-xl font-bold">
                             Rp {product.price.toLocaleString("id-ID")} ,-
                         </p>
-                        <div className="join join-horizontal">
-                            <button
-                                className="btn btn-secondary join-item btn-sm"
-                                onClick={decrementAmount}
-                            >
-                                -
-                            </button>
-                            <input
-                                type="text"
-                                value={cartData.amount}
-                                onChange={handleAmountChange}
-                                className="input w-[5rem] input-bordered  text-center join-item input-sm"
-                                min={1}
-                            />
-                            <button
-                                className="btn btn-secondary join-item btn-sm"
-                                onClick={incrementAmount}
-                            >
-                                +
-                            </button>
-                        </div>
-                        <div className="flex gap-2">
-                            <button
-                                className="btn btn-secondary"
-                                onClick={checkout}
-                            >
-                                Buy Now
-                            </button>
-                            <button
-                                className="btn btn-secondary btn-outline"
-                                onClick={postCartData}
-                            >
-                                Add To Cart
-                            </button>
-                        </div>
+                        {product.stock.quantity > 0 ? (
+                            <>
+                                <p className="text-sm">
+                                    Only {product.stock.quantity} left in stock
+                                </p>
+                                <div className="join join-horizontal">
+                                    <button
+                                        className="btn btn-secondary join-item btn-sm"
+                                        onClick={decrementAmount}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="text"
+                                        value={cartData.amount}
+                                        onChange={handleAmountChange}
+                                        className="input w-[5rem] input-bordered  text-center join-item input-sm"
+                                        min={1}
+                                        max={product.stock.quantity}
+                                    />
+                                    <button
+                                        className="btn btn-secondary join-item btn-sm"
+                                        onClick={incrementAmount}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                {cartData.amount > product.stock.quantity && (
+                                    <p className="font-semibold text-red-500 text">
+                                        You are trying to buy more than what we
+                                        have
+                                    </p>
+                                )}
+                                <div className="flex gap-2">
+                                    <button
+                                        className="btn btn-secondary"
+                                        onClick={checkout}
+                                    >
+                                        Buy Now
+                                    </button>
+                                    <button
+                                        className="btn btn-secondary btn-outline"
+                                        onClick={postCartData}
+                                    >
+                                        Add To Cart
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <p className="text-xl font-semibold text-red-500">
+                                Sold Out
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>

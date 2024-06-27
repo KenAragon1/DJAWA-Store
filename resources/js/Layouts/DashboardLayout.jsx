@@ -91,12 +91,12 @@ export default function DashboardLayout({ children }) {
                     ></label>
                     <ul className="w-56 min-h-full p-4 menu bg-base-200 text-base-content">
                         {/* Sidebar content here */}
-                        <li>
+                        {/* <li>
                             <Link>
                                 <BsGraphUp />
                                 Analytics
                             </Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link href={route("admin.product.index")}>
                                 <FaBox />
@@ -109,12 +109,12 @@ export default function DashboardLayout({ children }) {
                                 Orders
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link>
                                 <TbHomeEdit />
                                 Home Editor
                             </Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link href={route("admin.category.index")}>
                                 <TbCategoryPlus />

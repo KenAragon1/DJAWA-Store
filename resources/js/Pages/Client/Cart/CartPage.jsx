@@ -11,8 +11,6 @@ import MainLayout from "@/Layouts/MainLayout";
 const Index = ({ cartData }) => {
     const [cartItems, setCartItems] = useState(cartData);
 
-    console.log(cartItems);
-
     const [loading, setLoadingTest] = useState({
         checkoutBtn: false,
         summary: false,
@@ -112,7 +110,10 @@ const Index = ({ cartData }) => {
     function incrementAmount(id) {
         setCartItems((prevCartItems) => {
             return prevCartItems.map((item) => {
-                if (item.id_cart === id) {
+                if (
+                    item.id_cart === id &&
+                    item.product.stock.quantity > item.quantity
+                ) {
                     return { ...item, quantity: item.quantity + 1 };
                 }
                 return item;
@@ -143,6 +144,8 @@ const Index = ({ cartData }) => {
         });
     }
 
+    console.log(cartData);
+
     return (
         <MainLayout>
             <Head title="Cart" />
@@ -153,20 +156,23 @@ const Index = ({ cartData }) => {
                 </p>
 
                 <div className="flex gap-4 ">
-                    <div className="w-full bg-white border border-gray-300 rounded-lg">
-                        {cartItems.map((item) => (
-                            <CartItem
-                                key={item.id_cart}
-                                item={item}
-                                deleteCartItem={deleteCartItem}
-                                toggleSelect={toggleselect}
-                                handleAmountChange={handleAmountChange}
-                                incrementAmount={incrementAmount}
-                                decrementAmount={decrementAmount}
-                            />
-                        ))}
+                    <div className="">
+                        <div className="w-full bg-white border border-gray-300 rounded-lg">
+                            {cartItems.map((item) => (
+                                <CartItem
+                                    key={item.id_cart}
+                                    item={item}
+                                    deleteCartItem={deleteCartItem}
+                                    toggleSelect={toggleselect}
+                                    handleAmountChange={handleAmountChange}
+                                    incrementAmount={incrementAmount}
+                                    decrementAmount={decrementAmount}
+                                    disabled={item.product.stock.quantity === 0}
+                                />
+                            ))}
 
-                        {cartItems.length === 0 && <CartEmpty />}
+                            {cartItems.length === 0 && <CartEmpty />}
+                        </div>
                     </div>
 
                     <div className="">

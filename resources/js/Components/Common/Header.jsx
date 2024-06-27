@@ -6,10 +6,12 @@ import { TiShoppingCart } from "react-icons/ti";
 import { MdOutlineDashboard, MdOutlineLogout } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { RiTruckLine } from "react-icons/ri";
+import { useState } from "react";
 
 const Header = ({ className = "" }) => {
     const { user } = usePage().props.auth;
-    console.log(user);
+
+    const [searchVal, setSearchVal] = useState("");
 
     return (
         <>
@@ -28,11 +30,16 @@ const Header = ({ className = "" }) => {
                             <input
                                 className="w-full input input-sm input-bordered join-item"
                                 placeholder="Search"
+                                value={searchVal}
+                                onChange={(e) => setSearchVal(e.target.value)}
                             />
                             <div className="indicator">
-                                <button className="btn btn-sm btn-secondary join-item">
+                                <Link
+                                    href={"/product?search=" + searchVal}
+                                    className="btn btn-sm btn-secondary join-item"
+                                >
                                     Search
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

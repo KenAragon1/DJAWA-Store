@@ -1,12 +1,5 @@
-import { Head, Link, usePage } from "@inertiajs/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import getCategory from "@/Services/category";
-import NavLink from "@/Components/NavLink";
-import Header from "@/Components/Common/Header";
-import MainCategory from "@/Components/Common/MainCategory";
+import { Head, Link } from "@inertiajs/react";
 import MainLayout from "@/Layouts/MainLayout";
-``;
 const HomePage = ({ products }) => {
     return (
         <MainLayout>
@@ -73,32 +66,45 @@ const HomePage = ({ products }) => {
                 </p>
                 <div className="overflow-x-auto">
                     <div className="inline-flex gap-4 py-2 overflow-x-auto">
-                        {products.map(({ id, image, name, price, slug }) => {
-                            return (
-                                <div
-                                    className="relative flex-grow-0 flex-shrink-0 w-56 overflow-hidden bg-white border border-gray-300 rounded-sm group"
-                                    key={id}
-                                >
-                                    <img
-                                        src={image}
-                                        alt=""
-                                        className="aspect-[1.5/1] group-hover:scale-105 transition-transform"
-                                    />
-                                    <div className="p-4 space-y-1">
-                                        <p className="font-semibold leading-none tracking-tight line-clamp-2">
-                                            {name}
-                                        </p>
-                                        <p className="text-sm text-gray-400 ">
-                                            Rp {price.toLocaleString("id-ID")}
-                                        </p>
+                        {products.map(
+                            ({ id, image, name, price, slug, stock }) => {
+                                return (
+                                    <div
+                                        className="relative flex-grow-0 flex-shrink-0 w-56 overflow-hidden bg-white border border-gray-300 rounded-sm group"
+                                        key={id}
+                                    >
+                                        <img
+                                            src={image}
+                                            alt=""
+                                            className="aspect-[1.5/1] group-hover:scale-105 transition-transform"
+                                        />
+                                        <div className="p-4 space-y-1">
+                                            <p className="font-semibold leading-none tracking-tight line-clamp-2">
+                                                {name}
+                                            </p>
+                                            <p className="text-sm text-gray-400 ">
+                                                Rp{" "}
+                                                {price.toLocaleString("id-ID")}
+                                            </p>
+                                            {stock.quantity > 0 ? (
+                                                <p className="text-sm">
+                                                    Only {stock.quantity} left
+                                                    in stock
+                                                </p>
+                                            ) : (
+                                                <p className="text-sm font-semibold text-red-500">
+                                                    Sold Out
+                                                </p>
+                                            )}
+                                        </div>
+                                        <Link
+                                            href={"product/" + slug}
+                                            className="absolute top-0 left-0 w-full h-full"
+                                        ></Link>
                                     </div>
-                                    <Link
-                                        href={"product/" + slug}
-                                        className="absolute top-0 left-0 w-full h-full"
-                                    ></Link>
-                                </div>
-                            );
-                        })}
+                                );
+                            }
+                        )}
                     </div>
                 </div>
             </div>

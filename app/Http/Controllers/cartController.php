@@ -20,7 +20,7 @@ class cartController extends Controller
 
     public function get()
     {
-        $cartItems = Cart::where('id_user', '=', auth()->id())->with('product')->get();
+        $cartItems = Cart::where('id_user', '=', auth()->id())->with('product.stock')->get();
 
         return $cartItems;
     }
@@ -30,10 +30,11 @@ class cartController extends Controller
         $id_user = auth()->id();
         $id_product = $request->id_product;
 
-        $cart = Cart::where('id_user', '=',  $id_user)->where('id_product', '=', $id_product)->first();
+        $cart = Cart::where('id_user', '=',  $id_user)->where('id_product', '=', $id_product)->with('product.stock')->first();
 
         if ($cart) {
             $updateCartQuantity = $cart->quantity + $request->amount;
+
             $cart->update([
                 'quantity' =>  $updateCartQuantity
             ]);

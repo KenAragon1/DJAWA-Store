@@ -25,6 +25,16 @@ class productController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->query('search');
+        $result = Product::where('name', 'like', "%{$query}%")->with('stock')->get();
+        return Inertia::render('Home/Search', [
+            'query' => $query,
+            'result' => $result
+        ]);
+    }
+
     public function create()
     {
         return Inertia::render('Admin/Product/Create');
@@ -43,7 +53,7 @@ class productController extends Controller
     // Client Pages
     public function show($slug)
     {
-        $product = Product::where('slug', $slug)->first();
+        $product = Product::with('stock')->where('slug', $slug)->first();
 
         if (!$product) abort(404);
 

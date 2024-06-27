@@ -45,15 +45,6 @@ export default function Index({ orders }) {
         <DashboardLayout>
             <div className="min-h-screen p-8 bg-white border border-gray-300 rounded-lg">
                 <div className="flex gap-4 mb-4">
-                    <div className="">
-                        <input
-                            type="text"
-                            name=""
-                            className=" input input-bordered"
-                            placeholder="Search Order By Its ID"
-                            id=""
-                        />
-                    </div>
                     <div className="flex items-center gap-2">
                         <label htmlFor="" className="label">
                             Status Filter :

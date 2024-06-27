@@ -5,6 +5,7 @@ const CartItem = ({
     handleAmountChange,
     incrementAmount,
     decrementAmount,
+    disabled,
 }) => {
     return (
         <div className="flex items-center gap-4 p-4">
@@ -15,6 +16,7 @@ const CartItem = ({
                 id=""
                 checked={item.selected}
                 onChange={() => toggleSelect(item.id_cart)}
+                disabled={disabled}
             />
             <div className="flex flex-1 gap-4">
                 <img
@@ -27,27 +29,43 @@ const CartItem = ({
                     <div className="">
                         <p className="font-semibold">{item.product.name}</p>
                         <p>Rp {item.product.price.toLocaleString("id-ID")} </p>
+                        {item.product.stock.quantity > 1 ? (
+                            <p className="text-sm">
+                                Only {item.product.stock.quantity} left in stock
+                            </p>
+                        ) : (
+                            <p className="text-sm font-semibold text-red-500">
+                                Sold Out!!!
+                            </p>
+                        )}
                     </div>
                     <div className="flex justify-end gap-4">
                         <div className="join join-vertical lg:join-horizontal">
                             <button
                                 className="btn btn-secondary btn-sm join-item"
                                 onClick={() => decrementAmount(item.id_cart)}
+                                disabled={disabled}
                             >
                                 -
                             </button>
                             <input
                                 type="text"
-                                value={item.quantity}
+                                value={
+                                    item.quantity < item.product.stock.quantity
+                                        ? item.quantity
+                                        : item.product.stock.quantity
+                                }
                                 onChange={(e) =>
                                     handleAmountChange(item.id_cart, e)
                                 }
                                 className="input input-sm input-bordered w-[3rem] join-item text-center"
                                 min={1}
+                                disabled={disabled}
                             />
                             <button
                                 className="btn btn-secondary btn-sm join-item"
                                 onClick={() => incrementAmount(item.id_cart)}
+                                disabled={disabled}
                             >
                                 +
                             </button>

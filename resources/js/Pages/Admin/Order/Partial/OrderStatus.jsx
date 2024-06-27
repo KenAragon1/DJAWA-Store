@@ -14,7 +14,14 @@ export default function OrderStatus({ id_order, id_status, status_option }) {
 
         router.patch(
             route("order-update", { id_order: id_order }),
-            orderStatusForm
+            orderStatusForm,
+            {
+                onSuccess: () => {
+                    setOrderStatusForm((prev) => ({
+                        id_status: prev.id_status + 1,
+                    }));
+                },
+            }
         );
     }
 

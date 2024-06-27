@@ -29,7 +29,7 @@ use Inertia\Inertia;
 
 // Home Page
 Route::get('/', function () {
-    $products = Product::all();
+    $products = Product::with(['stock'])->get();
     return Inertia::render('HomePage', [
         "products" => $products
     ]);
@@ -42,6 +42,7 @@ Route::get('/category/{id_category}', [categoryController::class, 'show'])->name
 
 // product
 Route::get('/product/{slug}', [productController::class, 'show'])->name('product.show');
+Route::get('/product', [productController::class, 'search']);
 
 
 Route::post('/calculateTotal', [cartController::class, 'calculateTotal']);
