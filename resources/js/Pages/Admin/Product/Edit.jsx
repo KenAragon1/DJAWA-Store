@@ -58,10 +58,13 @@ export default function Edit({ product }) {
 
     return (
         <DashboardLayout>
-            <div className="p-8 mx-8 mt-4 bg-white shadow">
+            <div className="p-8 mx-8 mt-4 bg-white border border-gray-300 rounded-lg">
+                <p className="mb-4 text-lg font-semibold text-secondary">
+                    Edit Product Form
+                </p>
                 <div className="">
                     <form onSubmit={onSubmit} className="mb-4">
-                        <div className="mb-6">
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                             <InputLabel className="font-semibold">
                                 Category
                             </InputLabel>
@@ -72,16 +75,33 @@ export default function Edit({ product }) {
                                 value={productForm.id_category}
                             >
                                 <option value="">Pick Category</option>
-                                {categoryOptions.map((option) => (
-                                    <option value={option.id} key={option.id}>
+                                {categoryOptions.map((option) => {
+                                    if (
+                                        option.id_category ===
+                                        product.id_category
+                                    ) {
+                                        return (
+                                            <option
+                                                value={option.id_category}
+                                                key={option.id_category}
+                                                selected
+                                            >
+                                                {option.name}
+                                            </option>
+                                        );
+                                    }
+                                    <option
+                                        value={option.id_category}
+                                        key={option.id_category}
+                                    >
                                         {option.name}
-                                    </option>
-                                ))}
+                                    </option>;
+                                })}
                             </select>
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                             <InputLabel className="font-semibold">
-                                Nama Produk
+                                Product Name
                             </InputLabel>
                             <TextInput
                                 id="name"
@@ -91,9 +111,9 @@ export default function Edit({ product }) {
                             />
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                             <InputLabel className="font-semibold">
-                                Harga Produk
+                                Price
                             </InputLabel>
                             <TextInput
                                 type="number"
@@ -104,9 +124,9 @@ export default function Edit({ product }) {
                             />
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                             <InputLabel className="font-semibold">
-                                Stok Produk
+                                Stock
                             </InputLabel>
                             <TextInput
                                 type="number"
@@ -117,9 +137,9 @@ export default function Edit({ product }) {
                             />
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                             <InputLabel className="font-semibold">
-                                Berat Produk
+                                Weigth (Gram)
                             </InputLabel>
                             <TextInput
                                 id="weight"
@@ -130,9 +150,9 @@ export default function Edit({ product }) {
                             />
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                             <InputLabel className="font-semibold">
-                                Brand Produk
+                                Brand
                             </InputLabel>
                             <TextInput
                                 id="brand"
@@ -142,9 +162,9 @@ export default function Edit({ product }) {
                             />
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                             <InputLabel className="font-semibold">
-                                Deskripsi Produk
+                                Description
                             </InputLabel>
                             <textarea
                                 className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -157,8 +177,10 @@ export default function Edit({ product }) {
                             ></textarea>
                         </div>
 
-                        <div className="mb-4">
-                            <InputLabel>Foto Produk</InputLabel>
+                        <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
+                            <InputLabel className="font-semibold">
+                                Image
+                            </InputLabel>
                             <div>
                                 <img
                                     src={previewImg}

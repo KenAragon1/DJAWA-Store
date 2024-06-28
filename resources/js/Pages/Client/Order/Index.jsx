@@ -3,10 +3,8 @@ import { router } from "@inertiajs/react";
 import { convertOrderStatus } from "@/Pages/Admin/Order/Index";
 
 export default function Index({ orders }) {
-    const orderStatus = {
-        payment_pending: "Waiting For Payment",
-        proccessing: "The Seller is Preparing Your Order",
-    };
+    console.log(orders);
+
     return (
         <MainLayout>
             <p className="mb-4 text-xl font-semibold text-secondary">
@@ -27,6 +25,7 @@ export default function Index({ orders }) {
                                 Total
                             </th>
                             <th scope="col" class="px-6 py-3"></th>
+                            <th scope="col" class="px-6 py-3"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,7 +38,9 @@ export default function Index({ orders }) {
                                     ORDER-{order.id_order}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {convertOrderStatus(order.id_status)}
+                                    {convertOrderStatus(
+                                        order.order_status.status
+                                    )}
                                 </td>
                                 <td class="px-6 py-4">
                                     Rp{" "}

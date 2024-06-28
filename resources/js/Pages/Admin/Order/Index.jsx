@@ -1,36 +1,45 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Link } from "@inertiajs/react";
-import { FaTruckFast } from "react-icons/fa6";
+import { FaCircleExclamation, FaTruckFast } from "react-icons/fa6";
 import { FaCreditCard } from "react-icons/fa";
+import { LuPackage } from "react-icons/lu";
+import { IoMdHome } from "react-icons/io";
 
-export function convertOrderStatus(id_status) {
-    switch (id_status) {
-        case 1:
+export function convertOrderStatus(status) {
+    switch (status) {
+        case "PENDING":
             return (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-amber-600">
                     <FaCreditCard />
                     Waiting For Payment
                 </div>
             );
-        case 2:
+        case "PROCESSED":
             return (
-                <div className="flex items-center gap-2">
-                    <FaTruckFast />
+                <div className="flex items-center gap-2 text-green-600">
+                    <LuPackage />
                     Order Is Being Proccesed
                 </div>
             );
-        case 3:
+        case "DELIVERY":
             return (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-yellow-600">
                     <FaTruckFast />
                     Order Is On Delivery
                 </div>
             );
-        case 4:
+        case "DELIVERED":
             return (
-                <div className="flex items-center gap-2">
-                    <FaTruckFast />
-                    Order Delivered
+                <div className="flex items-center gap-2 text-green-600">
+                    <IoMdHome />
+                    Order Has Arrived
+                </div>
+            );
+        case "EXPIRED":
+            return (
+                <div className="flex items-center gap-1 text-red-600">
+                    <FaCircleExclamation />
+                    Payment is expired
                 </div>
             );
         default:
@@ -73,7 +82,9 @@ export default function Index({ orders }) {
                                 <tr className="hover" key={order.id_order}>
                                     <td>Order - {order.id_order}</td>
                                     <td>
-                                        {convertOrderStatus(order.id_status)}
+                                        {convertOrderStatus(
+                                            order.order_status.status
+                                        )}
                                     </td>
                                     <td>
                                         <Link

@@ -16,9 +16,8 @@ const Index = ({ productsData, user, addresses }) => {
         : null;
 
     function midtrans() {
-        if (!customerDetail.address.city) {
-            console.log("lengkapi alamat");
-            return;
+        if (!customerDetail.address) {
+            return document.getElementById("address_alert").showModal();
         }
 
         router.post(
@@ -82,12 +81,29 @@ const Index = ({ productsData, user, addresses }) => {
                                     midtrans();
                                 }}
                             >
-                                Bayar
+                                Purchase
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <dialog id="address_alert" className="modal">
+                <div className="modal-box">
+                    <h3 className="text-lg font-bold text-red-500 uppercase">
+                        Missing Address!!!
+                    </h3>
+                    <p className="py-4">
+                        Please Choose An Address For Delivery
+                    </p>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </div>
     );
 };

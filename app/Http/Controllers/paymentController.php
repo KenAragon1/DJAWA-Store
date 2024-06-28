@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
@@ -53,7 +54,8 @@ class paymentController extends Controller
                 'customer_email' => $user->email,
                 'customer_address' => $customer_details['address'],
             ],
-            'total' =>  $total
+            'total' =>  $total,
+            'expired_at' => Carbon::now()->addMinute(30)
         ]);
 
         return $payment->id_payment;
@@ -64,6 +66,7 @@ class paymentController extends Controller
         $paymentData = Payment::where('id_payment', $id_payment)->first();
 
         $paymentData->update([
+            'expired_at' => NULL,
             'payment_method' => $payment_method
         ]);
     }
@@ -85,7 +88,12 @@ class paymentController extends Controller
                 "credit_card", "cimb_clicks",
                 "bca_klikbca", "bca_klikpay", "bri_epay", "echannel", "permata_va",
                 "bca_va", "bni_va", "bri_va", "cimb_va",
+            ],
+            'expiry' => [
+                'unit' => 'minutes',
+                'duration' => 30
             ]
+
         ]);
 
         return $response['token'];

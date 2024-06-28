@@ -1,15 +1,19 @@
-import Navbar from "@/Components/Common/Navbar";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
-import CartItemLoading from "./CartItemLoading";
 import CartEmpty from "./CartEmpty";
-import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, router } from "@inertiajs/react";
 import MainLayout from "@/Layouts/MainLayout";
 
 const Index = ({ cartData }) => {
-    const [cartItems, setCartItems] = useState(cartData);
+    const [cartItems, setCartItems] = useState(
+        cartData.map((item) => {
+            if (item.quantity > item.product.stock.quantity) {
+                return { ...item, quantity: item.product.stock.quantity };
+            }
+            return item;
+        })
+    );
 
     const [loading, setLoadingTest] = useState({
         checkoutBtn: false,

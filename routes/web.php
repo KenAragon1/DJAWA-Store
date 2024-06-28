@@ -9,7 +9,10 @@ use App\Http\Controllers\productController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\rajaongkirController;
 use App\Http\Controllers\userAddressController;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -128,8 +131,6 @@ Route::prefix('category')->controller(categoryController::class)->middleware(['a
 // User Address 
 Route::post('/address', [userAddressController::class, 'store'])->name('user.address.store');
 Route::delete('/address/{id_address}', [userAddressController::class, 'delete'])->name('user.address.delete');
-
-
 
 
 require __DIR__ . '/auth.php';

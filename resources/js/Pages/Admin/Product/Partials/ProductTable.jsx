@@ -2,7 +2,7 @@ import ProductRow from "./ProductRow";
 
 const ProductTable = ({ items, deleteProduct }) => {
     return (
-        <div className="relative min-h-screen sm:rounded-lg">
+        <div className="relative min-h-screen mb-4 sm:rounded-lg">
             <table className="table">
                 {/* head */}
                 <thead>

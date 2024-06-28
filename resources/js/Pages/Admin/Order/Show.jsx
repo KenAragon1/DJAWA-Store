@@ -3,7 +3,6 @@ import OrderItem from "./Partial/OrderItem";
 import OrderCustomer from "./Partial/OrderCustomer";
 import OrderPayment from "./Partial/OrderPayment";
 import OrderStatus from "./Partial/OrderStatus";
-import { router, useForm } from "@inertiajs/react";
 
 export default function Show({ order, status_option }) {
     const { payment } = order;
@@ -11,7 +10,7 @@ export default function Show({ order, status_option }) {
     return (
         <DashboardLayout>
             <p className="mb-4 text-xl font-semibold text-secondary">
-                Order Detail
+                ORDER-{order.id_order}
             </p>
             <div>
                 <div>

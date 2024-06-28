@@ -64,12 +64,12 @@ export default function Create({ auth }) {
 
     return (
         <DashboardLayout>
-            <div className="p-8 mt-4 bg-white border rounded-lg shadow boreer-gray-300 max-w-[40rem] mx-auto">
-                <p className="mb-4 text-2xl font-semibold text-secondary">
+            <div className="p-8 mx-8 mt-4 bg-white border border-gray-300 rounded-lg">
+                <p className="mb-4 text-lg font-semibold text-secondary">
                     Create New Product
                 </p>
                 <form onSubmit={onSubmit} className="mb-4">
-                    <div className="mb-4">
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                         <InputLabel className="font-semibold">Name</InputLabel>
                         <input
                             id="name"
@@ -79,51 +79,45 @@ export default function Create({ auth }) {
                         />
                         {errors.name && <InputError message={errors.name} />}
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                        <div className="mb-6">
-                            <InputLabel className="font-semibold">
-                                Category
-                            </InputLabel>
-                            <select
-                                name=""
-                                id="id_category"
-                                className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                onChange={handleCategorySelect}
-                                value={data.id_category}
-                            >
-                                <option value="">Pick Category</option>
-                                {categoryOptions.map((option) => (
-                                    <option
-                                        value={option.id_category}
-                                        key={option.id_category}
-                                    >
-                                        {option.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.id_category && (
-                                <InputError message={errors.id_category} />
-                            )}
-                        </div>
-
-                        <div className="mb-4">
-                            <InputLabel className="font-semibold">
-                                Price
-                            </InputLabel>
-                            <TextInput
-                                type="number"
-                                id="price"
-                                value={data.price}
-                                onChange={handleInputChange}
-                                className="w-full"
-                            />
-                            {errors.price && (
-                                <InputError message={errors.price} />
-                            )}
-                        </div>
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
+                        <InputLabel className="font-semibold">
+                            Category
+                        </InputLabel>
+                        <select
+                            name=""
+                            id="id_category"
+                            className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            onChange={handleCategorySelect}
+                            value={data.id_category}
+                        >
+                            <option value="">Pick a Category</option>
+                            {categoryOptions.map((option) => (
+                                <option
+                                    value={option.id_category}
+                                    key={option.id_category}
+                                >
+                                    {option.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.id_category && (
+                            <InputError message={errors.id_category} />
+                        )}
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
+                        <InputLabel className="font-semibold">Price</InputLabel>
+                        <TextInput
+                            type="number"
+                            id="price"
+                            value={data.price}
+                            onChange={handleInputChange}
+                            className="w-full"
+                        />
+                        {errors.price && <InputError message={errors.price} />}
+                    </div>
+
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                         <InputLabel className="font-semibold">Stock</InputLabel>
                         <TextInput
                             type="number"
@@ -135,7 +129,7 @@ export default function Create({ auth }) {
                         {errors.price && <InputError message={errors.price} />}
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                         <InputLabel className="font-semibold">
                             Weight
                         </InputLabel>
@@ -148,7 +142,7 @@ export default function Create({ auth }) {
                         />
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                         <InputLabel className="font-semibold">Brand</InputLabel>
                         <TextInput
                             id="brand"
@@ -158,7 +152,7 @@ export default function Create({ auth }) {
                         />
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
                         <InputLabel className="font-semibold">
                             Description
                         </InputLabel>
@@ -176,8 +170,10 @@ export default function Create({ auth }) {
                         )}
                     </div>
 
-                    <div className="mb-4">
-                        <InputLabel>Foto Produk</InputLabel>
+                    <div className="mb-2 grid grid-cols-[120px,1fr] items-center">
+                        <InputLabel className="font-semibold">
+                            Foto Produk
+                        </InputLabel>
                         <div>
                             <img
                                 src={previewImg}

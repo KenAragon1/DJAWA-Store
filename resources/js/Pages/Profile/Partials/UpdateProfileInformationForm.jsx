@@ -62,7 +62,7 @@ export default function UpdateProfileInformation({
                         />
                     </div>
                     <div className="">
-                        <div>
+                        <div className="grid grid-cols-[80px,400px] items-center mb-2">
                             <InputLabel htmlFor="name" value="Name" />
 
                             <TextInput
@@ -83,7 +83,7 @@ export default function UpdateProfileInformation({
                             />
                         </div>
 
-                        <div>
+                        <div className="grid grid-cols-[80px,400px] items-center mb-2">
                             <InputLabel htmlFor="email" value="Email" />
 
                             <TextInput
@@ -104,9 +104,10 @@ export default function UpdateProfileInformation({
                             />
                         </div>
 
-                        <div className="mt-4">
+                        <div className="grid grid-cols-[80px,400px] items-center">
+                            <InputLabel value={"Image"} />
                             <input
-                                className=""
+                                className="file-input file-input-bordered"
                                 type="file"
                                 name=""
                                 id=""
@@ -143,7 +144,12 @@ export default function UpdateProfileInformation({
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <button
+                        className="px-8 rounded-none btn btn-secondary"
+                        disabled={processing}
+                    >
+                        Save
+                    </button>
 
                     <Transition
                         show={recentlySuccessful}

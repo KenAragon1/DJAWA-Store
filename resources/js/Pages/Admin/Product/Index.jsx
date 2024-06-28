@@ -14,7 +14,7 @@ export default function AdminProduct({ products }) {
     const data = products;
 
     const { data: items, links } = data;
-    console.log(items);
+    console.log(data);
 
     return (
         <DashboardLayout DashboardLayout>
@@ -29,14 +29,26 @@ export default function AdminProduct({ products }) {
                     + Add New Product
                 </Link>
                 <ProductTable items={items} deleteProduct={deleteProduct} />
-                <ul className="flex mt-4"></ul>
-                <div className="join">
-                    {links.map((link) => (
-                        <Link href={link.url} className="join-item btn ">
-                            {link.label}
-                        </Link>
-                    ))}
+                <div className="">
+                    <p>
+                        Page {data.current_page} of {data.last_page}
+                    </p>
+                    <div className="join">
+                        {links.map((link) => {
+                            if (Number(link.label)) {
+                                return (
+                                    <Link
+                                        href={link.url}
+                                        className="join-item btn "
+                                    >
+                                        {link.label}
+                                    </Link>
+                                );
+                            }
+                        })}
+                    </div>
                 </div>
+
                 <div className="overflow-x-auto"></div>
             </div>
         </DashboardLayout>

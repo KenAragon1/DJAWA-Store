@@ -51,10 +51,18 @@ export default function Show({ order }) {
             <div className="flex flex-wrap justify-center gap-4 mx-8 mt-4">
                 <div className="p-8 bg-white border border-gray-300 rounded-lg w-[800px] h-fit">
                     <p className="text-xl font-bold text-secondary">My Order</p>
+                    {order.ordered_at && (
+                        <div className="my-2">
+                            Ordered At : {order.ordered_at}
+                        </div>
+                    )}
 
-                    <div className="flex mb-4 text-xl font-semibold text-secondary">
-                        Status : {convertOrderStatus(order.id_status)}
+                    <div className="my-2">
+                        {convertOrderStatus(order.order_status.status)}
                     </div>
+
+                    <div className="my-2">No. Receipt : {order.no_receipt}</div>
+
                     <div className="">
                         <div className="">
                             <p className="mb-2 font-semibold">
@@ -95,38 +103,42 @@ export default function Show({ order }) {
                                 </tbody>
                             </table>
                         </div>
-                        {order.id_status !== 1 && (
-                            <div className="">
-                                <p className="mb-2 font-semibold">
-                                    Payment Details :
-                                </p>{" "}
-                                <table className="mb-4">
-                                    <tbody>
-                                        <tr>
-                                            <td className="px-4 py-2">
-                                                Total Transaction
-                                            </td>
-                                            <td className="px-4 py-2">:</td>
-                                            <td className="px-4 py-2">
-                                                Rp{" "}
-                                                {order.payment.total.toLocaleString(
-                                                    "id-ID"
-                                                )}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="px-4 py-2">
-                                                Payment Method
-                                            </td>
-                                            <td className="px-4 py-2">:</td>
-                                            <td className="px-4 py-2">
-                                                {order.payment.payment_method}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
+                        {order.order_status.status !== "PENDING" ||
+                            (order.order_status.status !== "EXPIRED" && (
+                                <div className="">
+                                    <p className="mb-2 font-semibold">
+                                        Payment Details :
+                                    </p>{" "}
+                                    <table className="mb-4">
+                                        <tbody>
+                                            <tr>
+                                                <td className="px-4 py-2">
+                                                    Total Transaction
+                                                </td>
+                                                <td className="px-4 py-2">:</td>
+                                                <td className="px-4 py-2">
+                                                    Rp{" "}
+                                                    {order.payment.total.toLocaleString(
+                                                        "id-ID"
+                                                    )}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="px-4 py-2">
+                                                    Payment Method
+                                                </td>
+                                                <td className="px-4 py-2">:</td>
+                                                <td className="px-4 py-2">
+                                                    {
+                                                        order.payment
+                                                            .payment_method
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ))}
 
                         <div className="">
                             <p className="mb-2 font-semibold">

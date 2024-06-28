@@ -1,35 +1,41 @@
 import { router, useForm } from "@inertiajs/react";
 import { convertOrderStatus } from "../Index";
 import { useState } from "react";
+import InputError from "@/Components/InputError";
 
-export default function OrderStatus({ id_order, id_status, status_option }) {
-    const [orderStatusForm, setOrderStatusForm] = useState({
+export default function OrderStatus({
+    id_order,
+    id_status,
+    status_option,
+    order_status,
+    no_receipt,
+    ordered_at,
+}) {
+    const { data, setData, patch, errors, processing } = useForm({
         id_status: status_option[0]?.id_status,
+        no_receipt: "",
     });
 
     function submitForm(e) {
         e.preventDefault();
 
-        console.log(orderStatusForm);
+        console.log(data);
 
-        router.patch(
-            route("order-update", { id_order: id_order }),
-            orderStatusForm,
-            {
-                onSuccess: () => {
-                    setOrderStatusForm((prev) => ({
-                        id_status: prev.id_status + 1,
-                    }));
-                },
-            }
-        );
+        patch(route("order-update", { id_order: id_order }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                setData((prev) => ({
+                    id_status: prev.id_status + 1,
+                }));
+            },
+        });
     }
 
     function handleChange(e) {
         const key = e.target.name;
         const value = e.target.value;
 
-        setOrderStatusForm((prevData) => ({
+        setData((prevData) => ({
             ...prevData,
             [key]: value,
         }));
@@ -39,9 +45,20 @@ export default function OrderStatus({ id_order, id_status, status_option }) {
 
     return (
         <div className="mb-4 main-container">
-            <p className="text-lg font-semibold">Order Status :</p>
+            <p className="mb-2 text-lg font-semibold">Order details</p>
+            <div className="mb-2 grid grid-cols-[120px,1fr]">
+                <div>Ordered At </div>
+                <div>{ordered_at}</div>
+            </div>
+            <div className="mb-2 grid grid-cols-[120px,1fr]">
+                <div>Order Status </div>
+                <div>{convertOrderStatus(order_status.status)}</div>
+            </div>
+            <div className="mb-2 grid grid-cols-[120px,1fr]">
+                <div>No Receipt </div>
+                <div>{no_receipt}</div>
+            </div>
             <div>
-                <div className="">{convertOrderStatus(id_status)}</div>
                 <div>
                     {id_status !== 4 && (
                         <div className="mb-2">
@@ -69,11 +86,18 @@ export default function OrderStatus({ id_order, id_status, status_option }) {
                                     </label>
                                     <input
                                         type="text"
+                                        disabled={no_receipt}
+                                        name="no_receipt"
+                                        value={no_receipt || data.no_receipt}
+                                        onChange={handleChange}
                                         className="w-full input input-bordered"
                                     />
                                 </div>
-
-                                <button className="w-full btn btn-secondary">
+                                <InputError message={errors.no_receipt} />
+                                <button
+                                    disabled={processing}
+                                    className="w-full btn btn-secondary"
+                                >
                                     Update
                                 </button>
                             </form>

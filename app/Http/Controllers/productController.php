@@ -18,7 +18,7 @@ class productController extends Controller
 
     public function adminIndex()
     {
-        $products = Product::with(['stock', 'category'])->paginate(10);
+        $products = Product::with(['stock', 'category'])->orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('Admin/Product/Index', [
             'products' => $products

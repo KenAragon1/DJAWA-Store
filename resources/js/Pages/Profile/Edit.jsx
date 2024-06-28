@@ -21,10 +21,10 @@ export default function Edit({ mustVerifyEmail, status, user, addresses }) {
                         />
                     </div>
 
-                    <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
+                    <div className="p-4 bg-white border border-gray-300 sm:p-8 sm:rounded-lg">
                         <Address addresses={addresses} />
                     </div>
-                    <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
+                    <div className="p-4 bg-white border border-gray-300 sm:p-8 sm:rounded-lg">
                         <UpdatePasswordForm className="max-w-xl" />
                     </div>
                 </div>

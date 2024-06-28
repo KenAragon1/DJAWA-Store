@@ -7,6 +7,7 @@ use App\Models\OrderItems;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\ProductStock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -20,7 +21,10 @@ class orderController extends Controller
 
     public function adminIndex()
     {
-        $orders = Order::whereNotIn('id_status', [1])->get();
+        $orders = Order::whereHas('order_status', function ($query) {
+            $query->whereNotIn('status', ['EXPIRED', 'PENDING']);
+        })->with('order_status')->get();
+
         return Inertia::render('Admin/Order/Index', [
             "orders" => $orders
         ]);
@@ -28,7 +32,7 @@ class orderController extends Controller
 
     public function adminShow($id_order)
     {
-        $order = Order::where('id_order', $id_order)->with('payment')->with('order_item')->first();
+        $order = Order::where('id_order', $id_order)->with(['payment', 'order_item', 'order_status'])->first();
         $status_option = OrderStatus::where('id_status', '>', $order->id_status)->get();
         return Inertia::render('Admin/Order/Show', [
             "order" => $order,
@@ -38,7 +42,7 @@ class orderController extends Controller
 
     public function index()
     {
-        $orders = Order::where('id_user', auth()->id())->with('payment')->get();
+        $orders = Order::where('id_user', auth()->id())->with(['payment', 'order_status'])->get();
 
         return Inertia::render('Client/Order/Index', [
             'orders' => $orders
@@ -47,7 +51,9 @@ class orderController extends Controller
 
     public function show($id_order)
     {
-        $order = Order::where('id_order', $id_order)->with('payment')->with('order_item')->with('order_status')->first();
+        $order = Order::where('id_order', $id_order)->with(['payment', 'order_item', 'order_status'])->first();
+
+        if (!$order || $order->id_user !== auth()->id()) return abort(404);
 
         return Inertia::render('Client/Order/Show', [
             'order' => $order
@@ -74,22 +80,44 @@ class orderController extends Controller
 
     public function update($id_order, Request $request)
     {
-        $order = Order::findOrFail($id_order);
+        $order = Order::with('order_status')->findOrFail($id_order);
 
-        if (auth()->user()->user_type === "client" && $order->id_status === 1) {
+        // Only For Customer Made A Success Purchase
+        if (auth()->user()->user_type === "client" && $order->order_status->status === 'PENDING') {
             $order->update([
-                'id_status' => $order->id_status + 1
+                'id_status' => $order->id_status + 1,
+                'ordered_at' => Carbon::now()
             ]);
 
             $paymentController = new paymentController();
             $paymentController->update($order->id_payment, $request->payment_method);
         }
 
-        if (auth()->user()->user_type === "Admin") {
-            $order->update([
-                'id_status' => $request->id_status
-            ]);
+        // For Admin
+        if (auth()->user()->user_type === "Admin" && $order->order_status->status != 'PENDING' && $order->order_status->status != 'EXPIRED') {
+            $current_status = $order->order_status->status;
+            switch ($current_status) {
+                case 'PROCESSED':
+                    $request->validate([
+                        'no_receipt' => 'required'
+                    ]);
+                    $order->update([
+                        'id_status' => $request->id_status,
+                        'no_receipt' => $request->no_receipt
+                    ]);
+                    break;
+                case 'DELIVERY':
+                    $order->update([
+                        'id_status' => $request->id_status,
+                    ]);
+                    break;
+                default:
+                    dd($current_status);
+
+                    break;
+            }
         }
+
 
 
         return redirect()->back();
