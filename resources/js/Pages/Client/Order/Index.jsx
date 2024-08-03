@@ -1,4 +1,4 @@
-import MainLayout from "@/Layouts/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 import { router } from "@inertiajs/react";
 import { convertOrderStatus } from "@/Pages/Admin/Order/Index";
 

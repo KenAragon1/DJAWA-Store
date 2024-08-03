@@ -1,5 +1,5 @@
 import PrimaryButton from "@/Components/PrimaryButton";
-import GuestLayout from "@/Layouts/GuestLayout";
+import GuestLayout from "@/layouts/GuestLayout";
 import { router, usePage } from "@inertiajs/react";
 import { useEffect } from "react";
 

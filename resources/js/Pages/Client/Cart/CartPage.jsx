@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import CartEmpty from "./CartEmpty";
 import { Head, router } from "@inertiajs/react";
-import MainLayout from "@/Layouts/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 
 const Index = ({ cartData }) => {
     const [cartItems, setCartItems] = useState(

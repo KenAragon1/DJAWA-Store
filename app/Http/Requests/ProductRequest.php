@@ -21,15 +21,28 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:255',
-            'price' => 'required|integer|max:100000000',
-            'stock' => 'required|integer|max:1000',
-            'id_category' => 'required|integer',
-            'brand' => 'required|string',
-            'weight' => 'required|integer',
-            'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-        ];
+        if ($this->isMethod('post')) {
+            return [
+                'name' => 'required|string|max:255',
+                'price' => 'required|integer|max:100000000',
+                'stock' => 'required|integer|max:1000',
+                'id_category' => 'required|integer',
+                'brand' => 'required|string',
+                'weight' => 'required|integer',
+                'description' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            ];
+        } else {
+            return [
+                'name' => 'required|string|max:255',
+                'price' => 'required|integer|max:100000000',
+                'stock' => 'required|integer|max:1000',
+                'id_category' => 'required|integer',
+                'brand' => 'required|string',
+                'weight' => 'required|integer',
+                'description' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg'
+            ];
+        }
     }
 }

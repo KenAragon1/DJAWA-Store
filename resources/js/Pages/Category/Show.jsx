@@ -1,4 +1,4 @@
-import MainLayout from "@/Layouts/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 import { Link } from "@inertiajs/react";
 
 export default function Show({ category, products }) {

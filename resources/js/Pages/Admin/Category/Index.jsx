@@ -1,4 +1,4 @@
-import DashboardLayout from "@/Layouts/DashboardLayout";
+import DashboardLayout from "@/layouts/dashboard/DashboardLayout";
 import Create from "./Partial/Create";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 import { router, usePage } from "@inertiajs/react";
@@ -20,6 +20,7 @@ export default function Index({ categories }) {
             onSuccess: () => {
                 closeConfirmDeleteCategory();
             },
+            preserveScroll: true,
         });
     }
     function closeConfirmDeleteCategory() {

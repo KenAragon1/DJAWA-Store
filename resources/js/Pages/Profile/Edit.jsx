@@ -1,7 +1,7 @@
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
-import MainLayout from "@/Layouts/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 import Address from "./Partials/Address";
 
 export default function Edit({ mustVerifyEmail, status, user, addresses }) {

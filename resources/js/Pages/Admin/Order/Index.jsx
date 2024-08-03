@@ -1,4 +1,4 @@
-import DashboardLayout from "@/Layouts/DashboardLayout";
+import DashboardLayout from "@/layouts/dashboard/DashboardLayout";
 import { Link } from "@inertiajs/react";
 import { FaCircleExclamation, FaTruckFast } from "react-icons/fa6";
 import { FaCreditCard } from "react-icons/fa";

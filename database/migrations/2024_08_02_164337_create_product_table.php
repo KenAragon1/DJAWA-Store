@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
         Schema::create('product', function (Blueprint $table) {
-            $table->id()->unique()->autoIncrement();
-            $table->string('name');
+            $table->id('id_product');
+            $table->string('name' ,100);
             $table->integer('price');
-            $table->integer('stock');
-            $table->string('category');
-            $table->json('spesification');
+            $table->string('brand', 20);
+            $table->integer('weight');
             $table->longText('description');
-            $table->string('image');
-            $table->string('slug');
+            $table->text('image');
+            $table->string('slug', 100);
+            $table->foreignId('id_category')->constrained('category', 'id_category')->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes();
         });
+
+ 
     }
 
     /**
@@ -32,7 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
         Schema::dropIfExists('product');
     }
 };

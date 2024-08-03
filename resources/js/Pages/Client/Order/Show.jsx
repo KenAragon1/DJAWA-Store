@@ -1,7 +1,7 @@
 import { Head, router, usePage } from "@inertiajs/react";
 import { useEffect } from "react";
 import { convertOrderStatus } from "@/Pages/Admin/Order/Index";
-import MainLayout from "@/Layouts/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 
 export default function Show({ order }) {
     const { MIDTRANS_CLIENT_KEY } = usePage().props;

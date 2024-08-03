@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductStock;
 use Illuminate\Http\Request;
@@ -12,16 +13,11 @@ use Illuminate\Support\Str;
 
 class productController extends Controller
 {
-    public function __construct()
-    {
-    }
 
     public function adminIndex()
     {
-        $products = Product::with(['stock', 'category'])->orderBy('created_at', 'desc')->paginate(10);
-
         return Inertia::render('Admin/Product/Index', [
-            'products' => $products
+            'productsPagination' => Product::with(['stock', 'category'])->orderBy('created_at', 'desc')->paginate(10)
         ]);
     }
 
@@ -37,7 +33,9 @@ class productController extends Controller
 
     public function create()
     {
-        return Inertia::render('Admin/Product/Create');
+        return Inertia::render('Admin/Product/Create', [
+            'categories' => Category::all()
+        ]);
     }
 
     public function edit($id_product)
@@ -46,7 +44,8 @@ class productController extends Controller
         $product = Product::with('stock')->findOrFail($id_product);
 
         return Inertia::render('Admin/Product/Edit', [
-            'product' => $product
+            'product' => $product,
+            'categories' => Category::all()
         ]);
     }
 
@@ -87,7 +86,7 @@ class productController extends Controller
         return redirect()->route('admin.product.index');
     }
 
-    public function update($id_product, Request $request)
+    public function update($id_product, ProductRequest $request)
     {
         $product = Product::findOrFail($id_product);
 

@@ -1,9 +1,9 @@
-import PrimaryButton from "@/Components/PrimaryButton";
-import { Head, Link, router, usePage } from "@inertiajs/react";
-import ProductTable from "./Partials/ProductTable";
-import DashboardLayout from "@/Layouts/DashboardLayout";
+import { Head, Link, router } from "@inertiajs/react";
+import ProductTable from "./Components/Table";
+import DashboardLayout from "@/layouts/dashboard/DashboardLayout";
+import Pagination from "./Components/Pagination";
 
-export default function AdminProduct({ products }) {
+export default function index({ productsPagination }) {
     // Delete
     function deleteProduct(id) {
         if (confirm("Yakin ingin menghapus produk?")) {
@@ -11,13 +11,10 @@ export default function AdminProduct({ products }) {
         }
     }
 
-    const data = products;
-
-    const { data: items, links } = data;
-    console.log(data);
+    const { data: products } = productsPagination;
 
     return (
-        <DashboardLayout DashboardLayout>
+        <DashboardLayout>
             <Head title="Dashboard" />
             <p className="mb-4 text-2xl font-semibold">Products List</p>
 
@@ -28,28 +25,8 @@ export default function AdminProduct({ products }) {
                 >
                     + Add New Product
                 </Link>
-                <ProductTable items={items} deleteProduct={deleteProduct} />
-                <div className="">
-                    <p>
-                        Page {data.current_page} of {data.last_page}
-                    </p>
-                    <div className="join">
-                        {links.map((link) => {
-                            if (Number(link.label)) {
-                                return (
-                                    <Link
-                                        href={link.url}
-                                        className="join-item btn "
-                                    >
-                                        {link.label}
-                                    </Link>
-                                );
-                            }
-                        })}
-                    </div>
-                </div>
-
-                <div className="overflow-x-auto"></div>
+                <ProductTable items={products} deleteProduct={deleteProduct} />
+                <Pagination paginationData={productsPagination} />
             </div>
         </DashboardLayout>
     );

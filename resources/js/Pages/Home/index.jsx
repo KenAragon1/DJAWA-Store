@@ -1,5 +1,5 @@
 import { Head, Link } from "@inertiajs/react";
-import MainLayout from "@/Layouts/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 const HomePage = ({ products }) => {
     return (
         <MainLayout>

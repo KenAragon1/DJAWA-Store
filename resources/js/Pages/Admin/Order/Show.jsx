@@ -1,4 +1,4 @@
-import DashboardLayout from "@/Layouts/DashboardLayout";
+import DashboardLayout from "@/layouts/dashboard/DashboardLayout";
 import OrderItem from "./Partial/OrderItem";
 import OrderCustomer from "./Partial/OrderCustomer";
 import OrderPayment from "./Partial/OrderPayment";

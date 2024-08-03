@@ -1,4 +1,4 @@
-import DashboardLayout from "@/Layouts/DashboardLayout";
+import DashboardLayout from "@/layouts/dashboard/DashboardLayout";
 import { Head } from "@inertiajs/react";
 
 export default function Dashboard({ auth }) {

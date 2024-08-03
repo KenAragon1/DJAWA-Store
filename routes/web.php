@@ -30,10 +30,11 @@ use Inertia\Inertia;
 
 // Pages
 
+
 // Home Page
 Route::get('/', function () {
     $products = Product::with(['stock'])->get();
-    return Inertia::render('HomePage', [
+    return Inertia::render('Home/index', [
         "products" => $products
     ]);
 })->name('home');
